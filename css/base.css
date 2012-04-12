@@ -13,4 +13,44 @@
   z-index: 5;
   width: 100%;
   background: white;
+  box-shadow: 0px 0px 10px #444;
+}
+
+#legend > section {
+  float: left;
+  width: 20%;
+  padding: 0 2.5%;
+}
+
+#legend section#legend-info h1 {
+  text-transform: uppercase;
+  padding-bottom: 2px; /* Make up for the lack of bottom border */
+}
+
+#legend section.legend-status {
+  color: #666;
+}
+
+#legend section.legend-status h1 {
+  text-transform: uppercase;
+  border-bottom: 2px solid #888;
+}
+
+#legend section.legend-status p span.value {
+  font-size: 250%;
+}
+
+#legend section#legend-open.active * {
+  color: red;
+  border-color: red;
+}
+
+#legend section#legend-newly-open.active * {
+  color: orange;
+  border-color: orange;
+}
+
+#legend section#legend-newly-closed.active * {
+  color: blue;
+  border-color: blue;
 }
