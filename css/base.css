@@ -9,6 +9,19 @@ html, body {
 header {
 	height: 68px;
 	background: #e14747;
+	display: block;
+}
+
+header img {
+  padding: 1.5% 0.5% 1% 2.5%;
+  float: left;
+}
+
+header p {
+	color: #ffffff;
+	float: left;
+	font-size: 110%;
+	margin-top: 2.5%;
 }
 
 #map {
@@ -70,8 +83,8 @@ header {
 }
 
 #legend section#legend-open.active * {
-  color: red;
-  border-color: red;
+  color: #e14747;
+  border-color: #e14747;
 }
 
 #legend section#legend-newly-open.active * {
