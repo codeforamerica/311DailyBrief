@@ -23,6 +23,9 @@ FilterBarController.prototype = {
       states: selectedState ? [selectedState] : [ThreeOneOneApi.REQUEST_STATES.OPEN, ThreeOneOneApi.REQUEST_STATES.CLOSED]
     };
     
-    alert(JSON.stringify(filters));
+    // dispatch an event that the filter conditions have changed
+    this.dispatchEvent("filtersChanged", filters);
   }
 };
+
+eventManager.mix(FilterBarController);
