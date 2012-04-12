@@ -11,6 +11,7 @@ var DailyBriefingController = function () {
   
   // initialize sub-controllers
   this.legendController = new LegendController();
+  this.legendController.dataSource = this;
   
   this._refreshData();
 };
