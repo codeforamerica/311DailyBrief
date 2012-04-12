@@ -13,7 +13,7 @@ header {
 }
 
 header img {
-  padding: 1.5% 0.5% 1% 2.5%;
+  padding: 15px 7px 0 2.5%;
   float: left;
 }
 
@@ -21,7 +21,8 @@ header p {
 	color: #ffffff;
 	float: left;
 	font-size: 110%;
-	margin-top: 2.5%;
+	padding-top: 27px;
+	margin: 0;
 }
 
 #map {
@@ -97,8 +98,69 @@ header p {
   border-color: #114ab1;
 }
 
+@media only screen and (max-width: 960px) and (min-width: 551px) {
+
+  section#legend-open {
+    clear: left;
+  }
+  
+  section#legend-info {
+    width: 95%;
+    padding: 0 2.5%;
+  }
+  
+  section#legend-open,
+  section#legend-newly-opened,
+  section#legend-newly-closed {
+    width: 28.33333%;
+    padding: 0 2.5%;
+  }
+  
+
+  #legend section#legend-info p {
+    margin-bottom: 0;
+    display: inline;
+  }
+  
+}
+
+@media only screen and (max-width: 700px) and (min-width: 601px) {
+  header p {
+    font-size: 90%;
+    padding-top: 32px;
+  }
+}
+
+@media only screen and (max-width: 600px) and (min-width: 551px) {
+  header p {
+    font-size: 75%;
+    padding-top: 34px;
+    
+  }
+}
 
 @media only screen and (max-width: 550px) {
+  header {
+    text-align: center;
+  }
+  
+  header img {
+    margin: 0 auto;
+    padding: 4px 0 0 0;
+    float: none;
+  }
+  
+  header p {
+    margin: -5px auto 0;
+    padding: 0px 0 0 0;
+    float: none;
+    font-size: 80%;
+  }
+  
+  #filters {
+    
+  }
+
   section#legend-newly-opened {
     clear: left;
   }
