@@ -96,3 +96,17 @@ header p {
   color: #114ab1;
   border-color: #114ab1;
 }
+
+
+@media only screen and (max-width: 550px) {
+  section#legend-newly-opened {
+    clear: left;
+  }
+  
+  #legend > section {
+    float: left;
+    width: 45%;
+    padding: 0 2.5%;
+  }
+}
+
