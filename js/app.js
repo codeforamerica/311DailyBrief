@@ -4,8 +4,8 @@ var MONGOHQ_API_KEY = "o1rmgd84919ezzq9da58";
 
 var icons = {
 	blue: "images/marker_blue.png",
-	green: "images/marker_green.png",
-	gray: "images/marker_gray.png"
+	orange: "images/marker_orange.png",
+	red: "images/marker_red.png"
 };
 
 var mongohqUrl = function (db, collection, query, args) {
@@ -24,7 +24,7 @@ var mongohqUrl = function (db, collection, query, args) {
 
 $(function () {
 	var map = new L.Map("map");
-	var cloudmade = new L.TileLayer("http://{s}.tile.cloudmade.com/" + CLOUDMADE_API_KEY + "/997/256/{z}/{x}/{y}.png", {
+	var cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.jpg", {
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
 		maxZoom: 18
 	});
@@ -47,7 +47,7 @@ $(function () {
 				var request = data[i];
 				if (!requests[request.service_request_id]) {
 					requests[request.service_request_id] = request;
-					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.green)});
+					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.orange)});
 					marker.bindPopup(request.service_name + 
 					                 "<p>" + request.address + "</p>" +
 					                 "<p>" + request.description + "</p>" +
@@ -74,7 +74,7 @@ $(function () {
 				var request = data[i];
 				if (!requests[request.service_request_id]) {
 					requests[request.service_request_id] = request;
-					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.gray)});
+					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.blue)});
 					marker.bindPopup(request.service_name + 
 					                 "<p>" + request.address + "</p>" +
 					                 "<p>" + request.description + "</p>" +
@@ -101,7 +101,7 @@ $(function () {
 				var request = data[i];
 				if (!requests[request.service_request_id]) {
 					requests[request.service_request_id] = request;
-					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.blue)});
+					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.red)});
 					marker.bindPopup(request.service_name + 
 					                 "<p>" + request.address + "</p>" +
 					                 "<p>" + request.description + "</p>" +
