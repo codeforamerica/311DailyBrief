@@ -3,6 +3,7 @@ html, body {
 	padding: 0;
 	width: 100%;
 	height: 100%;
+	font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 header {
@@ -36,7 +37,14 @@ header {
 
 #legend section#legend-info h1 {
   text-transform: uppercase;
-  padding-bottom: 2px; /* Make up for the lack of bottom border */
+  font-size: 200%;
+  margin: 21px 0px 0px 0px;
+}
+
+#legend section#legend-info p {
+  font-size: 90%;
+  margin: 0px 0px 25px 0px;
+  line-height: 140%;
 }
 
 #legend section.legend-status {
@@ -45,11 +53,20 @@ header {
 
 #legend section.legend-status h1 {
   text-transform: uppercase;
-  border-bottom: 2px solid #888;
+  border-bottom:1px solid #888;
+  font-size: 110%;
+  padding-top: 10px;
+  margin-bottom: 5px;
+}
+
+#legend section.legend-status p {
+  padding-top: 0px;
+  margin-top:5px;
 }
 
 #legend section.legend-status p span.value {
   font-size: 250%;
+  font-weight: bold;
 }
 
 #legend section#legend-open.active * {
@@ -63,6 +80,6 @@ header {
 }
 
 #legend section#legend-newly-closed.active * {
-  color: blue;
-  border-color: blue;
+  color: #114ab1;
+  border-color: #114ab1;
 }
