@@ -90,8 +90,9 @@ $(function () {
 		}
 	});
 	
-	return;
+  // return;
 	
+	console.log("https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=100&skip=0&q=%7Bstatus:%20%22open%22%7D");
 	$.ajax({
 		url: "https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=100&skip=0&q=%7Bstatus:%20%22open%22%7D",
 		dataType: "jsonp",
