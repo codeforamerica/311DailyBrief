@@ -21,7 +21,7 @@ DailyBriefingController.prototype = {
   _refreshData: function () {
     // TODO: call out to ThreeOneOneApi
     this.requests = sampleData;
-    // this.legendController.update();
+    this.legendController.update();
   }
   
   
