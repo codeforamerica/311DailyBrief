@@ -3,5 +3,6 @@
 /* top-left and top-right control containers */
 .leaflet-top {
 	/* account for the filter bar */
-	top: 54px;
+	top: 90px;
+	left: 30px;
 }

@@ -1,5 +1,5 @@
-(function (global) {
-	
-	global.dailyBriefing = new DailyBriefingController();
-	
-})(this);
+$(function () {
+  
+  window.dailyBriefing = new DailyBriefingController();
+  
+});
