@@ -22,30 +22,6 @@ var mongohqUrl = function (db, collection, query, args) {
 	return url;
 };
 
-// TODO: really need a good suite of date utilities
-var simpleDateString = function (date) {
-	var month = date.getUTCMonth() + 1;
-	if (month < 10) {
-		month = "0" + month;
-	}
-	var dayOfMonth = date.getUTCDate();
-	if (dayOfMonth < 10) {
-		dayOfMonth = "0" + dayOfMonth;
-	}
-	return date.getUTCFullYear() + "-" + month + "-" + dayOfMonth;
-};
-
-var yesterday = function () {
-	var date = today();
-	date.setUTCDate(date.getUTCDate() - 1);
-	return date;
-};
-
-var today = function () {
-	var date = new Date();
-	return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-};
-
 $(function () {
 	var map = new L.Map("map");
 	var cloudmade = new L.TileLayer("http://{s}.tile.cloudmade.com/" + CLOUDMADE_API_KEY + "/997/256/{z}/{x}/{y}.png", {
@@ -60,9 +36,10 @@ $(function () {
 	
 	// FIXME: if the "opened yesterday" query completes before the "closed yesterday" query, 
 	// we might get some open-colored icons that should be closed-colored
+	console.log("https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"requested_datetime\": {$gte: \"" + dateTools.simpleDateString(dateTools.yesterday()) + "\"\", $lt: \"" + dateTools.simpleDateString(dateTools.today()) + "\"}}&sort={requested_datetime: 1}");
 	$.ajax({
 		// can't use the nice mongohqUrl function because of the double quote issue :(
-		url: "https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"requested_datetime\": {$gte: \"" + simpleDateString(yesterday()) + "\"\", $lt: \"" + simpleDateString(today()) + "\"}}&sort={requested_datetime: 1}",
+		url: "https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"requested_datetime\": {$gte: \"" + dateTools.simpleDateString(dateTools.yesterday()) + "\"\", $lt: \"" + dateTools.simpleDateString(dateTools.today()) + "\"}}&sort={requested_datetime: 1}",
 		dataType: "jsonp",
 		success: function (data) {
 			console.log(arguments);
@@ -86,9 +63,10 @@ $(function () {
 		}
 	});
 	
+	console.log("https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"status\": \"closed\", \"updated_datetime\": {$gte: \"" + dateTools.simpleDateString(dateTools.yesterday()) + "\"\", $lt: \"" + dateTools.simpleDateString(dateTools.today()) + "\"}}&sort={updated_datetime: 1}");
 	$.ajax({
 		// can't use the nice mongohqUrl function because of the double quote issue :(
-		url: "https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"status\": \"closed\", \"updated_datetime\": {$gte: \"" + simpleDateString(yesterday()) + "\"\", $lt: \"" + simpleDateString(today()) + "\"}}&sort={updated_datetime: 1}",
+		url: "https://api.mongohq.com/databases/chicago/collections/requests/documents?_apikey=" + MONGOHQ_API_KEY + "&limit=1000&skip=0&q={\"status\": \"closed\", \"updated_datetime\": {$gte: \"" + dateTools.simpleDateString(dateTools.yesterday()) + "\"\", $lt: \"" + dateTools.simpleDateString(dateTools.today()) + "\"}}&sort={updated_datetime: 1}",
 		dataType: "jsonp",
 		success: function (data) {
 			console.log(arguments);
