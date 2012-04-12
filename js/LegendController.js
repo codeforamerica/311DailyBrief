@@ -17,7 +17,7 @@ LegendController.prototype = {
   update: function () {
     var self = this;
     
-    // iterate over our Statuses / HTML ELements
+    // Iterate over our Statuses / HTML ELements
     $.each(this.htmlElements, function(status, elementId) {
       // update number of requests in Legend
       var requestsCount = self.dataSource.requests[status].length;
@@ -31,5 +31,9 @@ LegendController.prototype = {
       //   $(elementId).removeClass('active');
       // }
     });
+    
+    // Update the displayed boundary title
+     // RIGHT HERE ->
+    
   },
 };
