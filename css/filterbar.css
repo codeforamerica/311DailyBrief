@@ -4,7 +4,41 @@
 	top: 68px;
 	width: 100%;
 	height: 54px;
+	line-height: 54px;
+	color: #fff;
 	background: #000;
 	background: rgba(0, 0, 0, 0.8);
 	z-index: 10;
 }
+
+	#filters .title {
+		position: relative;
+		float: left;
+		height: 100%;
+		margin: 0;
+		padding: 0 8px 0 40px;
+		background: rgba(77, 79, 80, 0.8);
+	}
+	
+		#filters .title .endcap {
+			position: absolute;
+			top: 0;
+			right: -16px;
+			width: 16px;
+			height: 100%;
+			background: url("../images/filter_arrow.png");
+			opacity: 0.8;
+		}
+	
+	#filters ul {
+		float: left;
+		height: 100%;
+		margin: 0 0 0 36px;
+		padding: 0;
+		list-style-type: none;
+	}
+	
+		#filters li {
+			display: inline;
+			margin-right: 20px;
+		}
