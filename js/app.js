@@ -1,3 +1,6 @@
+var Constants = {
+  MONGOHQ_API_KEY: 'o1rmgd84919ezzq9da58',
+};
 
 var CLOUDMADE_API_KEY = "26e35a6581ee4ffdba8ff3fcaec8496e";
 var MONGOHQ_API_KEY = "o1rmgd84919ezzq9da58";
