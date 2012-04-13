@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>311 API Async Illustration</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html, body, #main {
+        height: 100%;
+        width: 100%;
+        font: 36px sans-serif;
+      }
+      #wedgy {
+        margin: 20px 20px 0px;
+      }
+      #description {
+        margin-top: -30px;
+        font: 22px sans-serif;
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/dateTools.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/ThreeOneOneApi.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+<body>
+  <div id="main">
+    <div id="wedgy">
+      <p id="total_continuous">TOTAL OPEN: 0</p>
+      <p id="description">(showing async download in realtime)</p>
+    </div>
+    <div id="wedgy">
+      <p id="total_final">TOTAL OPEN: 
+        <span id="spinner">
+          <img src="http://www.markit.com/assets/images/spinner.gif" alt="spinner"/>
+        </span>
+      </p>
+      <p id="description">(showing async download final only)</p>
+    </div>
+  </div>
+  <script type="text/javascript"> 
+    $(document).ready(function() {
+      results = new Array();
+      api = new ThreeOneOneApi();
+      api.find('requests', // collection
+               '{"endpoint": "baltimore", "status": "open"}', // query
+               results, // array to capture results 
+               function(data) { // callback to get results in realtime
+                 console.log(results.length);
+                 $("#total_continuous").html("TOTAL OPEN: " + results.length);
+               }, 
+               function() { // callback received when no more data from API
+                 console.log("gotz all teh dataz");
+                 $("#total_final").html("TOTAL OPEN: " + results.length);
+               }
+      );
+    });
+  </script>
+</body>
+</html>
