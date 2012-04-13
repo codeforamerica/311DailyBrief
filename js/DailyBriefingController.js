@@ -12,6 +12,8 @@ var DailyBriefingController = function () {
   // initialize sub-controllers
   this.legend = new LegendController();
   this.legend.dataSource = this;
+  this.map = new MapController();
+  this.map.dataSource = this;
   this.filterBar = new FilterBarController();
   
   eventManager.subscribe("filtersChanged", this);
@@ -26,11 +28,12 @@ DailyBriefingController.prototype = {
     // TODO: call out to ThreeOneOneApi
     this.requests = sampleData;
     this.legend.update();
+    this.map.update();
   },
   
   handleEvent: function (event) {
     if (event.type === "filtersChanged") {
-      alert(JSON.stringify(event.data));
+      // alert(JSON.stringify(event.data));
       // TODO: should really copy event.data here
       this.filterConditions = event.data;
       this._refreshData();
