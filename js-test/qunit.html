@@ -41,16 +41,22 @@
         // we pause the test here to give time for the callbacks to occur
         stop();
 
-		// make the call to the API, pass callback function to capture result
-        api._find('requests', null, results, 0, function(data) {
-          equal(data[0].length, 100, "did not get 100 objects in response");    
-          console.log(data);  
-        });
+        api.find('requests', // collection
+             '{"endpoint": "baltimore", "status": "open"}', // query
+             results, // array to capture results 
+             function(data) { // callback to get results in realtime
+               ok(data.length > 0, "did not get any objects in response");    
+               console.log(results.length);  
+             }, 
+             function() { // callback received when no more data from API
+               console.log("gotz all teh dataz");
+             }
+        );
 
-        // after 2 seconds, resume the test to check that assertions were correct
+        // after 10 seconds, resume the test to check that assertions were correct
         setTimeout(function() {
           start()          
-        }, 30000);
+        }, 10000);
 
       });
 
