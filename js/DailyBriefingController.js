@@ -2,7 +2,7 @@ var DailyBriefingController = function () {
   // default filters
   this.filterConditions = {
     ward: null, // null means the whole city
-    states: [ThreeOneOneApi.REQUEST_STATES.OPEN, ThreeOneOneApi.REQUEST_STATES.CLOSED],
+    states: ["open", "opened", "closed"],
     services: null, // null means all services
     date: dateTools.yesterday()
   };

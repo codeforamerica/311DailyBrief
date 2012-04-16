@@ -5,11 +5,30 @@ var FilterBarController = function () {
   this.statusSelector = document.getElementById("filters_status");
   this.applyButton = document.getElementById("filters_apply");
   
+  this._initializeFilters();
+  
   this.applyButton.addEventListener("click", this, false);
 };
 
 FilterBarController.prototype = {
   constructor: FilterBarController,
+  
+  _initializeFilters: function () {
+    this._setSelectOptions(this.statusSelector, [
+      {name: "Currently Open", value: "open"},
+      {name: "Opened Yesterday", value: "opened"},
+      {name: "Closed Yesterday", value: "closed"}
+    ]);
+  },
+  
+  _setSelectOptions: function (selectElement, options) {
+    for (var i = 0, len = options.length; i < len; i++) {
+      var optionElement = document.createElement("option");
+      optionElement.value = options[i].value;
+      optionElement.appendChild(document.createTextNode(options[i].name));
+      selectElement.appendChild(optionElement);
+    }
+  },
   
   handleEvent: function (event) {
     // this will all change when we have a more complicated multiselect control
@@ -20,7 +39,7 @@ FilterBarController.prototype = {
     var filters = {
       ward: this.wardSelector.value || null,
       services: selectedService ? [selectedService] : null,
-      states: selectedState ? [selectedState] : [ThreeOneOneApi.REQUEST_STATES.OPEN, ThreeOneOneApi.REQUEST_STATES.CLOSED]
+      states: selectedState ? [selectedState] : ["open", "opened", "closed"]
     };
     
     // dispatch an event that the filter conditions have changed
