@@ -1,4 +1,6 @@
-var FilterBarController = function () {
+var FilterBarController = function (appController) {
+  this.app = appController;
+  
   this.element = document.getElementById("filters");
   this.wardSelector = document.getElementById("filters_ward");
   this.serviceSelector = document.getElementById("filters_service");
@@ -19,12 +21,21 @@ FilterBarController.prototype = {
       {name: "Opened Yesterday", value: "opened"},
       {name: "Closed Yesterday", value: "closed"}
     ]);
+    this._setSelectOptions(this.wardSelector, this.app.areas.map(function (area) {
+      return {name: area.name};
+    }));
+    this._setSelectOptions(this.serviceSelector, this.app.services.map(function (service) {
+      return {
+        name: service.service_name,
+        value: service.service_code
+      };
+    }));
   },
   
   _setSelectOptions: function (selectElement, options) {
     for (var i = 0, len = options.length; i < len; i++) {
       var optionElement = document.createElement("option");
-      optionElement.value = options[i].value;
+      optionElement.value = options[i].value || options[i].name;
       optionElement.appendChild(document.createTextNode(options[i].name));
       selectElement.appendChild(optionElement);
     }

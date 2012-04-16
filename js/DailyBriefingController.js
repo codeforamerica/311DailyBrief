@@ -12,12 +12,16 @@ var DailyBriefingController = function () {
   this.requests['opened'] = new Array();
   this.requests['closed'] = new Array();
   
+  // TODO: pull this data from the API
+  this.areas = sampleAreas;
+  this.services = sampleServices;
+  
   // initialize sub-controllers
   this.legend = new LegendController();
   this.legend.dataSource = this;
   this.map = new MapController();
   this.map.dataSource = this;
-  this.filterBar = new FilterBarController();
+  this.filterBar = new FilterBarController(this);
   this.api = new ThreeOneOneApi();
   
   eventManager.subscribe("filtersChanged", this);
