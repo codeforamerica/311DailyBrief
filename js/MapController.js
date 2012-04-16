@@ -29,26 +29,75 @@ MapController.prototype = {
       maxZoom: 18
     });
     this.map.addLayer(cloudmade);
+    this._addedMarkers = 0;
     this._mapped = {}; // points that have been displayed on the map
+    this._typeLayers = {
+      open: {},
+      opened: {},
+      closed: {}
+    };
   },
   
   update: function () {
     var requests = this.dataSource.requests;
-    requests.closed.forEach(this._addMarkerForRequest("closed", this._mapped), this);
-    requests.opened.forEach(this._addMarkerForRequest("opened", this._mapped), this);
-    requests.open.forEach(this._addMarkerForRequest("open", this._mapped), this);
     
     this.updateMapCenterZoom();    
+    
+    // TODO: be more efficient! (use layer groups?)
+    this._clearMarkers();
+    if (~this.dataSource.filterConditions.states.indexOf("closed")) {
+      requests.closed.forEach(this._addMarkerForRequest("closed", this._mapped), this);
+    }
+    if (~this.dataSource.filterConditions.states.indexOf("opened")) {
+      requests.opened.forEach(this._addMarkerForRequest("opened", this._mapped), this);
+    }
+    if (~this.dataSource.filterConditions.states.indexOf("open")) {
+      requests.open.forEach(this._addMarkerForRequest("open", this._mapped), this);
+    }
+  },
+  
+  _clearMarkers: function () {
+    for (var state in this._typeLayers) {
+      var markers = this._typeLayers[state];
+      for (var key in markers) {
+        this.map.removeLayer(markers[key]);
+      }
+    }
   },
   
   _addMarkerForRequest: function (type, mapped) {
+    if (!this._typeLayers[type]) {
+      this._typeLayers[type] = {};
+    }
+    
     return function (request) {
       // if a request is in more than one collection, we don't want to map it multiple times
+      var marker = this._typeLayers[type][request.service_request_id];
+      if (!marker && this._addedMarkers < 500) {
+        this._addedMarkers++;
+        console.log(this._addedMarkers);
+        marker = this.markerForRequest(request, type);
+        marker.bindPopup(this.popupForRequest(request));
+        this._typeLayers[type][request.service_request_id] = marker;
+      }
+      if (marker) {
+        mapped[request.service_request_id] = request;
+        
+        // HACK: This really shouldn't be done here
+        if (this.dataSource.filterConditions.services == null || ~this.dataSource.filterConditions.services.indexOf(request.service_code)) {
+          this.map.addLayer(marker);
+        }
+      }
+      return;
+      
       if (!mapped[request.service_request_id]) {
         mapped[request.service_request_id] = request;
         var marker = this.markerForRequest(request, type);
         marker.bindPopup(this.popupForRequest(request));
         this.map.addLayer(marker);
+        
+        // remember the marker so we can remove it later
+        this._typeLayers[type].push(marker);
       }
     };
   },
