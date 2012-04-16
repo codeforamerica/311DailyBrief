@@ -7,7 +7,10 @@ var DailyBriefingController = function () {
     date: dateTools.yesterday()
   };
   
-  this.requests = null;
+  this.requests = new Array();
+  this.requests['open'] = new Array();
+  this.requests['opened'] = new Array();
+  this.requests['closed'] = new Array();
   
   // initialize sub-controllers
   this.legend = new LegendController();
@@ -15,22 +18,68 @@ var DailyBriefingController = function () {
   this.map = new MapController();
   this.map.dataSource = this;
   this.filterBar = new FilterBarController();
+  this.api = new ThreeOneOneApi();
   
   eventManager.subscribe("filtersChanged", this);
+
+  // TODO: by default we show all open requests, probably not a good idea
+  this.api.find('requests',
+                '{"endpoint": "baltimore", "status": "open"}',
+                this.requests['open'],
+                function(data, self) { 
+                  console.log('returned open request count is: ' + data.length) 
+                  self._refreshData()
+                },
+                function(controller) { 
+                  // using the instantanious approach just above
+                  // using this, finalize callback would only draw 
+                  // on the map once all data is available
+                  //controller._refreshData()
+                },
+                this);
+  this.api.find('requests',
+                '{"endpoint": "baltimore",' + 
+                 '"requested_datetime": ' + 
+                 '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                 '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
+                this.requests['opened'],
+                function(data, self) { 
+                  console.log('returned opened request count is: ' + data.length) 
+                  self._refreshData()
+                },
+                function(controller) {},
+                this);
   
-  this._refreshData();
+  this.api.find('requests',
+                '{"endpoint": "baltimore",' + 
+                 '"updated_datetime": ' + 
+                 '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                 '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
+                 '"status": "closed"}',
+                this.requests['closed'],
+                function(data, self) { 
+                  console.log('returned opened request count is: ' + data.length) 
+                  self._refreshData()
+                },
+                function(controller) {},
+                this);
+
 };
 
 DailyBriefingController.prototype = {
   constructor: DailyBriefingController,
   
   _refreshData: function () {
-    // TODO: call out to ThreeOneOneApi
-    this.requests = sampleData;
+    console.log("_refreshData called: open requests count = " + 
+                this.requests['open'].length);
+    console.log("_refreshData called: opened requests count = " + 
+                this.requests['opened'].length);
+    console.log("_refreshData called: closed requests count = " + 
+                this.requests['closed'].length);
     this.legend.update();
     this.map.update();
   },
-  
+
   handleEvent: function (event) {
     if (event.type === "filtersChanged") {
       // alert(JSON.stringify(event.data));

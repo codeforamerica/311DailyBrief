@@ -15,6 +15,9 @@ LegendController.prototype = {
   },
   
   update: function () {
+
+    console.log('LegendController update called');
+
     var self = this;
     
     // Iterate over our Statuses / HTML ELements

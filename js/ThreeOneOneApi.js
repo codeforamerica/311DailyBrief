@@ -11,12 +11,12 @@ ThreeOneOneApi.prototype = {
   
   constructor: ThreeOneOneApi,
 
-  find: function (collection, query, results, callback, finalize) {
-    this._find(collection, query, results, 0, callback, finalize);
+  find: function (collection, query, results, callback, finalize, caller) {
+    this._find(collection, query, results, 0, callback, finalize, caller);
   },
 
   // get all documents from mongo, 100 at a time
-  _find: function (collection, query, results, skipCount, callback, finalize) {
+  _find: function (collection, query, results, skipCount, callback, finalize, caller) {
 
     // save this context to self so we can make recursive call inside anon func 
     self = this;
@@ -37,11 +37,11 @@ ThreeOneOneApi.prototype = {
     $.getJSON(dataUri, function(data) {
       if (data.length > 0) { 
         $.merge(results, data);
-        callback(results);
+        callback(results, caller);
         skipCount += 100;
-        self._find(collection, query, results, skipCount, callback, finalize);
+        self._find(collection, query, results, skipCount, callback, finalize, caller);
       } else {
-        finalize(); // no more data, alert the caller
+        finalize(caller); // no more data, alert the caller
       }
     });
 
