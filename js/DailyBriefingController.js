@@ -4,7 +4,10 @@ var DailyBriefingController = function () {
     ward: null, // null means the whole city
     states: ["open", "opened", "closed"],
     services: null, // null means all services
-    date: dateTools.yesterday()
+    dateRange: {
+      from: dateTools.yesterday(),
+      to: dateTools.today()
+    }
   };
   
   this.requests = new Array();
