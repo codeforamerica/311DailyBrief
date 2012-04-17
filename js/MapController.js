@@ -75,7 +75,6 @@ MapController.prototype = {
       var marker = this._typeLayers[type][request.service_request_id];
       if (!marker && this._addedMarkers < 500) {
         this._addedMarkers++;
-        console.log(this._addedMarkers);
         marker = this.markerForRequest(request, type);
         marker.bindPopup(this.popupForRequest(request));
         this._typeLayers[type][request.service_request_id] = marker;
