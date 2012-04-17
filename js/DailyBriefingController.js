@@ -5,7 +5,8 @@ var DailyBriefingController = function () {
     states: ["open", "opened", "closed"],
     services: null, // null means all services
     dateRange: {
-      from: dateTools.yesterday(),
+      // On Monday, we show Friday-Sunday instead of just Sunday
+      from: (dateTools.today().getDay() === 1) ? dateTools.subtract(dateTools.today(), dateTools.ONE_DAY * 3) : dateTools.yesterday(),
       to: dateTools.today()
     }
   };

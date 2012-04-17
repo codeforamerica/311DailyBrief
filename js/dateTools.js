@@ -2,8 +2,7 @@ var dateTools = {
   ONE_DAY: 24 * 60 * 60 * 1000,
   
   today: function today () {
-    var date = new Date();
-    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+    return this.dayForDate(new Date());
   },
   
   yesterday: function yesterday () {
@@ -13,6 +12,10 @@ var dateTools = {
   subtract: function (date, ms) {
     // TODO: support more than just milliseconds?
     return new Date(date - ms);
+  },
+  
+  dayForDate: function dayForDate (date) {
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
   },
   
   // TODO: really ought to have an ISO date string here, since in-browser stuff is too new to rely on
