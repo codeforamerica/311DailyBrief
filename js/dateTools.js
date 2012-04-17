@@ -26,5 +26,14 @@ var dateTools = {
       dayOfMonth = "0" + dayOfMonth;
     }
     return date.getUTCFullYear() + "-" + month + "-" + dayOfMonth;
+  },
+
+  todaysDateString: function () {
+	  var today = new Date();
+	  var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+	  var monthNames = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+	  return dayNames[today.getDay()] + " " + monthNames[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
   }
 };
+
+

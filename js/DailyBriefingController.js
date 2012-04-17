@@ -26,6 +26,7 @@ var DailyBriefingController = function () {
   this.map.dataSource = this;
   this.filterBar = new FilterBarController(this);
   this.api = new ThreeOneOneApi();
+  this.headerBar = new HeaderBarController();
   
   eventManager.subscribe("filtersChanged", this);
 
