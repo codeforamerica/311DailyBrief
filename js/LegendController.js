@@ -20,6 +20,8 @@ LegendController.prototype = {
 
     var self = this;
     
+    var rangeString = dateTools.rangeToString(self.dataSource.filterConditions.dateRange);
+    
     // Iterate over our Statuses / HTML ELements
     $.each(this.htmlElements, function(status, elementId) {
       // update number of requests in Legend
@@ -33,11 +35,24 @@ LegendController.prototype = {
       else {
         $(elementId).removeClass('active');
       }
+      
+      // Update the displayed boundary title
+      // No need to change the "All Open" title since it's dateless
+      switch (status) {
+        case 'opened':
+          $(elementId).find('h1').html('Opened ' + rangeString);
+          break;
+        case 'closed':
+          $(elementId).find('h1').html('Closed ' + rangeString);
+          break;
+        case 'open':
+        default:
+          // do nothing
+          break;
+      }
+      
     });
     
-    // Update the displayed boundary title
-     // RIGHT HERE ->
-  
   },
   _isInList: function(needle, list) {
     // TODO: do something better?

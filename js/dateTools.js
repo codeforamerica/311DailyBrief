@@ -36,6 +36,16 @@ var dateTools = {
 	  var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
 	  var monthNames = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 	  return dayNames[today.getDay()] + " " + monthNames[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
+  },
+  
+  rangeToString: function(dateRange) {
+    var dayNamesShort = new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
+    if (this.simpleDateString(dateRange.from) == this.simpleDateString(this.yesterday())) {
+      return 'Yesterday';
+    }
+    else {
+      return dayNamesShort[dateRange.from.getDay()] + '&ndash;' + dayNamesShort[dateRange.to.getDay()];
+    }
   }
 };
 
