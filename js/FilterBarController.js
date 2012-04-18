@@ -1,6 +1,9 @@
 var FilterBarController = function (appController) {
   this.app = appController;
   
+  // update the Ward/Neighborhood/BoundaryTitle
+  $('#boundaryTitle').html(Config.boundaryTitle);
+  
   this.element = document.getElementById("filters");
   // this.wardSelector = document.getElementById("filters_ward");
   // this.serviceSelector = document.getElementById("filters_service");
