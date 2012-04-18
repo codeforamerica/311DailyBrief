@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
     <![endif]-->
     <link rel="stylesheet" href="css/base.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="css/multiselector.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/filterbar.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/map.css" type="text/css" media="screen">
 
@@ -28,6 +29,7 @@
     <script src="js/sampleServices.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/sampleAreas.js" type="text/javascript" charset="utf-8"></script>
     <!-- APP -->
+    <script src="js/MultiSelector.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/FilterBarController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/HeaderBarController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/LegendController.js" type="text/javascript" charset="utf-8"></script>
@@ -49,9 +51,12 @@
         <span class="endcap"></span>
       </p>
       <ul>
-        <li>Ward: <select id="filters_ward"><option value="">All</option></select></li>
-        <li>Service: <select id="filters_service"><option value="">All</option></select></li>
-        <li>Status: <select id="filters_status"><option value="">All</option></select></li>
+        <!-- <li>Ward: <select id="filters_ward"><option value="">All</option></select></li> -->
+        <!-- <li>Service: <select id="filters_service"><option value="">All</option></select></li> -->
+        <!-- <li>Status: <select id="filters_status"><option value="">All</option></select></li> -->
+        <li>Ward: <span id="filters_ward"></span></li>
+        <li>Service: <span id="filters_service"></span></li>
+        <li>Status: <span id="filters_status"></span></li>
       </ul>
       <button id="filters_apply">Apply</button>
     </section>

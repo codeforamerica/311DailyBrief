@@ -32,7 +32,7 @@
 			opacity: 0.8;
 		}
 	
-	#filters ul {
+	#filters > ul {
 		float: left;
 		height: 100%;
 		margin: 0 0 0 36px;
@@ -40,12 +40,12 @@
 		list-style-type: none;
 	}
 	
-		#filters li {
+		#filters > ul > li {
 			display: inline;
 			margin-right: 20px;
 		}
 	
-	#filters button {
+	#filters > button {
 		height: 26px;
 		padding: 0 20px;
 		line-height: 26px;
