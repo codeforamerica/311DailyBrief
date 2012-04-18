@@ -12,9 +12,8 @@ var DailyBriefingController = function () {
   this.requests['opened'] = new Array();
   this.requests['closed'] = new Array();
   
-  // TODO: pull this data from the API
-  this.areas = sampleAreas;
-  this.services = sampleServices;
+  this.areas = new Array();
+  this.services = new Array();
   
   // initialize sub-controllers
   this.legend = new LegendController();
@@ -26,8 +25,9 @@ var DailyBriefingController = function () {
   
   eventManager.subscribe("filtersChanged", this);
 
-  // TODO: by default we show all open requests, probably not a good idea
+  // get all open requests from the API and refresh app controllers
   this.api.find('requests',
+                null,
                 '{"endpoint": "baltimore", "status": "open"}',
                 this.requests['open'],
                 function(data, self) { 
@@ -35,13 +35,16 @@ var DailyBriefingController = function () {
                   self._refreshData()
                 },
                 function(controller) { 
-                  // using the instantanious approach just above
+                  // using the instantaneous approach just above
                   // using this, finalize callback would only draw 
                   // on the map once all data is available
                   //controller._refreshData()
                 },
                 this);
+
+  // get all opened requests from the API and refresh app controllers
   this.api.find('requests',
+                null,
                 '{"endpoint": "baltimore",' + 
                  '"requested_datetime": ' + 
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
@@ -53,8 +56,10 @@ var DailyBriefingController = function () {
                 },
                 function(controller) {},
                 this);
-  
+ 
+  // get all closed requests from the API and refresh app controllers
   this.api.find('requests',
+                null,
                 '{"endpoint": "baltimore",' + 
                  '"updated_datetime": ' + 
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
@@ -62,12 +67,28 @@ var DailyBriefingController = function () {
                  '"status": "closed"}',
                 this.requests['closed'],
                 function(data, self) { 
-                  console.log('returned opened request count is: ' + data.length) 
+                  console.log('returned closed request count is: ' + data.length) 
                   self._refreshData()
                 },
                 function(controller) {},
                 this);
 
+  // this gets the collections of areas and services from the API
+  // and passes them to the filterBar controller to use to populate the dropdowns 
+  this.api.findDistinct('{"boundaries": 1}', 
+                        '{"_id": "baltimore"}',
+                        this.areas,
+                        function(data, self) {
+                          self.areas = data.boundaries;
+						  self.services = data.services;
+                          console.log("boundaries filter count: " 
+                            + self.areas.length);
+                          console.log("services filter count: " 
+                            + self.services.length);
+                          console.log("updating filter selectors");
+                          self.filterBar.updateFilters();
+                        },
+                        this);
 };
 
 DailyBriefingController.prototype = {

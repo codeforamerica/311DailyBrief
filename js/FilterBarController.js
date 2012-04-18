@@ -21,6 +21,12 @@ FilterBarController.prototype = {
       {name: "Opened Yesterday", value: "opened"},
       {name: "Closed Yesterday", value: "closed"}
     ]);
+    this.updateFilters();
+  },
+
+  // need a public way to update the filters so that they can get populated with
+  // data after the API callback returns
+  updateFilters: function() {
     this._setSelectOptions(this.wardSelector, this.app.areas.map(function (area) {
       return {name: area.name};
     }));
@@ -35,6 +41,7 @@ FilterBarController.prototype = {
   _setSelectOptions: function (selectElement, options) {
     for (var i = 0, len = options.length; i < len; i++) {
       var optionElement = document.createElement("option");
+      console.log(options[i].name);
       optionElement.value = options[i].value || options[i].name;
       optionElement.appendChild(document.createTextNode(options[i].name));
       selectElement.appendChild(optionElement);

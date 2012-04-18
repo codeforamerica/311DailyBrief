@@ -1,5 +1,9 @@
 var ThreeOneOneApi = function () {
 
+  this.MONGOHQ_API_BASE_URI = 'https://api.mongohq.com/databases/chicago/collections/'
+  // this is jesse's key, using for now because Smart Chi's key is FUBAR
+  this.MONGOHQ_API_KEY = 'tvepg5ejlqmvfh6ph52i'
+
 };
 
 ThreeOneOneApi.REQUEST_STATES = {
@@ -11,8 +15,23 @@ ThreeOneOneApi.prototype = {
   
   constructor: ThreeOneOneApi,
 
-  find: function (collection, query, results, callback, finalize, caller) {
+  find: function (collection, fields, query, results, callback, finalize, caller) {
     this._find(collection, query, results, 0, callback, finalize, caller);
+  },
+
+  findDistinct: function (fields, query, results, callback, caller) {
+
+    var dataUri = this.MONGOHQ_API_BASE_URI + 
+                  "distinct/" +
+                  'documents?' +
+                  '_apikey=' + this.MONGOHQ_API_KEY + "&" +
+                  'q=' + query;
+
+    $.getJSON(dataUri, function(data) {
+        results = data[0];
+        callback(results, caller);
+    });
+    
   },
 
   // get all documents from mongo, 100 at a time
@@ -21,14 +40,10 @@ ThreeOneOneApi.prototype = {
     // save this context to self so we can make recursive call inside anon func 
     self = this;
 
-    // TODO: move these to proper app/local constant locations
-    var MONGOHQ_API_BASE_URI = 'https://api.mongohq.com/databases/chicago/collections/'
-    var MONGOHQ_API_KEY = 'o1rmgd84919ezzq9da58'
-
-    var dataUri = MONGOHQ_API_BASE_URI + 
+    var dataUri = this.MONGOHQ_API_BASE_URI + 
                   collection + "/" +
                   'documents?' +
-                  '_apikey=' + MONGOHQ_API_KEY + "&" +
+                  '_apikey=' + this.MONGOHQ_API_KEY + "&" +
                   'limit=100&' + 
                   'q=' + query + '&' +
                   'skip=' + skipCount;
