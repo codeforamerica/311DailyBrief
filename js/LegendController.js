@@ -27,16 +27,25 @@ LegendController.prototype = {
       $(elementId).find('span.value').html(requestsCount);
       
       // update whether the status is "active"
-      // if (self.dataSource.filterConditions.states[status] === true) {
-      //   $(elementId).addClass('active');
-      // }
-      // else {
-      //   $(elementId).removeClass('active');
-      // }
+      if (self._isInList(status, self.dataSource.filterConditions.states)) {
+        $(elementId).addClass('active');
+      }
+      else {
+        $(elementId).removeClass('active');
+      }
     });
     
     // Update the displayed boundary title
      // RIGHT HERE ->
-    
+  
   },
+  _isInList: function(needle, list) {
+    // TODO: do something better?
+    for (var i=0; i < list.length; i++) {      
+      if (list[i] == needle) {
+        return true
+      }
+    }
+    return false;
+  }
 };
