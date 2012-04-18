@@ -88,7 +88,7 @@ header p {
   border-color: #e14747;
 }
 
-#legend section#legend-newly-open.active * {
+#legend section#legend-newly-opened.active * {
   color: orange;
   border-color: orange;
 }
