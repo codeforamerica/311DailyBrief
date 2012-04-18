@@ -33,7 +33,7 @@ var DailyBriefingController = function () {
   // get all open requests from the API and refresh app controllers
   this.api.find('requests',
                 null,
-                '{"endpoint": "baltimore", "status": "open"}',
+                '{"endpoint": ' + Config.endpoint + ', "status": "open"}',
                 this.requests['open'],
                 function(data, self) { 
                   console.log('returned open request count is: ' + data.length) 
@@ -50,7 +50,7 @@ var DailyBriefingController = function () {
   // get all opened requests from the API and refresh app controllers
   this.api.find('requests',
                 null,
-                '{"endpoint": "baltimore",' + 
+                '{"endpoint": ' + Config.endpoint + ',' + 
                  '"requested_datetime": ' + 
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                  '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
@@ -65,7 +65,7 @@ var DailyBriefingController = function () {
   // get all closed requests from the API and refresh app controllers
   this.api.find('requests',
                 null,
-                '{"endpoint": "baltimore",' + 
+                '{"endpoint": ' + Config.endpoint + ',' + 
                  '"updated_datetime": ' + 
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                  '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
@@ -81,7 +81,7 @@ var DailyBriefingController = function () {
   // this gets the collections of areas and services from the API
   // and passes them to the filterBar controller to use to populate the dropdowns 
   this.api.findDistinct('{"boundaries": 1}', 
-                        '{"_id": "baltimore"}',
+                        '{"_id": ' + Config.endpoint + '}',
                         this.areas,
                         function(data, self) {
                           self.areas = data.boundaries;

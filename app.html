@@ -19,6 +19,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     
     <!-- Utils -->
+    <script src="js/config.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/dateTools.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/eventManager.js" type="text/javascript" charset="utf-8"></script>
     <!-- API -->
@@ -39,7 +40,7 @@
     
     <header>
 	    <a href="/"><img src="images/daily_brief.png"></a>
-      <p>for the morning of <span id="todays_date"></span></p>
+      <p>for the morning of <span id="todays_date">today</span></p>
     </header>
     
     <section id="filters">
@@ -59,23 +60,23 @@
     
     <div id="legend">
       <section id="legend-info">
-        <h1>Baltimore</h1>
+        <h1>City</h1>
         <p>Service requests available through the city's Open311 API.</p>
       </section>
       
       <section id="legend-open" class="legend-status active">
         <h1>Open</h1>
-        <p><span class="value">1,324</span> requests</p>
+        <p><span class="value">0</span> requests</p>
         
       </section>
       <section id="legend-newly-opened" class="legend-status active">
         <h1>Opened Yesterday</h1>
-        <p><span class="value">28</span> requests</p>
+        <p><span class="value">0</span> requests</p>
         
       </section>
       <section id="legend-newly-closed" class="legend-status active">
         <h1>Closed Yesterday</h1>
-        <p><span class="value">10</span> requests</p>
+        <p><span class="value">0</span> requests</p>
       </section>
       
     </div>

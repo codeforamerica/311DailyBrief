@@ -1,5 +1,7 @@
 var LegendController = function () {
-	
+	// Update the displayed boundary title
+  $('#legend-info').find('h1').html(Config.title);
+  $('#legend-info').find('p').html(Config.description);
 };
 
 LegendController.prototype = {
@@ -34,9 +36,5 @@ LegendController.prototype = {
       //   $(elementId).removeClass('active');
       // }
     });
-    
-    // Update the displayed boundary title
-     // RIGHT HERE ->
-    
   },
 };

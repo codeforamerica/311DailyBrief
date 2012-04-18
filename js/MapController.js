@@ -6,8 +6,8 @@ var MapController = function () {
   
   // TODO: the initial position should be the center of the markers or set by configuration
   this.defaultView = {
-    'center': [39.2903848, -76.61218930000001],
-    'zoom': 13
+    'center': Config.center,
+    'zoom': Config.zoom
   }
   
   this.map.setView(new L.LatLng(this.defaultView.center[0], this.defaultView.center[1]), this.defaultView.zoom);
