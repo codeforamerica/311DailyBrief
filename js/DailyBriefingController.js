@@ -4,7 +4,11 @@ var DailyBriefingController = function () {
     ward: null, // null means the whole city
     states: ["open", "opened", "closed"],
     services: null, // null means all services
-    date: dateTools.yesterday()
+    dateRange: {
+      // On Monday, we show Friday-Sunday instead of just Sunday
+      from: (dateTools.today().getDay() === 1) ? dateTools.subtract(dateTools.today(), dateTools.ONE_DAY * 3) : dateTools.yesterday(),
+      to: dateTools.today()
+    }
   };
   
   this.requests = new Array();
@@ -22,6 +26,7 @@ var DailyBriefingController = function () {
   this.map.dataSource = this;
   this.filterBar = new FilterBarController(this);
   this.api = new ThreeOneOneApi();
+  this.headerBar = new HeaderBarController();
   
   eventManager.subscribe("filtersChanged", this);
 
