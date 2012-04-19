@@ -3,23 +3,28 @@
 	position: relative;
 	display: inline-block;
 	width: 150px;
+	margin: 0 1em 0 0.25em;
 }
 	
 	.MultiSelector .label {
-		display: block;*/
-		position: relative;*/
+		display: inline-block;
+		position: relative;
 		z-index: 1;
 		height: 20px;
+		max-width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		line-height: 1.2;
+		padding-right: 20px;
+		background: url("../images/disclosure_arrow_white.png") no-repeat right center;
+		border-bottom: 1px solid #fff;
 	}
 	
 	.MultiSelector .popup {
 		display: none;
 		position: absolute;
-		top: 20px;
+		top: 37px;
 		left: 0px;
 		right: 0px;
 		padding: 10px;
@@ -31,43 +36,54 @@
 		max-height: 500px;
 		overflow: auto;
 	}
+	
+	.MultiSelector-buttons {
+		margin: 0 0 10px;
+	}
 
-	.MultiSelector-buttons button {
-		height: 20px;
-		margin: 0;
-		padding: 0 10px;
-		line-height: 20px;
-		border: 1px solid #999;
-		border-left: none;
-		background: #eee;
-		background: -webkit-linear-gradient(top, #f6f6f6, #cfcfcf);
-	}
-	
-	.MultiSelector-buttons button:active {
-		background: -webkit-linear-gradient(top, #cfcfcf, #f6f6f6);
-	}
-	
-		.MultiSelector-buttons .left {
-			border-top-left-radius: 10px;
-			border-bottom-left-radius: 10px;
-			border-left: 1px solid #999;
+		.MultiSelector-buttons button {
+			width: 50%;
+			height: 20px;
+			margin: 0;
+			padding: 0 10px;
+			line-height: 18px;
+			border: 1px solid #999;
+			border-left: none;
+			background: #eee;
+			background: -webkit-linear-gradient(top, #f6f6f6, #cfcfcf);
 		}
 	
-		.MultiSelector-buttons .right {
-			border-top-right-radius: 10px;
-			border-bottom-right-radius: 10px;
+		.MultiSelector-buttons button:active {
+			background: -webkit-linear-gradient(top, #cfcfcf, #f6f6f6);
 		}
+	
+			.MultiSelector-buttons .left {
+				border-top-left-radius: 10px;
+				border-bottom-left-radius: 10px;
+				border-left: 1px solid #999;
+			}
+	
+			.MultiSelector-buttons .right {
+				border-top-right-radius: 10px;
+				border-bottom-right-radius: 10px;
+			}
 	
 	.MultiSelector ol {
 		list-style-type: none;
-		margin: 20px -10px 0;
+		margin: 0 -10px 0;
 		padding: 0;
+		font-size: 0.8em;
 	}
 	
 		.MultiSelector li {
-			padding: 2px 10px;
+			padding: 2px 10px 2px 30px;
+			text-indent: -20px;
 		}
 		
 		.MultiSelector li:hover {
 			background: #e9f3ff;
 		}
+		
+			.MultiSelector li input {
+				margin-right: 6px;
+			}
