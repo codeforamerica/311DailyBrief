@@ -49,10 +49,14 @@
 		height: 26px;
 		padding: 0 20px;
 		line-height: 26px;
-		background: #7d7c7c;
+		background: #403e3e;
 		border: none;
 		font-size: inherit;
 		font-weight: bold;
 		text-transform: uppercase;
 		color: #fff;
+	}
+	
+	#filters .unapplied-changes {
+		background-color: #a8a7a7;
 	}

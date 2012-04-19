@@ -11,6 +11,9 @@ var FilterBarController = function (appController) {
   this.statusSelector = new MultiSelector(document.getElementById("filters_status"));
   this.areaSelector = new MultiSelector(document.getElementById("filters_area"));
   this.serviceSelector = new MultiSelector(document.getElementById("filters_service"));
+  this.statusSelector.subscribe("change", this);
+  this.areaSelector.subscribe("change", this);
+  this.serviceSelector.subscribe("change", this);
   
   this.applyButton = document.getElementById("filters_apply");
   
@@ -74,6 +77,10 @@ FilterBarController.prototype = {
   },
   
   handleEvent: function (event) {
+    if (event.type === "change") {
+      $(this.applyButton).addClass("unapplied-changes");
+      return;
+    }
     // this will all change when we have a more complicated multiselect control
     // var selectedService = this.serviceSelector.value;
     // var selectedState = this.statusSelector.value;
@@ -90,6 +97,7 @@ FilterBarController.prototype = {
     
     // dispatch an event that the filter conditions have changed
     this.dispatchEvent("filtersChanged", filters);
+    $(this.applyButton).removeClass("unapplied-changes");
   }
 };
 
