@@ -5,11 +5,11 @@ var FilterBarController = function (appController) {
   $('#boundaryTitle').html(Config.boundaryTitle);
   
   this.element = document.getElementById("filters");
-  // this.wardSelector = document.getElementById("filters_ward");
+  // this.areaSelector = document.getElementById("filters_area");
   // this.serviceSelector = document.getElementById("filters_service");
   // this.statusSelector = document.getElementById("filters_status");
   this.statusSelector = new MultiSelector(document.getElementById("filters_status"));
-  this.wardSelector = new MultiSelector(document.getElementById("filters_ward"));
+  this.areaSelector = new MultiSelector(document.getElementById("filters_area"));
   this.serviceSelector = new MultiSelector(document.getElementById("filters_service"));
   
   this.applyButton = document.getElementById("filters_apply");
@@ -41,13 +41,13 @@ FilterBarController.prototype = {
   // need a public way to update the filters so that they can get populated with
   // data after the API callback returns
   updateFilters: function() {
-    // this._setSelectOptions(this.wardSelector, this.app.areas.map(function (area) {
+    // this._setSelectOptions(this.areaSelector, this.app.areas.map(function (area) {
     //   return {name: area.name};
     // }));
-    this.wardSelector.setOptions(this.app.areas.map(function (area) {
+    this.areaSelector.setOptions(this.app.areas.map(function (area) {
       return {name: area.name};
     }));
-    this.wardSelector.setValue(null);
+    this.areaSelector.setValue(null);
     // this._setSelectOptions(this.serviceSelector, this.app.services.map(function (service) {
     //   return {
     //     name: service.service_name,
@@ -82,7 +82,7 @@ FilterBarController.prototype = {
     
     // TODO: should have something around default values
     var filters = {
-      ward: this.wardSelector.value || null,
+      area: this.areaSelector.value || null,
       services: selectedService ? selectedService : null,
       states: selectedState ? selectedState : ["open", "opened", "closed"],
       dateRange: this.app.filterConditions.dateRange

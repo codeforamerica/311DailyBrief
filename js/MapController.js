@@ -2,7 +2,7 @@ var MapController = function () {
   this.dataSource = null;
   this._initializeMap();
   
-  this.selectedWard = null; // Save the state of the ward selector so we don't move the map unnecessarily
+  this.selectedArea = null; // Save the state of the ward selector so we don't move the map unnecessarily
   
   // TODO: the initial position should be the center of the markers or set by configuration
   this.defaultView = {
@@ -119,8 +119,8 @@ MapController.prototype = {
   
   updateMapCenterZoom: function() {
     // Only move/zoom the map if the ward changes
-    if (this.dataSource.filterConditions.ward !== this.selectedWard) {
-      if (this.dataSource.filterConditions.ward == null) {
+    if (this.dataSource.filterConditions.area !== this.selectedArea) {
+      if (this.dataSource.filterConditions.area == null) {
         // if ward == null, then entire city... so use out defaults
         this.map.setView(new L.LatLng(this.defaultView.center[0], this.defaultView.center[1]), this.defaultView.zoom);
       }

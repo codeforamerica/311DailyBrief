@@ -1,7 +1,7 @@
 var DailyBriefingController = function () {
   // default filters
   this.filterConditions = {
-    ward: null, // null means the whole city
+    area: null, // null means the whole city
     states: ["open", "opened", "closed"],
     services: null, // null means all services
     dateRange: {
@@ -99,6 +99,12 @@ var DailyBriefingController = function () {
 DailyBriefingController.prototype = {
   constructor: DailyBriefingController,
   
+  updateFilters: function (newFilters) {
+    
+    
+    this.filterConditions = event.data;
+  },
+  
   _refreshData: function () {
     console.log("_refreshData called: open requests count = " + 
                 this.requests['open'].length);
@@ -114,7 +120,7 @@ DailyBriefingController.prototype = {
     if (event.type === "filtersChanged") {
       // alert(JSON.stringify(event.data));
       // TODO: should really copy event.data here
-      this.filterConditions = event.data;
+      this.updateFilters(event.data);
       this._refreshData();
     }
   },
