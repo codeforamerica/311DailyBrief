@@ -144,13 +144,16 @@ MultiSelector.prototype = {
             checkbox.checked = !checkValue;
           }
         }
+        this.dispatchChange();
       }
       // buttons for select all/none
       else if (event.target == this.allButton) {
         this.setValue();
+        this.dispatchChange();
       }
       else if (event.target == this.noneButton) {
         this.setValue([]);
+        this.dispatchChange();
       }
       else if (!this.popup.contains(event.target)) {
         this[this.showing ? "hide" : "show"]();
@@ -163,5 +166,11 @@ MultiSelector.prototype = {
     else if (!this.element.contains(event.target) && this.showing) {
       this.hide();
     }
+  },
+  
+  dispatchChange: function () {
+    this.dispatchEvent("change", this.getValue());
   }
 };
+
+eventManager.mix(MultiSelector);
