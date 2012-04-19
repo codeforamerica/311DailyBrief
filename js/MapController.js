@@ -82,10 +82,7 @@ MapController.prototype = {
       if (marker) {
         mapped[request.service_request_id] = request;
         
-        // HACK: This really shouldn't be done here
-        if (this.dataSource.filterConditions.services == null || ~this.dataSource.filterConditions.services.indexOf(request.service_code)) {
-          this.map.addLayer(marker);
-        }
+        this.map.addLayer(marker);
       }
       return;
       

@@ -11,10 +11,17 @@ var DailyBriefingController = function () {
     }
   };
   
-  this.requests = new Array();
-  this.requests['open'] = new Array();
-  this.requests['opened'] = new Array();
-  this.requests['closed'] = new Array();
+  this.allRequests = {
+    open: [],
+    opened: [],
+    closed: []
+  };
+  
+  this.requests = {
+    open: [],
+    opened: [],
+    closed: []
+  };
   
   this.areas = new Array();
   this.services = new Array();
@@ -34,10 +41,11 @@ var DailyBriefingController = function () {
   this.api.find('requests',
                 null,
                 '{"endpoint": ' + Config.endpoint + ', "status": "open"}',
-                this.requests['open'],
+                this.allRequests['open'],
                 function(data, self) { 
-                  console.log('returned open request count is: ' + data.length) 
-                  self._refreshData()
+                  console.log('returned open request count is: ' + data.length);
+                  self._filterData();
+                  self._refreshData();
                 },
                 function(controller) { 
                   // using the instantaneous approach just above
@@ -54,10 +62,11 @@ var DailyBriefingController = function () {
                  '"requested_datetime": ' + 
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                  '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
-                this.requests['opened'],
+                this.allRequests['opened'],
                 function(data, self) { 
-                  console.log('returned opened request count is: ' + data.length) 
-                  self._refreshData()
+                  console.log('returned opened request count is: ' + data.length);
+                  self._filterData();
+                  self._refreshData();
                 },
                 function(controller) {},
                 this);
@@ -70,10 +79,11 @@ var DailyBriefingController = function () {
                  '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                  '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
                  '"status": "closed"}',
-                this.requests['closed'],
+                this.allRequests['closed'],
                 function(data, self) { 
-                  console.log('returned closed request count is: ' + data.length) 
-                  self._refreshData()
+                  console.log('returned closed request count is: ' + data.length);
+                  self._filterData();
+                  self._refreshData();
                 },
                 function(controller) {},
                 this);
@@ -99,10 +109,34 @@ var DailyBriefingController = function () {
 DailyBriefingController.prototype = {
   constructor: DailyBriefingController,
   
+  updateData: function () {
+    
+  },
+  
   updateFilters: function (newFilters) {
+    if (!(newFilters.area == null && this.filterConditions.area == null) && !this.arraysAreEquivalent(newFilters.area, this.filterConditions.area)) {
+      // TODO: hit the server to do new spatial queries
+      console.error("Results are wrong because we need to do a new spatial query")
+    }
+    this.filterConditions = newFilters;
     
-    
-    this.filterConditions = event.data;
+    // populate this.requests based on new filters
+    this._filterData(newFilters);
+  },
+  
+  _filterData: function (filters) {
+    filters = filters || this.filterConditions;
+    for (var state in this.allRequests) {
+      // TODO: this should probably be an empty array for filtered out states; not doing so for the sake of the legend right now
+      // if (~filters.states.indexOf(state)) {
+        this.requests[state] = this.allRequests[state].filter(function (request) {
+          return filters.services == null || ~filters.services.indexOf(request.service_code);
+        }, this);
+      // }
+      // else {
+      //   this.requests[state] = [];
+      // }
+    }
   },
   
   _refreshData: function () {
@@ -124,4 +158,18 @@ DailyBriefingController.prototype = {
       this._refreshData();
     }
   },
+  
+  // FIXME: this really shouldn't be here
+  // would be nice on Array.prototype...
+  arraysAreEquivalent: function (a, b) {
+    if (!a || !b || a.length !== b.length) {
+      return false;
+    }
+    for (var i=0, len=a.length; i < len; i++) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 };
