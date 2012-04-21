@@ -95,7 +95,7 @@ var DailyBriefingController = function () {
                         this.areas,
                         function(data, self) {
                           self.areas = data.boundaries;
-						  self.services = data.services;
+                          self.services = data.services;
                           console.log("boundaries filter count: " 
                             + self.areas.length);
                           console.log("services filter count: " 
