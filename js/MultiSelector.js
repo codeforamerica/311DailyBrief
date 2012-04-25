@@ -1,7 +1,8 @@
-var MultiSelector = function MultiSelector (element, options) {
+var MultiSelector = function MultiSelector (element, options, allAsNull) {
   this.showing = false;
   this.options = [];
   this.element = element;
+  this.allAsNull = allAsNull || true;
   $(element).addClass("MultiSelector");
   this._initializeElement();
   if (options) {
@@ -58,13 +59,18 @@ MultiSelector.prototype = {
   
   getValue: function () {
     var value = [];
+    var anyUnchecked = false;
     for (var i=0, len=this.options.length; i < len; i++) {
       var checked = this.options[i].element.getElementsByTagName("input")[0].checked;
       if (checked) {
         value.push(this.options[i].value);
       }
+      else {
+        anyUnchecked = true;
+      }
     }
-    return value;
+    
+    return (!anyUnchecked && this.allAsNull) ? null : value;
   },
   
   setValue: function (value) {
