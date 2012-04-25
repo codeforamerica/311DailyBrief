@@ -1,5 +1,7 @@
 var MapController = function () {
   this.dataSource = null;
+  // this._markerPool = {};
+  this._markerPoolSize = 500;
   this._initializeMap();
   
   this.selectedArea = null; // Save the state of the ward selector so we don't move the map unnecessarily
@@ -11,6 +13,7 @@ var MapController = function () {
   }
   
   this.map.setView(new L.LatLng(this.defaultView.center[0], this.defaultView.center[1]), this.defaultView.zoom);
+  this.done = false;
 };
 
 MapController.ICONS = {
@@ -41,10 +44,10 @@ MapController.prototype = {
   update: function () {
     var requests = this.dataSource.requests;
     
-    this.updateMapCenterZoom();    
-    
     // TODO: be more efficient! (use layer groups?)
     this._clearMarkers();
+    this._addedMarkers = 0;
+        
     if (~this.dataSource.filterConditions.states.indexOf("closed")) {
       requests.closed.forEach(this._addMarkerForRequest("closed", this._mapped), this);
     }
@@ -54,6 +57,8 @@ MapController.prototype = {
     if (~this.dataSource.filterConditions.states.indexOf("open")) {
       requests.open.forEach(this._addMarkerForRequest("open", this._mapped), this);
     }
+    
+    this.updateMapCenterZoom();
   },
   
   _clearMarkers: function () {
@@ -61,6 +66,8 @@ MapController.prototype = {
       var markers = this._typeLayers[state];
       for (var key in markers) {
         this.map.removeLayer(markers[key]);
+        delete markers[key];
+        delete this._mapped[key];
       }
     }
   },
@@ -72,28 +79,17 @@ MapController.prototype = {
     
     return function (request) {
       // if a request is in more than one collection, we don't want to map it multiple times
-      var marker = this._typeLayers[type][request.service_request_id];
-      if (!marker && this._addedMarkers < 500) {
+      var requestId = request.service_request_id || request.token;
+      var marker;
+      if (!mapped[requestId] && this._addedMarkers < this._markerPoolSize) {
         this._addedMarkers++;
         marker = this.markerForRequest(request, type);
         marker.bindPopup(this.popupForRequest(request));
-        this._typeLayers[type][request.service_request_id] = marker;
-      }
-      if (marker) {
-        mapped[request.service_request_id] = request;
+        
+        this._typeLayers[type][requestId] = marker;
+        mapped[requestId] = request;
         
         this.map.addLayer(marker);
-      }
-      return;
-      
-      if (!mapped[request.service_request_id]) {
-        mapped[request.service_request_id] = request;
-        var marker = this.markerForRequest(request, type);
-        marker.bindPopup(this.popupForRequest(request));
-        this.map.addLayer(marker);
-        
-        // remember the marker so we can remove it later
-        this._typeLayers[type].push(marker);
       }
     };
   },
@@ -107,8 +103,9 @@ MapController.prototype = {
   
   popupForRequest: function (request) {
     // TODO: need some sort of templating support here
+    var boundaryText = request.boundary ? ("<br/>" + request.boundary) : "";
     return request.service_name + 
-           "<p>" + request.address + "</p>" +
+           "<p>" + request.address + boundaryText + "</p>" +
            "<p>" + request.description + "</p>" +
            "<p>Created: " + request.requested_datetime + "</p>" + 
            (request.status === "closed" ? "(Closed)" : "");

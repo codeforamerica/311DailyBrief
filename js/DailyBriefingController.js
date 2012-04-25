@@ -1,4 +1,6 @@
 var DailyBriefingController = function () {
+  this.rebuildDataForBoundaries = false;
+  
   // default filters
   this.filterConditions = {
     area: null, // null means the whole city
@@ -9,12 +11,6 @@ var DailyBriefingController = function () {
       from: (dateTools.today().getDay() === 1) ? dateTools.subtract(dateTools.today(), dateTools.ONE_DAY * 3) : dateTools.yesterday(),
       to: dateTools.today()
     }
-  };
-  
-  this.allRequests = {
-    open: [],
-    opened: [],
-    closed: []
   };
   
   this.requests = {
@@ -37,57 +33,6 @@ var DailyBriefingController = function () {
   
   eventManager.subscribe("filtersChanged", this);
 
-  // get all open requests from the API and refresh app controllers
-  this.api.find('requests',
-                null,
-                '{"endpoint": ' + Config.endpoint + ', "status": "open"}',
-                this.allRequests['open'],
-                function(data, self) { 
-                  console.log('returned open request count is: ' + data.length);
-                  self._filterData();
-                  self._refreshData();
-                },
-                function(controller) { 
-                  // using the instantaneous approach just above
-                  // using this, finalize callback would only draw 
-                  // on the map once all data is available
-                  //controller._refreshData()
-                },
-                this);
-
-  // get all opened requests from the API and refresh app controllers
-  this.api.find('requests',
-                null,
-                '{"endpoint": ' + Config.endpoint + ',' + 
-                 '"requested_datetime": ' + 
-                 '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
-                 '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
-                this.allRequests['opened'],
-                function(data, self) { 
-                  console.log('returned opened request count is: ' + data.length);
-                  self._filterData();
-                  self._refreshData();
-                },
-                function(controller) {},
-                this);
- 
-  // get all closed requests from the API and refresh app controllers
-  this.api.find('requests',
-                null,
-                '{"endpoint": ' + Config.endpoint + ',' + 
-                 '"updated_datetime": ' + 
-                 '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
-                 '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
-                 '"status": "closed"}',
-                this.allRequests['closed'],
-                function(data, self) { 
-                  console.log('returned closed request count is: ' + data.length);
-                  self._filterData();
-                  self._refreshData();
-                },
-                function(controller) {},
-                this);
-
   // this gets the collections of areas and services from the API
   // and passes them to the filterBar controller to use to populate the dropdowns 
   this.api.findDistinct('{"boundaries": 1}', 
@@ -104,21 +49,88 @@ var DailyBriefingController = function () {
                           self.filterBar.updateFilters();
                         },
                         this);
+                        
+  this.updateData();
 };
 
 DailyBriefingController.prototype = {
   constructor: DailyBriefingController,
   
   updateData: function () {
+    // clear current data
+    this.allRequests = {
+      open: [],
+      opened: [],
+      closed: []
+    };
     
+    // boundary filters have to be computed on the server...?
+    var boundaryFilter = "";
+    if (this.rebuildDataForBoundaries && this.filterConditions.area) {
+      boundaryFilter = ', "boundary": {"$in": ' + JSON.stringify(this.filterConditions.area) + '}';
+    }
+    
+    // get all open requests from the API and refresh app controllers
+    this.api.find('requests',
+                  null,
+                  '{"endpoint": ' + Config.endpoint + ', "status": "open"' + boundaryFilter + '}',
+                  this.allRequests['open'],
+                  function(data, self) { 
+                    console.log('returned open request count is: ' + data.length);
+                    self._filterData();
+                    self._refreshData();
+                  },
+                  function(controller) { 
+                    // using the instantaneous approach just above
+                    // using this, finalize callback would only draw 
+                    // on the map once all data is available
+                    //controller._refreshData()
+                  },
+                  this);
+
+    // get all opened requests from the API and refresh app controllers
+    this.api.find('requests',
+                  null,
+                  '{"endpoint": ' + Config.endpoint + ',' + 
+                   '"requested_datetime": ' + 
+                   '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                   '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
+                  this.allRequests['opened'],
+                  function(data, self) { 
+                    console.log('returned opened request count is: ' + data.length);
+                    self._filterData();
+                    self._refreshData();
+                  },
+                  function(controller) {},
+                  this);
+
+    // get all closed requests from the API and refresh app controllers
+    this.api.find('requests',
+                  null,
+                  '{"endpoint": ' + Config.endpoint + ',' + 
+                   '"updated_datetime": ' + 
+                   '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                   '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
+                   '"status": "closed"}',
+                  this.allRequests['closed'],
+                  function(data, self) { 
+                    console.log('returned closed request count is: ' + data.length);
+                    self._filterData();
+                    self._refreshData();
+                  },
+                  function(controller) {},
+                  this);
   },
   
   updateFilters: function (newFilters) {
-    if (!(newFilters.area == null && this.filterConditions.area == null) && !this.arraysAreEquivalent(newFilters.area, this.filterConditions.area)) {
-      // TODO: hit the server to do new spatial queries
-      console.error("Results are wrong because we need to do a new spatial query")
-    }
+    var oldFilters = this.filterConditions;
     this.filterConditions = newFilters;
+    
+    if (this.rebuildDataForBoundaries && !(newFilters.area == null && oldFilters.area == null) && !this.arraysAreEquivalent(newFilters.area, oldFilters.area)) {
+      // Because we might not be showing all markers, we're going to hit the server again. This should really be done client-side :\
+      this.updateData();
+      return;
+    }
     
     // populate this.requests based on new filters
     this._filterData(newFilters);
@@ -130,7 +142,9 @@ DailyBriefingController.prototype = {
       // TODO: this should probably be an empty array for filtered out states; not doing so for the sake of the legend right now
       // if (~filters.states.indexOf(state)) {
         this.requests[state] = this.allRequests[state].filter(function (request) {
-          return filters.services == null || ~filters.services.indexOf(request.service_code);
+          var passesServices = filters.services == null || ~filters.services.indexOf(request.service_code);
+              passesAreas = filters.area == null || ~filters.area.indexOf(request.boundary);
+          return passesServices && passesAreas;
         }, this);
       // }
       // else {

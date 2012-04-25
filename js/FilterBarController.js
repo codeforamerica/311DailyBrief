@@ -86,10 +86,11 @@ FilterBarController.prototype = {
     // var selectedState = this.statusSelector.value;
     var selectedService = this.serviceSelector.getValue();
     var selectedState = this.statusSelector.getValue();
+    var selectedArea = this.areaSelector.getValue();
     
     // TODO: should have something around default values
     var filters = {
-      area: this.areaSelector.value || null,
+      area: selectedArea || null,
       services: selectedService ? selectedService : null,
       states: selectedState ? selectedState : ["open", "opened", "closed"],
       dateRange: this.app.filterConditions.dateRange
