@@ -101,6 +101,7 @@ MultiSelector.prototype = {
     for (var i=0, len=options.length; i < len; i++) {
       this.addOption(options[i]);
     }
+    this.clearFilter();
   },
   
   addOption: function (option) {
@@ -119,8 +120,8 @@ MultiSelector.prototype = {
   },
   
   filterOptions: function (filter) {
-    var alwaysMatch = !filter;
     filter = filter && filter.toUpperCase();
+    var alwaysMatch = !filter;
     for (var i=0, len=this.options.length; i < len; i++) {
       var matches = alwaysMatch || this.options[i].name.toUpperCase().indexOf(filter) > -1;
       this.options[i].element.style.display = matches ? "" : "none";
