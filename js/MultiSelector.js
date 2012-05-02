@@ -105,21 +105,35 @@ MultiSelector.prototype = {
   updateLabel: function () {
     var names = [];
     // track whether all items were selected
-    var notAll = false;
+    var all = true;
     for (var i=0, len=this.options.length; i < len; i++) {
       var checked = this.options[i].element.getElementsByTagName("input")[0].checked;
       if (checked) {
         names.push(this.options[i].name);
       }
       else {
-        notAll = true;
+        all = false;
       }
     }
+    
     // "All", "None", or a list
-    var labelText = notAll ? names.join(", ") : "All";
-    if (!labelText) {
+    var quantity = names.length;
+    var labelText = quantity + " Selected";
+    if (quantity === 0) {
       labelText = "None";
     }
+    else if (quantity === 1) {
+      labelText = names[0];
+    }
+    else if (all) {
+      labelText = "All";
+    }
+    
+    // labelText = ({
+    //   "0": "None",
+    //   "1": names[0],
+    //   "true": "All"
+    // })[all || quantity] || quantity + " Selected";
     
     this.label.textContent = labelText;
   },
