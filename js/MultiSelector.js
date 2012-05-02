@@ -28,12 +28,27 @@ MultiSelector.prototype = {
     this.popup.className = "popup";
     this.element.appendChild(this.popup);
     
+    // Filter
+    var filterContainer = document.createElement("div");
+    filterContainer.className = "MultiSelector-filter";
+    this.filterField = document.createElement("input");
+    this.filterField.type = "search";
+    this.filterField.addEventListener("keyup", this, false);
+    this.filterField.addEventListener("change", this, false);
+    // WebKit automatically provides this, but we might want it for other browsers...
+    // this.clearFilterButton = document.createElement("button");
+    // this.clearFilterButton.appendChild(document.createTextNode("Clear"));
+    // this.clearFilterButton.addEventListener("click", this);
+    filterContainer.appendChild(this.filterField);
+    // filterContainer.appendChild(this.clearFilterButton);
+    this.popup.appendChild(filterContainer);
+    
     // Buttons
     this.allButton = document.createElement("button");
-    this.allButton.appendChild(document.createTextNode("All"))
+    this.allButton.appendChild(document.createTextNode("All"));
     this.allButton.className = "left button-all";
     this.noneButton = document.createElement("button");
-    this.noneButton.appendChild(document.createTextNode("None"))
+    this.noneButton.appendChild(document.createTextNode("None"));
     this.noneButton.className = "right button-none";
     var buttonContainer = document.createElement("div");
     buttonContainer.className = "MultiSelector-buttons";
@@ -50,6 +65,7 @@ MultiSelector.prototype = {
   show: function () {
     $(this.popup).fadeIn();
     this.showing = true;
+    this.filterField.focus();
   },
   
   hide: function () {
@@ -102,6 +118,20 @@ MultiSelector.prototype = {
     });
   },
   
+  filterOptions: function (filter) {
+    var alwaysMatch = !filter;
+    filter = filter && filter.toUpperCase();
+    for (var i=0, len=this.options.length; i < len; i++) {
+      var matches = alwaysMatch || this.options[i].name.toUpperCase().indexOf(filter) > -1;
+      this.options[i].element.style.display = matches ? "" : "none";
+    }
+  },
+  
+  clearFilter: function () {
+    this.filterField.value = "";
+    this.filterOptions(null);
+  },
+  
   updateLabel: function () {
     var names = [];
     // track whether all items were selected
@@ -139,7 +169,14 @@ MultiSelector.prototype = {
   },
   
   handleEvent: function (event) {
-    if (event.type === "click") {
+    if (event.target === this.filterField) {
+      this.filterOptions(this.filterField.value);
+    }
+    
+    if (event.type === "click" && event.target === this.clearFilterButton) {
+      this.clearFilter();
+    }
+    else if (event.type === "click") {
       // Clicking anywhere on an item toggles it
       if (this.listElement == event.currentTarget && this.listElement != event.target) {
         // find li
