@@ -57,6 +57,25 @@
 		color: #fff;
 	}
 	
-	#filters .unapplied-changes {
+	#filters.unapplied-changes > button {
 		background-color: #a8a7a7;
+	}
+	
+	#filters > #filters_clear {
+		display: none;
+		width: 25px;
+		height: 25px;
+		margin: 0 0 0 5px;
+		padding: 0;
+		text-indent: -100em;
+		overflow: hidden;
+		background: url("../images/x.png");
+	}
+		
+	#filters > #filters_clear:hover {
+		background: url("../images/x_hover.png");
+	}
+	
+	#filters.has-filters > #filters_clear {
+		display: inline-block;
 	}

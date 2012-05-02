@@ -136,6 +136,14 @@ DailyBriefingController.prototype = {
     this._filterData(newFilters);
   },
   
+  currentFiltersEqual: function (filters) {
+    return this.arraysAreEquivalent(filters.area, this.filterConditions.area) &&
+           this.arraysAreEquivalent(filters.states, this.filterConditions.states) &&
+           this.arraysAreEquivalent(filters.services, this.filterConditions.services) &&
+           filters.dateRange.from.getTime() === this.filterConditions.dateRange.from.getTime() &&
+           filters.dateRange.to.getTime() === this.filterConditions.dateRange.to.getTime();
+  },
+  
   _filterData: function (filters) {
     filters = filters || this.filterConditions;
     for (var state in this.allRequests) {
@@ -176,6 +184,10 @@ DailyBriefingController.prototype = {
   // FIXME: this really shouldn't be here
   // would be nice on Array.prototype...
   arraysAreEquivalent: function (a, b) {
+    // if it's the same array or if both are null/undefined
+    if (a == b) {
+      return true;
+    }
     if (!a || !b || a.length !== b.length) {
       return false;
     }

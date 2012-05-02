@@ -16,10 +16,12 @@ var FilterBarController = function (appController) {
   this.serviceSelector.subscribe("change", this);
   
   this.applyButton = document.getElementById("filters_apply");
+  this.clearButton = document.getElementById("filters_clear");
   
   this._initializeFilters();
   
   this.applyButton.addEventListener("click", this, false);
+  this.clearButton.addEventListener("click", this, false);
 };
 
 FilterBarController.prototype = {
@@ -77,18 +79,23 @@ FilterBarController.prototype = {
   },
   
   handleEvent: function (event) {
-    if (event.type === "change") {
-      $(this.applyButton).addClass("unapplied-changes");
-      return;
-    }
-    // this will all change when we have a more complicated multiselect control
-    // var selectedService = this.serviceSelector.value;
-    // var selectedState = this.statusSelector.value;
     var selectedService = this.serviceSelector.getValue();
     var selectedState = this.statusSelector.getValue();
     var selectedArea = this.areaSelector.getValue();
     
-    // TODO: should have something around default values
+    if (event.type === "change") {
+      $(this.element).addClass("unapplied-changes");
+    }
+    
+    if (event.target === this.clearButton) {
+      this.serviceSelector.setValue();
+      this.statusSelector.setValue();
+      this.areaSelector.setValue();
+      selectedService = null;
+      selectedState = null;
+      selectedArea = null;
+    }
+    
     var filters = {
       area: selectedArea || null,
       services: selectedService ? selectedService : null,
@@ -96,9 +103,15 @@ FilterBarController.prototype = {
       dateRange: this.app.filterConditions.dateRange
     };
     
-    // dispatch an event that the filter conditions have changed
-    this.dispatchEvent("filtersChanged", filters);
-    $(this.applyButton).removeClass("unapplied-changes");
+    if (event.target === this.applyButton) {
+      // dispatch an event that the filter conditions have changed
+      this.dispatchEvent("filtersChanged", filters);
+      $(this.element).removeClass("unapplied-changes");
+    }
+    
+    $(this.element)
+      [selectedService || selectedState || selectedArea ? "addClass" : "removeClass"]("has-filters")
+      [this.app.currentFiltersEqual(filters) ? "removeClass" : "addClass"]("unapplied-changes");
   }
 };
 
