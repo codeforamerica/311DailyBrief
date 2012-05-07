@@ -2,8 +2,8 @@
 	cursor: default;
 	position: relative;
 	display: inline-block;
-	width: 100px;
-	margin: 0 1em 0 0.25em;
+	width: 110px;
+	margin: 0 0 0 0.25em;
 }
 	
 	.MultiSelector .label {
@@ -19,12 +19,21 @@
 		padding-right: 20px;
 		background: url("../images/disclosure_arrow_white.png") no-repeat right center;
 		border-bottom: 1px solid #fff;
+		
+		/* White boxes */
+		/* TODO: merge this with above */
+		display: block;
+		color: #333;
+		padding: 0 20px 0 6px;
+		background: #fff url("../images/disclosure_arrow_black.png") no-repeat 94% 50%;
+		height: 25px;
+		line-height: 26px;
 	}
 	
 	.MultiSelector .popup {
 		display: none;
 		position: absolute;
-		top: 37px;
+		top: 28px;
 		left: 0px;
 		right: 0px;
 		padding: 10px;
