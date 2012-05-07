@@ -5,6 +5,6 @@ var Config = {
   title: 'Baltimore', // string
   boundaryTitle: 'Neighborhood',
   description: "Service requests available through the city's Open311 API.",
-  useCanvasMap: true,
+  useCanvasMap: false,
   maxMarkers: 500
 };

@@ -52,12 +52,7 @@ var eventManager = {
    * Add event dispatch capabilities to a class 
    */
   mix: function (mixInto) {
-    var prototype = mixInto.prototype;
-    for (var key in this._dispatcher) {
-      if (!prototype[key]) {
-        prototype[key] = this._dispatcher[key];
-      }
-    }
+    Utils.extend(mixInto, this._dispatcher);
   },
   
   _subscriptionsFor: function (eventName) {
