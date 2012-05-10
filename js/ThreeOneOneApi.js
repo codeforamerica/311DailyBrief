@@ -1,9 +1,5 @@
 var ThreeOneOneApi = function () {
-
-  this.MONGOHQ_API_BASE_URI = 'https://api.mongohq.com/databases/chicago/collections/'
-  // this is jesse's key, using for now because Smart Chi's key is FUBAR
-  this.MONGOHQ_API_KEY = 'tvepg5ejlqmvfh6ph52i'
-
+  this.MONGOHQ_API_BASE_URI = 'http://mongoprox.herokuapp.com/databases/chicago/collections/'
 };
 
 ThreeOneOneApi.REQUEST_STATES = {
@@ -24,8 +20,8 @@ ThreeOneOneApi.prototype = {
     var dataUri = this.MONGOHQ_API_BASE_URI + 
                   "distinct/" +
                   'documents?' +
-                  '_apikey=' + this.MONGOHQ_API_KEY + "&" +
-                  'q=' + query;
+                  'q=' + query +
+                  '&callback=?';
 
     $.getJSON(dataUri, function(data) {
         results = data[0];
@@ -43,10 +39,10 @@ ThreeOneOneApi.prototype = {
     var dataUri = this.MONGOHQ_API_BASE_URI + 
                   collection + "/" +
                   'documents?' +
-                  '_apikey=' + this.MONGOHQ_API_KEY + "&" +
                   'limit=100&' + 
                   'q=' + query + '&' +
-                  'skip=' + skipCount;
+                  'skip=' + skipCount + 
+                  '&callback=?';
 
     // keep calling until we cannot get any more data from API
     $.getJSON(dataUri, function(data) {
