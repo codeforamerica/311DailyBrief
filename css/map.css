@@ -1,5 +1,10 @@
 /* MAP CUSTOMIZATIONS */
 
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
 /* top-left and top-right control containers */
 .leaflet-top {
 	/* account for the filter bar */
