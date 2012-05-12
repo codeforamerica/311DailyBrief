@@ -2,6 +2,11 @@
  * Quick 'n diry event management that we will hopefully get rid of
  */
 
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
 var eventManager = {
   dispatchEvent: function (source, eventName, data) {
     var subscribers = this._subscriptionsFor(eventName);
