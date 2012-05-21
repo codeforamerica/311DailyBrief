@@ -7,7 +7,7 @@
 	cursor: default;
 	position: relative;
 	display: inline-block;
-	width: 110px;
+	width: 172px;
 	margin: 0 0 0 0.25em;
 }
 	
@@ -38,7 +38,7 @@
 	.MultiSelector .popup {
 		display: none;
 		position: absolute;
-		top: 28px;
+		top: 25px;
 		left: 0px;
 		right: 0px;
 		padding: 10px;
