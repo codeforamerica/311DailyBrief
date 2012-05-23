@@ -12,6 +12,11 @@
 	left: 30px;
 }
 
+.leaflet-popup-close-button {
+  top: 11px;
+  right: 11px;
+}
+
 .leaflet-popup-content h4 {
   margin: 13px auto 0px;
   font-size: 13px;
