@@ -82,12 +82,11 @@ MapController.prototype = {
     // TODO: need some sort of templating support here
     var boundaryText = request.boundary ? ("<br/>" + request.boundary) : "";
 
-    return request.service_name + 
-           "<p>" + request.address + boundaryText + "</p>" +
-           "<p>" + request.description + "</p>" +
-           "<p>Created: " + request.requested_datetime + "</p>" + 
-           "<p>Lat/long: " + request.lat + "/" + request.long + "</p>" + 
-           (request.status === "closed" ? "(Closed)" : "");
+    return "<h2>" + request.service_name + "</h2>" + 
+           "<h4>Address</h4><p>" + request.address + boundaryText + "</p>" +
+           "<h4>Description</h4><p>" + request.description + "</p>" +
+           "<h4>Created</h4><p>" + request.requested_datetime + "</p>" + 
+           (request.status === "closed" ? "<h5>CLOSED</h5>" : "");
   },
   
   updateMapCenterZoom: function() {

@@ -11,3 +11,20 @@
 	top: 90px;
 	left: 30px;
 }
+
+.leaflet-popup-content h4 {
+  margin: 13px auto 0px;
+  font-size: 13px;
+}
+
+.leaflet-popup-content p {
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 10px;
+  font-size: 13px;
+}
+
+.leaflet-popup-content h5 {
+  margin-bottom: 0px;
+  font-size: 13px;
+  font-weight: bold;
+}

@@ -56,9 +56,10 @@ $(function () {
 				if (!requests[request.service_request_id]) {
 					requests[request.service_request_id] = request;
 					var marker = new L.Marker(new L.LatLng(request.lat, request.long), {icon: new L.Icon(icons.orange)});
+					console.log("adding closed");
 					marker.bindPopup(request.service_name + 
-					                 "<p>" + request.address + "</p>" +
-					                 "<p>" + request.description + "</p>" +
+					                 "Address" + "<p>" + request.address + "</p>" +
+					                 "<h4>Description</h4>" + "<p>" + request.description + "</p>" +
 					                 "<p>Created: " + request.requested_datetime + "</p>" + 
 					                 (request.status === "closed" ? "(Closed)" : ""));
 					map.addLayer(marker);
