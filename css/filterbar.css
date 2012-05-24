@@ -61,11 +61,7 @@
 		text-transform: uppercase;
 		color: #fff;
 	}
-	
-	#filters.unapplied-changes > button {
-		background-color: #a8a7a7;
-	}
-	
+
 	#filters > #filters_clear {
 		display: none;
 		width: 25px;
