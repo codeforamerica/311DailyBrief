@@ -38,6 +38,7 @@ MultiSelector.prototype = {
     filterContainer.className = "MultiSelector-filter";
     this.filterField = document.createElement("input");
     this.filterField.type = "search";
+    this.filterField.placeholder = "Search";
     this.filterField.addEventListener("keyup", this, false);
     this.filterField.addEventListener("change", this, false);
     // WebKit automatically provides this, but we might want it for other browsers...
