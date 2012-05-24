@@ -4,7 +4,7 @@
  */
 
 var Config = {
-  center: [39.2903848, -76.61218930000001], // [lat, lon]
+  center: [55.2903848, -76.61218930000001], // [lat, lon]
   zoom: 13, // integer
   endpoint: 'baltimore', // string
   title: 'Baltimore', // string

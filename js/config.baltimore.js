@@ -9,5 +9,5 @@ var Config = {
   endpoint: 'baltimore', // string
   title: 'Baltimore', // string
   boundaryTitle: 'Neighborhood',
-  description: "Service requests available through the city's Open311 API."
+  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
 };
