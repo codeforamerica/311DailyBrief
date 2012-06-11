@@ -208,3 +208,73 @@ header a:hover {
   }
 }
 
+#wordlist {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 130px;
+  right: 10px;
+  width: 200px;
+  height: 525px;
+  overflow-y: scroll;
+}
+
+#wordlist span{
+  font-size: 0.8em;
+  color: #c0c0c0;
+}
+
+#wordlist .title {
+  color: #fff;
+  margin: 0;
+  padding: 10px 8px 10px 40px;
+  background: rgba(77, 79, 80, 0.8);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#wordlist ol {
+  color: #fff;
+  margin-left: 10px;
+}
+
+#medialist {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  bottom: 135px;
+  left: 10px;
+  width: 185px;
+  height: 280px;
+}
+
+#medialist span{
+  font-size: 0.8em;
+  color: #c0c0c0;
+}
+
+#medialist .title {
+  color: #fff;
+  margin: 0;
+  padding: 10px 8px 10px 40px;
+  background: rgba(77, 79, 80, 0.8);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#medialist ol {
+  margin-left: 0px;
+}
+
+#medialist img {
+  width: 165px;
+  height: 220px;
+  margin: 10px;
+}
+
+#medialist div.scroller {
+    overflow-x: hidden;
+}
+
+#medialist div.imgcontainer {
+    width: 18500px;
+    position: relative;
+}

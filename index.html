@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/filterbar.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/map.css" type="text/css" media="screen">
 
+    <script type="text/javascript" src="js/inflection.js"></script>
     <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     
@@ -35,6 +36,8 @@
     <script src="js/MultiSelector.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/FilterBarController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/HeaderBarController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/WordsController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/MediaController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/LegendController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/MapController.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/MapController.MarkerRenderer.js" type="text/javascript" charset="utf-8"></script>
@@ -66,9 +69,27 @@
       </ul>
       <button id="filters_clear">Clear</button>
     </section>
-    
+
     <div id="map"></div>
     
+    <section id="wordlist">
+      <p class="title">
+        Words Used
+      </p>
+      <ol>
+        
+      </ol>
+    </section>
+
+    <section id="medialist">
+      <p class="title">
+        Media
+      </p>
+      <div class="scroller">
+        <div class="imgcontainer"></div>
+      </div>
+    </section>
+
     <div id="legend">
       <section id="legend-info">
         <h1>City</h1>
