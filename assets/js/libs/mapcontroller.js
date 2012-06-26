@@ -34,15 +34,15 @@ var MapController = function () {
 };
 
 MapController.ICONS = {
-  "default": new L.Icon("images/marker_red.png"),
-  opened:    new L.Icon("images/marker_orange.png"),
-  closed:    new L.Icon("images/marker_blue.png") 
+  "default": new L.Icon("/assets/img/marker_red.png"),
+  opened:    new L.Icon("/assets/img/marker_orange.png"),
+  closed:    new L.Icon("/assets/img/marker_blue.png") 
 };
 
 MapController.ICON_PATHS = {
-  "default": "images/marker_red.png",
-  opened:    "images/marker_orange.png",
-  closed:    "images/marker_blue.png"
+  "default": "/assets/img/marker_red.png",
+  opened:    "/assets/img/marker_orange.png",
+  closed:    "/assets/img/marker_blue.png"
 };
 
 MapController.prototype = {

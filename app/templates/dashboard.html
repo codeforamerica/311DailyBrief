@@ -1,0 +1,46 @@
+<header>
+    <a href="http://codeforamerica.github.com/311DailyBrief/"><img src="/assets/img/daily_brief.png"></a>
+  <p>for the morning of <span id="todays_date">today</span></p>
+  <p class="poweredby"> Powered by <a href="http://open311.org/" target="_blank">Open311</a></p>
+</header>
+
+<section id="filters">
+  <p class="title">
+    Filter
+    <span class="endcap"></span>
+  </p>
+  <ul>
+    <li><span id="boundaryTitle">Ward</span>: <span id="filters_area"></span></li>
+    <li>Service: <span id="filters_service"></span></li>
+    <li>Status: <span id="filters_status"></span></li>
+  </ul>
+  <button id="filters_clear">Clear</button>
+</section>
+
+<div id="map"></div>
+
+<div id="legend">
+
+  <section id="legend-info">
+    <h1>City</h1>
+    <!-- Changing the contents of the p tag will not change the tag file. 
+         Go instead to the config file to change the text. -->
+    <p></p>
+  </section>
+
+  <section id="legend-open" class="legend-status active">
+    <h1>Open</h1>
+    <p><span class="value">0</span> requests</p>
+  </section>
+
+  <section id="legend-newly-opened" class="legend-status active">
+    <h1>Opened Yesterday</h1>
+    <p><span class="value">0</span> requests</p>
+  </section>
+
+  <section id="legend-newly-closed" class="legend-status active">
+    <h1>Closed Yesterday</h1>
+    <p><span class="value">0</span> requests</p>
+  </section>
+  
+</div>

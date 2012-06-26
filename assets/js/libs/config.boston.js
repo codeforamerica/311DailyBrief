@@ -3,10 +3,12 @@
  * BSD-style license; see the file LICENSE for details.
  */
 
-var Config = {
+var ConfigBoston = {
   center: [42.313878,-71.078796], // [lat, lon]
-  zoom: 12, // integer
+  zoom: 13, // integer
   endpoint: 'boston', // string
+  useCanvasMap: false,
+  maxMarkers: 500,
   title: 'Boston', // string
   boundaryTitle: 'Neighborhood',
   description: "Service requests available through the city's Open311 API."

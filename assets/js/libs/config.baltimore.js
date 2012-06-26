@@ -4,12 +4,13 @@
  */
 
 var Config = {
-  center: [55.2903848, -76.61218930000001], // [lat, lon]
+  center: [39.283904, -76.61218930000001], // [lat, lon]
   zoom: 13, // integer
   endpoint: 'baltimore', // string
   title: 'Baltimore', // string
   boundaryTitle: 'Neighborhood',
-  description: "Service requests available through the city's Open311 API.",
-  useCanvasMap: true,
-  maxMarkers: 500
+  useCanvasMap: false,
+  maxMarkers: 500,
+  boundaryTitle: 'Neighborhood',
+  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
 };

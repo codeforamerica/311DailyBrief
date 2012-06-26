@@ -33,7 +33,7 @@
 			right: -16px;
 			width: 16px;
 			height: 100%;
-			background: url("../images/filter_arrow.png");
+			background: url("/assets/img/filter_arrow.png");
 			opacity: 0.8;
 		}
 	
@@ -70,11 +70,11 @@
 		padding: 0;
 		text-indent: -100em;
 		overflow: hidden;
-		background: url("../images/x.png");
+		background: url("/assets/img/x.png");
 	}
 		
 	#filters > #filters_clear:hover {
-		background: url("../images/x_hover.png");
+		background: url("/assets/img/x_hover.png");
 	}
 	
 	#filters.has-filters > #filters_clear {
