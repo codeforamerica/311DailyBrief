@@ -14775,6 +14775,51 @@ function($, _, Backbone) {
  * BSD-style license; see the file LICENSE for details.
  */
 
+var Config = {
+  center: [39.283904, -76.61218930000001], // [lat, lon]
+  zoom: 13, // integer
+  endpoint: 'baltimore', // string
+  title: 'Baltimore', // string
+  boundaryTitle: 'Neighborhood',
+  useCanvasMap: false,
+  maxMarkers: 500,
+  boundaryTitle: 'Neighborhood',
+  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
+};
+
+define("configbaltimore", (function (global) {
+    return function () {
+        return global.Config;
+    }
+}(this)));
+
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
+var ConfigBoston = {
+  center: [42.313878,-71.078796], // [lat, lon]
+  zoom: 13, // integer
+  endpoint: 'boston', // string
+  useCanvasMap: false,
+  maxMarkers: 500,
+  title: 'Boston', // string
+  boundaryTitle: 'Neighborhood',
+  description: "Service requests available through the city's Open311 API."
+};
+
+define("configboston", (function (global) {
+    return function () {
+        return global.ConfigBoston;
+    }
+}(this)));
+
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
 var Utils = {
   extend: function (object, extensions) {
     if (object.prototype) {
@@ -15028,29 +15073,6 @@ LegendController.prototype = {
 define("legendcontroller", (function (global) {
     return function () {
         return global.LegendController;
-    }
-}(this)));
-
-/* Copyright (C) 2012, Code for America
- * This is open source software, released under a standard 2-clause
- * BSD-style license; see the file LICENSE for details.
- */
-
-var Config = {
-  center: [39.283904, -76.61218930000001], // [lat, lon]
-  zoom: 13, // integer
-  endpoint: 'baltimore', // string
-  title: 'Baltimore', // string
-  boundaryTitle: 'Neighborhood',
-  useCanvasMap: false,
-  maxMarkers: 500,
-  boundaryTitle: 'Neighborhood',
-  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
-};
-
-define("configbaltimore", (function (global) {
-    return function () {
-        return global.Config;
     }
 }(this)));
 
@@ -16236,11 +16258,14 @@ function(app, Backbone, DailyBriefingController) {
   Dashboard.Views.Main = Backbone.View.extend({
     template: "app/templates/dashboard",
 
+    config: null,
+
     render: function(done) {
       var tmpl = app.fetchTemplate(this.template);
 
       // Set the template contents
       this.$el.html(tmpl());
+      Config = this.config;
       dbc = new DailyBriefingController();
 
     }
@@ -16259,21 +16284,37 @@ require([
   // Libs
   "jquery",
   "backbone",
+  "configbaltimore",
+  "configboston",
 
   // modules
   "modules/dashboard"
 ],
 
-function(app, $, Backbone, Dashboard) {
+function(app, $, Backbone, Config, ConfigBoston, Dashboard) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
-      "": "index"
+      "": "index",
+      ":city": "city"
     },
 
     index: function() {
       var main = new Dashboard.Views.Main();
+      main.config = Config;
+
+      main.$el.appendTo("#main");
+      main.render();
+    },
+
+    city: function(city) {
+      var main = new Dashboard.Views.Main();
+
+      if (city === 'boston') {
+        main.config = ConfigBoston;
+      } else
+        main.config = Config;
 
       main.$el.appendTo("#main");
       main.render();
@@ -16333,6 +16374,7 @@ require.config({
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone",
     configbaltimore: "../assets/js/libs/config.baltimore",
+    configboston: "../assets/js/libs/config.boston",
     utils: "../assets/js/libs/utils",
     datetools: "../assets/js/libs/datetools",
     eventmanager: "../assets/js/libs/eventmanager",
@@ -16381,7 +16423,11 @@ require.config({
       exports: "LegendController"
     },
     configbaltimore: {
+      // default
       exports: "Config"
+    },
+    configboston: {
+      exports: "ConfigBoston"
     },
     mapcontroller: {
       exports: "MapController"
