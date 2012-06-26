@@ -28,8 +28,9 @@ MapController.MarkerRenderer = {
     var requests = this.dataSource.requests;
     
     // TODO: be more efficient! (use layer groups?)
-    this._clearMarkers();
-    this._addedMarkers = 0;
+    // XXX: this was causing markers to flash and not honor 500 limit
+    //this._clearMarkers();
+    //this._addedMarkers = 0;
       
     if (~this.dataSource.filterConditions.states.indexOf("closed")) {
       requests.closed.forEach(this._addMarkerForRequest("closed", this._mapped), this);

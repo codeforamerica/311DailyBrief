@@ -1,97 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- Copyright (C) 2012, Code for America
-     This is open source software, released under a standard 2-clause
-     BSD-style license; see the file LICENSE for details. -->
+  <title>Daily Brief</title>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>311 Daily Briefing</title>
-    <style>
-      article, aside, dialog, figure, footer, header,
-      hgroup, menu, nav, section { display: block; }
-    </style>
-    <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
-    <![endif]-->
-    <link rel="stylesheet" href="css/base.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="css/multiselector.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="css/filterbar.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="css/map.css" type="text/css" media="screen">
+  <!-- Application styles -->
+  <link rel="stylesheet" href="/assets/css/index.css">
+  <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://code.leafletjs.com/leaflet-0.3.1/leaflet.ie.css" />
+  <![endif]-->
+</head>
 
-    <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    
-    <!-- Utils -->
-    <!-- config.*.js is actually a configuration / localization file -->
-    <script src="js/config.baltimore.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/Utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/dateTools.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/eventManager.js" type="text/javascript" charset="utf-8"></script>
-    <!-- API -->
-    <script src="js/ThreeOneOneApi.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/MultiSelector.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/FilterBarController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/HeaderBarController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/LegendController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/MapController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/MapController.MarkerRenderer.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/MapController.CanvasRenderer.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/DailyBriefingController.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
-    <!-- <script src="js/app.js" type="text/javascript" charset="utf-8"></script> -->
-  </head>
-  <body>
-    
-    <header>
-	    <a href="http://codeforamerica.github.com/311DailyBrief/"><img src="images/daily_brief.png"></a>
-      <p>for the morning of <span id="todays_date">today</span></p>
-      <p class="poweredby"> Powered by <a href="http://open311.org/" target="_blank">Open311</a></p>
-    </header>
-    
-    <section id="filters">
-      <p class="title">
-        Filter
-        <span class="endcap"></span>
-      </p>
-      <ul>
-        <!-- <li>Ward: <select id="filters_area"><option value="">All</option></select></li> -->
-        <!-- <li>Service: <select id="filters_service"><option value="">All</option></select></li> -->
-        <!-- <li>Status: <select id="filters_status"><option value="">All</option></select></li> -->
-        <li><span id="boundaryTitle">Ward</span>: <span id="filters_area"></span></li>
-        <li>Service: <span id="filters_service"></span></li>
-        <li>Status: <span id="filters_status"></span></li>
-      </ul>
-      <button id="filters_clear">Clear</button>
-    </section>
-    
-    <div id="map"></div>
-    
-    <div id="legend">
-      <section id="legend-info">
-        <h1>City</h1>
-        <!-- Changing the contents of the p tag will not change the tag file. Go instead to the config file to change the text. -->
-        <p></p>
-      </section>
-      
-      <section id="legend-open" class="legend-status active">
-        <h1>Open</h1>
-        <p><span class="value">0</span> requests</p>
-        
-      </section>
-      <section id="legend-newly-opened" class="legend-status active">
-        <h1>Opened Yesterday</h1>
-        <p><span class="value">0</span> requests</p>
-        
-      </section>
-      <section id="legend-newly-closed" class="legend-status active">
-        <h1>Closed Yesterday</h1>
-        <p><span class="value">0</span> requests</p>
-      </section>
-      
-    </div>
-    
-  </body>
+<body>
+  <!-- Main container -->
+  <div role="main" id="main"></div>
+
+  <!-- Application source -->
+  <script src="http://code.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+  <script data-main="/app/config" src="/assets/js/libs/require.js"></script>
+</body>
 </html>

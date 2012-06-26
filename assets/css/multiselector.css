@@ -22,7 +22,7 @@
 		white-space: nowrap;
 		line-height: 1.2;
 		padding-right: 20px;
-		background: url("../images/disclosure_arrow_white.png") no-repeat right center;
+		background: url("/assets/img/disclosure_arrow_white.png") no-repeat right center;
 		border: 1px solid #ccc;
 		
 		/* White boxes */
@@ -30,7 +30,7 @@
 		display: block;
 		color: #333;
 		padding: 0 20px 0 6px;
-		background: #fff url("../images/disclosure_arrow_black.png") no-repeat 94% 50%;
+		background: #fff url("/assets/img/disclosure_arrow_black.png") no-repeat 94% 50%;
 		height: 25px;
 		line-height: 26px;
 	}
@@ -67,7 +67,7 @@
 			right: 3px;
 			top: 6px;
 			border: none;
-			background: url("../images/x_small.png");
+			background: url("/assets/img/x_small.png");
 		}
 	
 	.MultiSelector-buttons {
