@@ -9,10 +9,14 @@ require([
   "configboston",
 
   // modules
-  "modules/dashboard"
+  "modules/dashboard",
+  "modules/labs"
 ],
 
-function(app, $, Backbone, Config, ConfigBoston, Dashboard) {
+function(app, $, Backbone, Config, ConfigBoston, Dashboard, Labs) {
+
+  labsView = new Labs.Views.Main();
+  dashboardView = new Dashboard.Views.Main();
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -22,23 +26,20 @@ function(app, $, Backbone, Config, ConfigBoston, Dashboard) {
     },
 
     index: function() {
-      var main = new Dashboard.Views.Main();
-      main.config = Config;
-
-      main.$el.appendTo("#main");
-      main.render();
+      dashboardView.remove();
+      labsView.$el.appendTo("#main");
+      labsView.render();
     },
 
     city: function(city) {
-      var main = new Dashboard.Views.Main();
-
+      labsView.remove();
       if (city === 'boston') {
-        main.config = ConfigBoston;
+        dashboardView.config = ConfigBoston;
       } else
-        main.config = Config;
+        dashboardView.config = Config;
 
-      main.$el.appendTo("#main");
-      main.render();
+      dashboardView.$el.appendTo("#main");
+      dashboardView.render();
     }
   });
 

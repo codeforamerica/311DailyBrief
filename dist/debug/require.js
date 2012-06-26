@@ -319,6 +319,10 @@ this['JST']['app/templates/dashboard.html'] = function(data) { return function (
 var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<header>\n    <a href="http://codeforamerica.github.com/311DailyBrief/"><img src="/assets/img/daily_brief.png"></a>\n  <p>for the morning of <span id="todays_date">today</span></p>\n  <p class="poweredby"> Powered by <a href="http://open311.org/" target="_blank">Open311</a></p>\n</header>\n\n<section id="filters">\n  <p class="title">\n    Filter\n    <span class="endcap"></span>\n  </p>\n  <ul>\n    <li><span id="boundaryTitle">Ward</span>: <span id="filters_area"></span></li>\n    <li>Service: <span id="filters_service"></span></li>\n    <li>Status: <span id="filters_status"></span></li>\n  </ul>\n  <button id="filters_clear">Clear</button>\n</section>\n\n<div id="map"></div>\n\n<div id="legend">\n\n  <section id="legend-info">\n    <h1>City</h1>\n    <!-- Changing the contents of the p tag will not change the tag file. \n         Go instead to the config file to change the text. -->\n    <p></p>\n  </section>\n\n  <section id="legend-open" class="legend-status active">\n    <h1>Open</h1>\n    <p><span class="value">0</span> requests</p>\n  </section>\n\n  <section id="legend-newly-opened" class="legend-status active">\n    <h1>Opened Yesterday</h1>\n    <p><span class="value">0</span> requests</p>\n  </section>\n\n  <section id="legend-newly-closed" class="legend-status active">\n    <h1>Closed Yesterday</h1>\n    <p><span class="value">0</span> requests</p>\n  </section>\n  \n</div>\n');}return __p.join('');
 }(data, _)};
 
+this['JST']['app/templates/labs.html'] = function(data) { return function (obj,_) {
+var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<h1>this is labz</h1>\n\n<span>you like it?</span>\n<span>maybe you try click on links?</span><br />\n\n<br />\n<br />\n\n<li>\n<a href="/boston">Boston DailyBrief-a-roo</a>\n</li><br />\n<li>\n<a href="/baltimore">Balti MOAR!!!! brief</a>\n</li>\n\n<br />\n<br />\n<br />\n\n<h3>\n  <span>thank you for trying the briefs - send us the\n    <a href="http://www.forcefeedback.tv/"> feedback?</a></span>\n</h3>\n');}return __p.join('');
+}(data, _)};
+
 /*!
  * jQuery JavaScript Library v1.7.2
  * http://jquery.com/
@@ -16277,6 +16281,34 @@ function(app, Backbone, DailyBriefingController) {
   return Dashboard;
 });
 
+define('modules/labs',[
+  // Global application context.
+  "app",
+
+  // Third-party libraries.
+  "backbone"
+],
+
+function(app, Backbone) {
+  var Labs = app.module();
+
+  Labs.Views.Main = Backbone.View.extend({
+    template: "app/templates/labs",
+
+    render: function(done) {
+      var tmpl = app.fetchTemplate(this.template);
+
+      // set the template contents
+      this.$el.html(tmpl());
+    }
+  });
+
+  Labs.Model = Backbone.Model.extend({});
+  Labs.Collection = Backbone.Model.extend({});
+
+  return Labs;
+});
+
 require([
   // Global
   "app",
@@ -16288,10 +16320,14 @@ require([
   "configboston",
 
   // modules
-  "modules/dashboard"
+  "modules/dashboard",
+  "modules/labs"
 ],
 
-function(app, $, Backbone, Config, ConfigBoston, Dashboard) {
+function(app, $, Backbone, Config, ConfigBoston, Dashboard, Labs) {
+
+  labsView = new Labs.Views.Main();
+  dashboardView = new Dashboard.Views.Main();
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -16301,23 +16337,20 @@ function(app, $, Backbone, Config, ConfigBoston, Dashboard) {
     },
 
     index: function() {
-      var main = new Dashboard.Views.Main();
-      main.config = Config;
-
-      main.$el.appendTo("#main");
-      main.render();
+      dashboardView.remove();
+      labsView.$el.appendTo("#main");
+      labsView.render();
     },
 
     city: function(city) {
-      var main = new Dashboard.Views.Main();
-
+      labsView.remove();
       if (city === 'boston') {
-        main.config = ConfigBoston;
+        dashboardView.config = ConfigBoston;
       } else
-        main.config = Config;
+        dashboardView.config = Config;
 
-      main.$el.appendTo("#main");
-      main.render();
+      dashboardView.$el.appendTo("#main");
+      dashboardView.render();
     }
   });
 
