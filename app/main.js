@@ -6,16 +6,15 @@ require([
   "jquery",
   "backbone",
   "configbaltimore",
+  "configbloomington",
   "configboston",
 
   // modules
-  "modules/dashboard",
-  "modules/labs"
+  "modules/dashboard"
 ],
 
-function(app, $, Backbone, Config, ConfigBoston, Dashboard, Labs) {
+function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
 
-  var labsView = new Labs.Views.Main();
   var dashboardView = new Dashboard.Views.Main();
 
   // Defining the application router, you can attach sub routers here.
@@ -26,25 +25,33 @@ function(app, $, Backbone, Config, ConfigBoston, Dashboard, Labs) {
     },
 
     index: function() {
-      labsView.remove();
       dashboardView.remove();
-
-      labsView.$el.appendTo("#main");
-      labsView.render();
+      this.setCityConfig('baltimore');
+      dashboardView.$el.appendTo("#main");
+      dashboardView.render();
     },
 
     city: function(city) {
-      labsView.remove();
       dashboardView.remove();
-
-      if (city === 'boston') {
-        dashboardView.config = ConfigBoston;
-      } else
-        dashboardView.config = Config;
-
+      this.setCityConfig(city);
       dashboardView.$el.appendTo("#main");
       dashboardView.render();
+    },
+
+    /*
+     * Set the configuration file for this view load based on city 
+     */
+    setCityConfig: function(city) {
+      if (city === 'boston') {
+        dashboardView.config = ConfigBoston;
+      }
+      else if (city === 'bloomington') {
+        dashboardView.config = ConfigBloomington;
+      } else {
+        dashboardView.config = Config;
+      }
     }
+
   });
 
   // Treat the jQuery ready function as the entry point to the application.

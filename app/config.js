@@ -13,6 +13,7 @@ require.config({
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone",
     configbaltimore: "../assets/js/libs/config.baltimore",
+    configbloomington: "../assets/js/libs/config.bloomington",
     configboston: "../assets/js/libs/config.boston",
     utils: "../assets/js/libs/utils",
     datetools: "../assets/js/libs/datetools",
@@ -64,6 +65,9 @@ require.config({
     configbaltimore: {
       // default
       exports: "Config"
+    },
+    configbloomington: {
+      exports: "ConfigBloomington"
     },
     configboston: {
       exports: "ConfigBoston"
