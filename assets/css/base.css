@@ -32,13 +32,11 @@ header p {
 	margin: 0;
 }
 
-header .poweredby {
+header img.labslogo {
   float: right;
-  padding-right: 2.5%;
-  font-style: italic;
-  font-weight: bold;
-  font-size: 95%;
-  color: #000000;
+  padding: 0px 2.5%;
+  margin-top: 10px;
+
 }
 
 header a {
