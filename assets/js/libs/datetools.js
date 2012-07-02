@@ -51,6 +51,31 @@ var dateTools = {
     else {
       return dayNamesShort[dateRange.from.getDay()] + '&ndash;' + dayNamesShort[dateRange.to.getDay()];
     }
+  },
+  timeSpanString: function(date){
+    var elapsedTime = ((new Date()).getTime() - date.getTime())/1000;
+    var timeSpanString = "";        
+    elapsedTime = (elapsedTime < 1) ? 1: elapsedTime;        
+    if (Math.floor(elapsedTime) === 1){
+      timeSpanString = "1 sec";
+    }else if (elapsedTime < 59){
+      timeSpanString = Math.floor(elapsedTime) + " secs";
+    }else if (elapsedTime < 119){
+      timeSpanString = "1 min";
+    }else if (elapsedTime < 3599){
+      timeSpanString = " " + Math.floor(elapsedTime / 60) + " mins";
+    }else if (elapsedTime < 7199){
+      timeSpanString = "1 hour";
+    }else if (elapsedTime < 86399){
+      timeSpanString = Math.floor(elapsedTime / 3600) + " hours";
+    }else if (elapsedTime < 172799){
+      timeSpanString = "1 day";
+    }else if (elapsedTime < 2592000){
+      timeSpanString = Math.floor(elapsedTime / 86400) + " days";
+    }else{
+      timeSpanString = "over a month";
+    }
+    return timeSpanString;
   }
 };
 
