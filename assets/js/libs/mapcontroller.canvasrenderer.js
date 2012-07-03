@@ -16,6 +16,8 @@ MapController.CanvasRenderer = {
     this.interactionResolution = 2;
     this._featureMap = {};
     this._initializeIcons();
+    this._allRequests = [];
+    this._markerPoolSize = Config.maxMarkers || 500;
   },
   
   _initializeMapRenderer: function () {
@@ -33,6 +35,11 @@ MapController.CanvasRenderer = {
   },
   
   _updateRenderer: function () {
+
+    // honor max marker limit
+    if (this._allRequests.length >= this._markerPoolSize)
+      return;
+
     // Join and sort latitudinally
     this._allRequests = this._closedRequests.concat(this._openedRequests, this._openRequests).sort(function (a, b) {
       var latitudeDiff = b.lat - a.lat;
@@ -112,7 +119,7 @@ MapController.CanvasRenderer = {
     ctx.clearRect(0, 0, 256, 256);
     
     // don't do anything if we don't have requests to draw
-    if (!this._allRequests) {
+    if (this._allRequests.length === 0) {
       return;
     }
     
