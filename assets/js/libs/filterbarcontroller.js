@@ -98,5 +98,3 @@ FilterBarController.prototype = {
       [selectedService || selectedState || selectedArea ? "addClass" : "removeClass"]("has-filters")
   }
 };
-
-eventManager.mix(FilterBarController);

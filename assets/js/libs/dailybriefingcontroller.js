@@ -5,6 +5,9 @@
 
 var DailyBriefingController = function () {
   this.rebuildDataForBoundaries = false;
+
+  eventManager.mix(FilterBarController);
+  eventManager.mix(MultiSelector);
   
   // default filters
   this.filterConditions = {
@@ -35,7 +38,7 @@ var DailyBriefingController = function () {
   this.filterBar = new FilterBarController(this);
   this.api = new ThreeOneOneApi();
   this.headerBar = new HeaderBarController();
-  
+
   eventManager.subscribe("filtersChanged", this);
 
   // this gets the collections of areas and services from the API

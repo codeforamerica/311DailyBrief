@@ -236,5 +236,3 @@ MultiSelector.prototype = {
     this.dispatchEvent("change", this.getValue());
   }
 };
-
-eventManager.mix(MultiSelector);

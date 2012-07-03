@@ -9,7 +9,7 @@ var Config = {
   endpoint: 'baltimore', // string
   title: 'Baltimore', // string
   boundaryTitle: 'Neighborhood',
-  useCanvasMap: false,
+  useCanvasMap: true,
   maxMarkers: 500,
   boundaryTitle: 'Neighborhood',
   description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
