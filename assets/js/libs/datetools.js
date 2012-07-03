@@ -83,8 +83,12 @@ var dateTools = {
       timeSpanString = "1 day";
     }else if (elapsedTime < 2592000){
       timeSpanString = Math.floor(elapsedTime / 86400) + " days";
+    }else if (elapsedTime < 5184000){
+      timeSpanString = "1 month";
+    }else if (elapsedTime < 77760000){
+      timeSpanString = Math.floor(elapsedTime / 2592000) + " months";
     }else{
-      timeSpanString = "over a month";
+      timeSpanString = "over a year";
     }
     return timeSpanString;
   }
