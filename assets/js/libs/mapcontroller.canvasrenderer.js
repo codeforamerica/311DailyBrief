@@ -18,12 +18,20 @@ MapController.CanvasRenderer = {
     this._initializeIcons();
     this._allRequests = [];
     this._markerPoolSize = Config.maxMarkers || 500;
+    this._currentPopup = null;
   },
   
   _initializeMapRenderer: function () {
-    this.canvasTiles = new L.TileLayer.Canvas();
-    
     var self = this;
+    this.canvasTiles = new L.TileLayer.Canvas();
+   
+    // capture open popup as state saving mechanism so we can have
+    // custom behavior of closing the open popup (and not opening
+    // new popup) if user clicks on marker a second time 
+    this.map.on("popupopen", function(e){
+      self._currentPopup = e.popup;
+    });
+
     this.canvasTiles.drawTile = function() { self.drawTile.apply(self, arguments); };
     
     this.map.addLayer(this.canvasTiles);
@@ -94,9 +102,8 @@ MapController.CanvasRenderer = {
       var mapPoint = this.map._initialTopLeftPoint.add(event.layerPoint);
       var tile = new L.Point(Math.floor(mapPoint.x / 256), Math.floor(mapPoint.y / 256));
       var position = new L.Point(mapPoint.x % 256, mapPoint.y % 256);
-      // console.log("Tile: " + tile + ", point: " + position);
+
       var feature = this._getFeatureAtPoint(mapPoint);
-      console.log(feature);
       
       if (feature) {
         // create a standard popup
@@ -106,6 +113,12 @@ MapController.CanvasRenderer = {
         });
         popup.setLatLng(new L.LatLng(feature.lat, feature.long));
         popup.setContent(this.popupForRequest(feature));
+        // don't bother creating popup if one is already open
+        // and the new popup would be the same
+        if (this._currentPopup && this._currentPopup._content === popup._content) {
+          this._currentPopup = null;
+          return;
+        }
         this.map.openPopup(popup);
       }
     }
