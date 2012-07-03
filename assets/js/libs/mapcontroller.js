@@ -1,6 +1,6 @@
 /* Copyright (C) 2012, Code for America
  * This is open source software, released under a standard 2-clause
- * BSD-style license; see the file LICENSE for details.
+ e* BSD-style license; see the file LICENSE for details.
  */
 
 var MapController = function () {
@@ -84,11 +84,22 @@ MapController.prototype = {
 
     var parsedDate = new Date(request.requested_datetime);
 
-    return "<h2>" + request.service_name + "</h2>" + 
+    var content = "<h2>" + request.service_name + "</h2>" + 
           "<h4>Address</h4><p>" + request.address + boundaryText + "</p>" +
           "<h4>Description</h4><p>" + request.description + "</p>" +
           "<h4>Created</h4><p>" + dateTools.timeSpanString(parsedDate) + " ago</p>" + 
           (request.status === "closed" ? "<h5>CLOSED</h5>" : "");
+
+    if (request.media_url !== "") {
+      content = content.concat("<h4>Media</h4><p>" + 
+          '<a href="'+request.media_url+'" target="_blank">' +
+          '<img src="'+request.media_url+'" alt="request img" height="100" width="100" />' +
+          '</a>' +
+          "<h4>Created</h4><p>" + dateTools.timeSpanString(parsedDate) + " ago</p>");
+    }
+
+    return content;
+
   },
   
   updateMapCenterZoom: function() {
