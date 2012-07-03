@@ -7,7 +7,7 @@ var ConfigBoston = {
   center: [42.313878,-71.078796], // [lat, lon]
   zoom: 13, // integer
   endpoint: 'boston', // string
-  useCanvasMap: false,
+  useCanvasMap: true,
   maxMarkers: 500,
   title: 'Boston', // string
   boundaryTitle: 'Neighborhood',
