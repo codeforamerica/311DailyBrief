@@ -8,8 +8,8 @@
 /* top-left and top-right control containers */
 .leaflet-top {
 	/* account for the filter bar */
-	top: 90px;
-	left: 30px;
+	top: 60px;
+	left: 5px;
 }
 
 .leaflet-popup-close-button {
