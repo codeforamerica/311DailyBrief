@@ -18,7 +18,7 @@
 }
 
 .leaflet-popup-content h4 {
-  margin: 13px auto 0px;
+  margin: 5px auto 0px;
   font-size: 13px;
 }
 
@@ -26,6 +26,8 @@
   -webkit-margin-before: 0px;
   -webkit-margin-after: 10px;
   font-size: 13px;
+  margin: 5px 0 18px;
+  line-height: 16px;
 }
 
 .leaflet-popup-content h5 {
