@@ -33,3 +33,8 @@
   font-size: 13px;
   font-weight: bold;
 }
+
+.leaflet-popup-content span.ago {
+  font-style:italic;
+  color:#666666;
+}

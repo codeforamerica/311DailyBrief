@@ -5,7 +5,10 @@
 
 var dateTools = {
   ONE_DAY: 24 * 60 * 60 * 1000,
-  
+  DAY_NAMES:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  DAY_NAMES_SHORT:["Sun","Mon","Tue","Wed","Thur","Fri","Sat"],
+  MONTH_NAMES:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  MONTH_NAMES_SHORT:["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sept","Oct","Nov","Dec"],
   today: function today () {
     return this.dayForDate(new Date());
   },
@@ -35,22 +38,30 @@ var dateTools = {
     }
     return date.getUTCFullYear() + "-" + month + "-" + dayOfMonth;
   },
-
   todaysDateString: function () {
 	  var today = new Date();
-	  var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-	  var monthNames = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
-	  return dayNames[today.getDay()] + " " + monthNames[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
+	  return dateTools.DAY_NAMES[today.getDay()] + " " + dateTools.MONTH_NAMES[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
   },
-  
   rangeToString: function(dateRange) {
-    var dayNamesShort = new Array("Sun","Mon","Tue","Wed","Thur","Fri","Sat");
+
     if (this.simpleDateString(dateRange.from) == this.simpleDateString(this.yesterday())) {
       return 'Yesterday';
     }
     else {
-      return dayNamesShort[dateRange.from.getDay()] + '&ndash;' + dayNamesShort[dateRange.to.getDay()];
+      return dateTools.DAY_NAMES_SHORT[dateRange.from.getDay()] + '&ndash;' + dateTools.DAY_NAMES_SHORT[dateRange.to.getDay()];
     }
+  },
+  //TODO: more generalize dateformat if we need many different formats, or grab a lib that does it better.
+  formatDate: function(date){
+    //Jun 7 2012 − 10:45am
+    var meridiem = "am";
+    var hours = date.getHours();
+    if(hours >=12){
+      meridiem = "pm";
+      hours -= 12
+    }
+    return dateTools.MONTH_NAMES_SHORT[date.getMonth()] + " " + date.getDate() + " " + " "+ date.getFullYear() + " - " +
+        hours + ":" + date.getMinutes() + " " + meridiem;
   },
   timeSpanString: function(date){
     var elapsedTime = ((new Date()).getTime() - date.getTime())/1000;
