@@ -87,8 +87,6 @@ MapController.prototype = {
     var content = "<h2>" + request.service_name + "</h2>" + 
           "<h4>Address</h4><p>" + request.address + boundaryText + "</p>" +
           "<h4>Description</h4><p>" + request.description + "</p>" +
-          "<h4>Created</h4><p>" + dateTools.formatDate(parsedDate)+
-          " - <span class='ago'>"+dateTools.timeSpanString(parsedDate) + " ago</span></p>" +
           (request.status === "closed" ? "<h5>CLOSED</h5>" : "");
 
     if (request.media_url !== "") {
@@ -96,7 +94,8 @@ MapController.prototype = {
           '<a href="'+request.media_url+'" target="_blank">' +
           '<img src="'+request.media_url+'" alt="request img" height="100" width="100" />' +
           '</a>' +
-          "<h4>Created</h4><p>" + dateTools.timeSpanString(parsedDate) + " ago</p>");
+          "<h4>Created</h4><p>" + dateTools.formatDate(parsedDate) +
+          " - <span class='ago'>"+dateTools.timeSpanString(parsedDate) + " ago</span></p>");
     }
 
     return content;
