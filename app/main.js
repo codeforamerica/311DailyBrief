@@ -15,8 +15,6 @@ require([
 
 function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
 
-  var dashboardView = new Dashboard.Views.Main();
-
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -25,17 +23,17 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
     },
 
     index: function() {
-      dashboardView.remove();
-      this.setCityConfig('baltimore');
-      dashboardView.$el.appendTo("#main");
-      dashboardView.render();
+      var cityConfig = this.setCityConfig('baltimore');
+      var dashboardView = new Dashboard.Views.Main({"config": cityConfig});
+      this.showView(dashboardView);
+      dashboardView.initDailyBriefingController();
     },
 
     city: function(city) {
-      dashboardView.remove();
-      this.setCityConfig(city);
-      dashboardView.$el.appendTo("#main");
-      dashboardView.render();
+      var cityConfig = this.setCityConfig(city);
+      var dashboardView = new Dashboard.Views.Main({"config": cityConfig});
+      this.showView(dashboardView);
+      dashboardView.initDailyBriefingController();
     },
 
     /*
@@ -43,15 +41,22 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
      */
     setCityConfig: function(city) {
       if (city === 'boston') {
-        dashboardView.config = ConfigBoston;
+        return ConfigBoston;
       }
       else if (city === 'bloomington') {
-        dashboardView.config = ConfigBloomington;
+        return ConfigBloomington;
       } else {
-        dashboardView.config = Config;
+        return Config;
       }
-    }
+    },
 
+    showView: function(view) {
+      if (this.currentView) {
+        this.currentView.close();
+      }
+      this.currentView = view;
+      this.currentView.$el.appendTo("#main");
+    }
   });
 
   // Treat the jQuery ready function as the entry point to the application.
@@ -64,6 +69,15 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
 
     // Trigger the initial route and enable HTML5 History API support
     Backbone.history.start({ pushState: true });
+
+    // extend Backbone View object to include close/cleanup function
+    Backbone.View.prototype.close = function() {
+      this.remove();
+      this.unbind();
+      if (this.onClose) {
+        this.onClose();
+      }
+    }
   });
 
   // All navigation that is relative should be passed through the navigate

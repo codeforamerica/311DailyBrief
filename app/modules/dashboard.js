@@ -15,16 +15,32 @@ function(app, Backbone, DailyBriefingController) {
   Dashboard.Views.Main = Backbone.View.extend({
     template: "app/templates/dashboard",
 
-    config: null,
+    initialize: function(options) {
+      _.bindAll(this, "_captureTrackingInfo");
+      this.config = options.config;
 
-    render: function(done) {
+      return this.render();
+    },
+
+    render: function() {
       var tmpl = app.fetchTemplate(this.template);
-
-      // Set the template contents
       this.$el.html(tmpl());
       Config = this.config;
-      dbc = new DailyBriefingController();
 
+      return this;
+    },
+
+    events: {
+      "click input[type=button]": "_captureTrackingInfo"
+    },
+
+    initDailyBriefingController: function() {
+      dbc = new DailyBriefingController();
+    },
+
+    _captureTrackingInfo: function(e) {
+      // use tracking module to send event data back to server
+      console.log(e);
     }
   });
 
