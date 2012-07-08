@@ -31,7 +31,7 @@ function(app, Backbone, DailyBriefingController) {
     },
 
     events: {
-      "click input[type=button]": "_captureTrackingInfo"
+      "click input[type=checkbox]": "_captureTrackingInfo"
     },
 
     initDailyBriefingController: function() {
@@ -40,7 +40,11 @@ function(app, Backbone, DailyBriefingController) {
 
     _captureTrackingInfo: function(e) {
       // use tracking module to send event data back to server
-      console.log(e);
+      trackObj = {'currentTarget': {}};
+      trackObj['currentTarget'].outerHTML = e.currentTarget.outerHTML;
+      trackObj['currentTarget'].baseURI = e.currentTarget.baseURI;
+      trackObj['currentTarget'].parentElement = e.currentTarget.parentElement;
+      console.log(JSON.stringify(trackObj));
     }
   });
 
