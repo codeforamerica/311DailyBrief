@@ -49,12 +49,15 @@ MapController.prototype = {
   constructor: MapController,
   
   _initializeMap: function () {
-    this.map = new L.Map("map");
+      this.map = new L.Map("map", {zoomControl:false});
     var cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.jpg", {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       maxZoom: 18
     });
+    
     this.map.addLayer(cloudmade);
+    this.map.addControl(new L.Control.Center());
+    this.map.addControl(new L.Control.Zoom());
     
     this._initializeMapRenderer();
   },

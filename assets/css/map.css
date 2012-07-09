@@ -9,7 +9,7 @@
 .leaflet-top {
 	/* account for the filter bar */
 	top: 60px;
-	left: 5px;
+	left: 20px;
 }
 
 .leaflet-popup-close-button {
@@ -42,6 +42,7 @@
   color:#777777;
 }
 
+<<<<<<< HEAD
 .reset {
   clear: both;
 }
@@ -57,4 +58,18 @@
 
 .content {
   width: 225px;
+=======
+div.leaflet-control-center{
+  height:46px;
+  width:46px;
+}
+a.leaflet-control-center{
+  height:46px;
+  width:46px;
+  display:block;
+  position:relative;
+  left:-9px;
+  top:5px;
+  background-image: url(/assets/img/center.png);
+>>>>>>> c5309dd6915ca2f5470a1c1f04bd2daad3a6aa82
 }
