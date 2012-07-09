@@ -26,7 +26,8 @@ require.config({
     mapcontroller: "../assets/js/libs/mapcontroller",
     mapmarkerrenderer: "../assets/js/libs/mapcontroller.markerrenderer",
     mapcanvasrenderer: "../assets/js/libs/mapcontroller.canvasrenderer",
-    dailybriefingcontroller: "../assets/js/libs/dailybriefingcontroller"
+    dailybriefingcontroller: "../assets/js/libs/dailybriefingcontroller",
+    controlcenter: "../assets/js/libs/control.center"
   },
 
   shim: {
@@ -53,7 +54,8 @@ require.config({
              "filterbarcontroller",
              "threeoneoneapi",
              "headerbarcontroller",
-             "multiselector"],
+             "multiselector",
+             "controlcenter"],
       exports: "DailyBriefingController"
     },
     datetools: {
