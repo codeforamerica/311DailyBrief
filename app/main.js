@@ -8,7 +8,6 @@ require([
   "configbaltimore",
   "configbloomington",
   "configboston",
-
   // modules
   "modules/dashboard"
 ],
@@ -44,9 +43,11 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
     setCityConfig: function(city) {
       if (city === 'boston') {
         dashboardView.config = ConfigBoston;
+        Config = ConfigBoston;
       }
       else if (city === 'bloomington') {
         dashboardView.config = ConfigBloomington;
+        Config = ConfigBloomington;
       } else {
         dashboardView.config = Config;
       }
