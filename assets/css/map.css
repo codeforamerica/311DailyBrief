@@ -18,8 +18,9 @@
 }
 
 .leaflet-popup-content h4 {
-  margin: 5px auto 0px;
+  margin: 0px auto 9px;
   font-size: 13px;
+  line-height: 8px;
 }
 
 .leaflet-popup-content p {
@@ -39,4 +40,21 @@
 .leaflet-popup-content span.ago {
   font-style:italic;
   color:#777777;
+}
+
+.reset {
+  clear: both;
+}
+
+.photo, .content {
+  float: left;
+}
+
+.photo {
+  width: 250px;
+  margin-right: 25px;
+}
+
+.content {
+  width: 225px;
 }

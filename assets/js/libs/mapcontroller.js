@@ -84,19 +84,20 @@ MapController.prototype = {
 
     var parsedDate = new Date(request.requested_datetime);
 
-    var content = "<h2>" + request.service_name + "</h2>" + 
-          "<h4>Address</h4><p>" + request.address + boundaryText + "</p>" +
-          "<h4>Description</h4><p>" + request.description + "</p>" +
-          (request.status === "closed" ? "<h5>CLOSED</h5>" : "");
+    var content = "<h2>" + request.service_name + "</h2>";
 
     if (request.media_url !== "") {
-      content = content.concat("<h4>Media</h4><p>" + 
-          '<a href="'+request.media_url+'" target="_blank">' +
-          '<img src="'+request.media_url+'" alt="request img" height="100" width="100" />' +
-          '</a>' +
-          "<h4>Created</h4><p>" + dateTools.formatDate(parsedDate) +
-          " - <span class='ago'>"+dateTools.timeSpanString(parsedDate) + " ago</span></p>");
+      content = content.concat('<div class="photo">' + '<a href="'+request.media_url+'" target="_blank">' +
+          '<img src="'+request.media_url+'" alt="request img" height="250" width="250" />' +
+          '</a></div>'
+          );
     }
+
+    content += "<div class='content'><h4>Address</h4><p>" + request.address + boundaryText + "</p>" +
+    "<h4>Description</h4><p>" + request.description + "</p>" +
+    "<h4>Created</h4><p>" + dateTools.formatDate(parsedDate) +
+    " - <span class='ago'>"+dateTools.timeSpanString(parsedDate) + " ago</span></p>" + 
+    (request.status === "closed" ? "<h5>CLOSED</h5>" : "") + "</div><div class='reset'></div>";
 
     return content;
 
