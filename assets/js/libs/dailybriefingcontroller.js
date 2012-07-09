@@ -129,6 +129,10 @@ DailyBriefingController.prototype = {
                   function(controller) {},
                   this);
   },
+
+  post: function(doc, collection) {
+    this.api.post(doc, collection);
+  },
   
   updateFilters: function (newFilters) {
     var oldFilters = this.filterConditions;

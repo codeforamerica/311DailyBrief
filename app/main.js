@@ -77,7 +77,7 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
       if (this.onClose) {
         this.onClose();
       }
-    }
+    };
   });
 
   // All navigation that is relative should be passed through the navigate

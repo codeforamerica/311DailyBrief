@@ -39,12 +39,20 @@ function(app, Backbone, DailyBriefingController) {
     },
 
     _captureTrackingInfo: function(e) {
-      // use tracking module to send event data back to server
-      trackObj = {'currentTarget': {}};
-      trackObj['currentTarget'].outerHTML = e.currentTarget.outerHTML;
-      trackObj['currentTarget'].baseURI = e.currentTarget.baseURI;
-      trackObj['currentTarget'].parentElement = e.currentTarget.parentElement;
-      console.log(JSON.stringify(trackObj));
+      trackObj = {
+        "baseURI": e.currentTarget.baseURI,
+        "innerHTML": e.currentTarget.parentElement.innerHTML,
+        "innerText": e.currentTarget.parentElement.innerText,
+        "outerHTML": e.currentTarget.parentElement.outerHTML,
+        "textContent": e.currentTarget.parentElement.textContent,
+        "type": e.type,
+        "timeStamp": e.timeStamp,
+        "screenX": e.screenX,
+        "screenY": e.screenY,
+        "pageX": e.pageX,
+        "pageY": e.pageY
+      };
+      dbc.post(trackObj, "tracking");
     }
   });
 
