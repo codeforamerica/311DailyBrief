@@ -41,24 +41,6 @@
   font-style:italic;
   color:#777777;
 }
-
-<<<<<<< HEAD
-.reset {
-  clear: both;
-}
-
-.photo, .content {
-  float: left;
-}
-
-.photo {
-  width: 250px;
-  margin-right: 25px;
-}
-
-.content {
-  width: 225px;
-=======
 div.leaflet-control-center{
   height:46px;
   width:46px;
@@ -71,5 +53,16 @@ a.leaflet-control-center{
   left:-9px;
   top:5px;
   background-image: url(/assets/img/center.png);
->>>>>>> c5309dd6915ca2f5470a1c1f04bd2daad3a6aa82
+}
+.leaflet-popup-content .photo, .leaflet-popup-content .content {
+  float: left;
+}
+
+.leaflet-popup-content .photo {
+  width: 250px;
+  margin-right: 25px;
+}
+
+.leaflet-popup-content .content {
+  width: 225px;
 }
