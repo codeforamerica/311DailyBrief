@@ -49,9 +49,9 @@ MapController.prototype = {
   constructor: MapController,
   
   _initializeMap: function () {
-      this.map = new L.Map("map", {zoomControl:false});
-    var cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.jpg", {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    this.map = new L.Map("map", {zoomControl:false});
+    var cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg", {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles By <a href="http://stamen.com">Stamen</a>',
       maxZoom: 18
     });
     
