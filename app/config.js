@@ -27,7 +27,7 @@ require.config({
     mapmarkerrenderer: "../assets/js/libs/mapcontroller.markerrenderer",
     mapcanvasrenderer: "../assets/js/libs/mapcontroller.canvasrenderer",
     dailybriefingcontroller: "../assets/js/libs/dailybriefingcontroller",
-    controlcenter: "../assets/js/libs/control.center"
+    controlcenter: "../assets/js/libs/Control.Center"
   },
 
   shim: {
