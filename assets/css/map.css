@@ -53,6 +53,11 @@ a.leaflet-control-center{
   left:-9px;
   top:5px;
   background-image: url(/assets/img/center.png);
+  background-position: 0px 0px;
+}
+a.leaflet-control-center:hover{
+  background-position: 0px 46px;
+
 }
 .leaflet-popup-content .photo, .leaflet-popup-content .content {
   float: left;
