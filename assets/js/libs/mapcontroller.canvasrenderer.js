@@ -19,6 +19,7 @@ MapController.CanvasRenderer = {
     this._allRequests = [];
     this._markerPoolSize = Config.maxMarkers || 500;
     this._currentPopup = null;
+    this._mapped = {}; // points that have been displayed on the map
   },
   
   _initializeMapRenderer: function () {
@@ -44,12 +45,12 @@ MapController.CanvasRenderer = {
   
   _updateRenderer: function () {
 
-    // honor max marker limit
-    if (this._allRequests.length >= this._markerPoolSize)
-      return;
-
-    // Join and sort latitudinally
-    this._allRequests = this._closedRequests.concat(this._openedRequests, this._openRequests).sort(function (a, b) {
+    // Join and sort latitudinally and honor max marker limit (aka _markerPoolSize)
+    this._allRequests = this.dataSource.requests['open']
+                                       .slice(1, this._markerPoolSize) 
+                                       .concat(this.dataSource.requests['opened'], 
+                                               this.dataSource.requests['closed'])
+                                       .sort(function (a, b) {
       var latitudeDiff = b.lat - a.lat;
       if (latitudeDiff) {
         return latitudeDiff;
@@ -132,13 +133,11 @@ MapController.CanvasRenderer = {
   // ---------------------- DRAWING -------------------------
   
   drawTile: function (canvas, tilePoint, zoom) {
+    if (!this.dataSource)
+      return;
+    
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 256, 256);
-    
-    // don't do anything if we don't have requests to draw
-    if (this._allRequests.length === 0) {
-      return;
-    }
     
     var showTypes = {
       open: this.dataSource.filterConditions.states.indexOf("open") > -1,

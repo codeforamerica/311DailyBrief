@@ -8,7 +8,7 @@ var ConfigBoston = {
   zoom: 13, // integer
   endpoint: 'boston', // string
   useCanvasMap: true,
-  maxMarkers: 500,
+  maxMarkers: 1000,
   title: 'Boston', // string
   boundaryTitle: 'Neighborhood',
   description: "Service requests available through the city's Open311 API."
