@@ -118,7 +118,10 @@ MapController.prototype = {
       else {
         // build up an array of LatLngs and then generate our bounding box from it
         var requestsInWard = [];
-        $.each(this.dataSource.requests['open'], function(index, request) {
+        var allRequests = this.dataSource.requests['open']
+                                       .concat(this.dataSource.requests['opened'], 
+                                               this.dataSource.requests['closed'])
+        $.each(allRequests, function(index, request) {
           requestsInWard.push(new L.LatLng(request.lat, request.long))
         });
         if (requestsInWard.length > 0) {
