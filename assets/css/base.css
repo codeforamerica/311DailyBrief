@@ -132,6 +132,11 @@ header a:hover {
   border-color: #e14747;
 }
 
+#legend section#legend-open.active .display-max {
+  margin-top: -15px;
+  font-size: 75%
+}	
+
 #legend section#legend-newly-opened.active * {
   color: orange;
   border-color: orange;
