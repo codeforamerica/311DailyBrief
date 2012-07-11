@@ -4,7 +4,7 @@
  */
 
 var ConfigBoston = {
-  center: [42.313878,-71.078796], // [lat, lon]
+  center: [42.36299, -71.057348], // [lat, lon]
   zoom: 13, // integer
   endpoint: 'boston', // string
   useCanvasMap: true,
