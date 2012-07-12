@@ -15,16 +15,40 @@ function(app, Backbone, DailyBriefingController) {
   Dashboard.Views.Main = Backbone.View.extend({
     template: "app/templates/dashboard",
 
-    config: null,
+    initialize: function(options) {
+      _.bindAll(this, "_captureTrackingInfo");
+      return this.render();
+    },
 
-    render: function(done) {
+    render: function() {
       var tmpl = app.fetchTemplate(this.template);
-
-      // Set the template contents
       this.$el.html(tmpl());
-      Config = this.config;
-      dbc = new DailyBriefingController();
+      return this;
+    },
 
+    events: {
+      "click input[type=checkbox]": "_captureTrackingInfo"
+    },
+
+    initDailyBriefingController: function() {
+      dbc = new DailyBriefingController();
+    },
+
+    _captureTrackingInfo: function(e) {
+      trackObj = {
+        "baseURI": e.currentTarget.baseURI,
+        "innerHTML": e.currentTarget.parentElement.innerHTML,
+        "innerText": e.currentTarget.parentElement.innerText,
+        "outerHTML": e.currentTarget.parentElement.outerHTML,
+        "textContent": e.currentTarget.parentElement.textContent,
+        "type": e.type,
+        "timeStamp": e.timeStamp,
+        "screenX": e.screenX,
+        "screenY": e.screenY,
+        "pageX": e.pageX,
+        "pageY": e.pageY
+      };
+      dbc.post(trackObj, "tracking");
     }
   });
 

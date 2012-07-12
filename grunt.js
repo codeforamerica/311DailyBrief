@@ -87,13 +87,11 @@ module.exports = function(grunt) {
     server: {
       host: "0.0.0.0",
       port: process.env.PORT || 8000,
-
       files: { "favicon.ico": "favicon.ico" },
 
       debug: {
         host: "0.0.0.0",
         port: process.env.PORT || 8000,
-
         files: { "favicon.ico": "favicon.ico" },
 
         folders: {

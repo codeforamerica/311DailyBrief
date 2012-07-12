@@ -4,17 +4,31 @@
  */
 
 var ThreeOneOneApi = function () {
-  this.MONGOHQ_API_BASE_URI = 'http://mongoprox.herokuapp.com/databases/chicago/collections/'
-};
-
-ThreeOneOneApi.REQUEST_STATES = {
-  OPEN: 'open',
-  CLOSED: 'closed'
+  this.MONGOHQ_API_BASE_URI = 'https://api.mongohq.com/databases/chicago/collections/'
 };
 
 ThreeOneOneApi.prototype = {
   
   constructor: ThreeOneOneApi,
+
+  /*
+   * Post a document to the Daily Brief database.
+   */
+  post: function(doc, collection) {
+    console.log(doc, collection);
+    var dataUri = this.MONGOHQ_API_BASE_URI +
+                  collection + "/documents" +
+                  "?_apikey=i0h95kvp3dyx14hvw9bl";
+    $.ajax({
+      type: 'POST',
+      url: dataUri,
+      data: {"document": doc},
+      dataType: "json",
+      sucess: function() {
+        console.log("done");
+      }
+    });
+  },
 
   find: function (collection, fields, query, results, callback, finalize, caller) {
     this._find(collection, query, results, 0, callback, finalize, caller);
@@ -26,6 +40,7 @@ ThreeOneOneApi.prototype = {
                   "distinct/" +
                   'documents?' +
                   'q=' + query +
+                  '&_apikey=i0h95kvp3dyx14hvw9bl' +
                   '&callback=?';
 
     $.getJSON(dataUri, function(data) {
@@ -47,6 +62,7 @@ ThreeOneOneApi.prototype = {
                   'limit=100&' + 
                   'q=' + query + '&' +
                   'skip=' + skipCount + 
+                  '&_apikey=i0h95kvp3dyx14hvw9bl' +
                   '&callback=?';
 
     // keep calling until we cannot get any more data from API
@@ -60,7 +76,5 @@ ThreeOneOneApi.prototype = {
         finalize(caller); // no more data, alert the caller
       }
     });
-
   }
-
 };
