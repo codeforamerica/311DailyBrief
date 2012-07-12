@@ -89,7 +89,7 @@ MapController.prototype = {
 
     var content = "<h2>" + request.service_name + "</h2>";
 
-    if (request.media_url !== "") {
+    if (request.media_url && request.media_url !== "") {
       content = content.concat('<div class="photo">' + '<a href="'+request.media_url+'" target="_blank">' +
           '<img src="'+request.media_url+'" alt="request img" height="250" width="250" />' +
           '</a></div>'

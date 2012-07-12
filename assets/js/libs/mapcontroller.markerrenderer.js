@@ -71,7 +71,7 @@ MapController.MarkerRenderer = {
       if (!mapped[requestId] && this._addedMarkers < this._markerPoolSize) {
         this._addedMarkers++;
         marker = this.markerForRequest(request, type);
-        var width = (feature.media_url === "" ? 275 : 540);
+        var width = (!feature.media_url || feature.media_url === "" ? 275 : 540);
         marker.bindPopup(this.popupForRequest(request), 
         { maxWidth: width, minWidth: width });
         

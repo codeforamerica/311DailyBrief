@@ -110,7 +110,7 @@ MapController.CanvasRenderer = {
         // create a standard popup
         // TODO: make it nicer.
 
-        var width = (feature.media_url === "" ? 275 : 540);
+        var width = (!feature.media_url || feature.media_url === "" ? 275 : 540);
         var popup = new L.Popup({
           offset: new L.Point(0, -41),
           maxWidth: width,
