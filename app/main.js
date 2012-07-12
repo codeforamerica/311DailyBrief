@@ -23,14 +23,14 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
 
     index: function() {
       this.setCityConfig('baltimore');
-      var dashboardView = new Dashboard.Views.Main();
+      var dashboardView = new Dashboard.Views.Main({"config": Config});
       this.showView(dashboardView);
       dashboardView.initDailyBriefingController();
     },
 
     city: function(city) {
       this.setCityConfig(city);
-      var dashboardView = new Dashboard.Views.Main();
+      var dashboardView = new Dashboard.Views.Main({"config": Config});
       this.showView(dashboardView);
       dashboardView.initDailyBriefingController();
     },

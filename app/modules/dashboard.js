@@ -16,7 +16,7 @@ function(app, Backbone, DailyBriefingController) {
     template: "app/templates/dashboard",
 
     initialize: function(options) {
-      _.bindAll(this, "_captureTrackingInfo");
+      Config = options.config;
       return this.render();
     },
 
@@ -27,7 +27,8 @@ function(app, Backbone, DailyBriefingController) {
     },
 
     events: {
-      "click input[type=checkbox]": "_captureTrackingInfo"
+      "click input[type=checkbox]": "_captureTrackingInfo",
+      "click li": "_captureTrackingInfo"
     },
 
     initDailyBriefingController: function() {
@@ -52,8 +53,8 @@ function(app, Backbone, DailyBriefingController) {
     }
   });
 
-  Dashboard.Model = Backbone.Model.extend({});
   Dashboard.Collection = Backbone.Model.extend({});
+  Dashboard.DbcMonitor = Backbone.Model.extend({});
 
   return Dashboard;
 });
