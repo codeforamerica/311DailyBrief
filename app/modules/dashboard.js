@@ -27,8 +27,10 @@ function(app, Backbone, DailyBriefingController) {
     },
 
     events: {
-      "click input[type=checkbox]": "_captureTrackingInfo",
-      "click li": "_captureTrackingInfo"
+      "click input[type=checkbox]": "_captureTrackingInfo"
+      // XXX: Need to update multiselector so id scheme is used that allows
+      // for tracking, this is too crazy
+      //"click li": "_captureTrackingInfo"
     },
 
     initDailyBriefingController: function() {
