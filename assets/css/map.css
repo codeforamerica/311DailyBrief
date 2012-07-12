@@ -71,3 +71,7 @@ a.leaflet-control-center:hover{
 .leaflet-popup-content .content {
   width: 225px;
 }
+
+.leaflet-container .leaflet-control-attribution {
+  margin-bottom: 130px;
+}
