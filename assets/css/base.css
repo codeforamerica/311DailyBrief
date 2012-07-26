@@ -13,6 +13,8 @@ html, body {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
+li.capitalize {text-transform:capitalize;}
+
 header {
 	height: 68px;
 	background: #e14747;

@@ -104,18 +104,25 @@ MultiSelector.prototype = {
   },
   
   setOptions: function (options) {
-    for (var i=0, len=options.length; i < len; i++) {
-      this.addOption(options[i]);
+    // sort by name value
+    var sorted = _.sortBy(options, function(obj) { return obj.name });
+
+    for (var i=0, len=sorted.length; i < len; i++) {
+      this.addOption(sorted[i]);
     }
     this.clearFilter();
   },
   
   addOption: function (option) {
     var itemElement = document.createElement("li");
+    // values are inserted as all lowercase below, CSS is used to capitalize them properly
+    itemElement.className = "capitalize";
+
     var control = itemElement.appendChild(document.createElement("input"));
     control.type = "checkbox";
-    control.value = option.value || option.name;
-    itemElement.appendChild(document.createTextNode(option.name));
+    control.value = option.value || option.name.toLowerCase();
+
+    itemElement.appendChild(document.createTextNode(option.name.toLowerCase()));
     this.listElement.appendChild(itemElement);
     
     this.options.push({
