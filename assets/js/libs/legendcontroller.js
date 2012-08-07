@@ -23,7 +23,7 @@ LegendController.prototype = {
   
   update: function () {
 
-    console.log('LegendController update called');
+    //console.log('LegendController update called');
 
     var self = this;
     

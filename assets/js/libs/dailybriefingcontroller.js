@@ -33,6 +33,10 @@ var DailyBriefingController = function () {
   // initialize sub-controllers
   this.legend = new LegendController();
   this.legend.dataSource = this;
+  this.words = new WordsController();
+  this.words.dataSource = this;
+  this.media = new MediaController();
+  this.media.dataSource = this;
   this.map = new MapController();
   this.map.dataSource = this;
   this.filterBar = new FilterBarController(this);
@@ -49,11 +53,11 @@ var DailyBriefingController = function () {
                         function(data, self) {
                           self.areas = data.boundaries;
                           self.services = data.services;
-                          console.log("boundaries filter count: " 
+                          /*console.log("boundaries filter count: " 
                             + self.areas.length);
                           console.log("services filter count: " 
                             + self.services.length);
-                          console.log("updating filter selectors");
+                          console.log("updating filter selectors");*/
                           self.filterBar.updateFilters();
                         },
                         this);
@@ -84,7 +88,7 @@ DailyBriefingController.prototype = {
                   '{"endpoint": ' + Config.endpoint + ', "status": "open"' + boundaryFilter + '}',
                   this.allRequests['open'],
                   function(data, self) { 
-                    console.log('returned open request count is: ' + data.length);
+                    //console.log('returned open request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
                   },
@@ -93,6 +97,7 @@ DailyBriefingController.prototype = {
                     // using this, finalize callback would only draw 
                     // on the map once all data is available
                     //controller._refreshData()
+                    //controller.words.update();
                   },
                   this);
 
@@ -105,7 +110,7 @@ DailyBriefingController.prototype = {
                    '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
                   this.allRequests['opened'],
                   function(data, self) { 
-                    console.log('returned opened request count is: ' + data.length);
+                    //console.log('returned opened request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
                   },
@@ -122,7 +127,7 @@ DailyBriefingController.prototype = {
                    '"status": "closed"}',
                   this.allRequests['closed'],
                   function(data, self) { 
-                    console.log('returned closed request count is: ' + data.length);
+                    //console.log('returned closed request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
                   },
@@ -174,14 +179,16 @@ DailyBriefingController.prototype = {
   },
   
   _refreshData: function () {
-    console.log("_refreshData called: open requests count = " + 
+    /*console.log("_refreshData called: open requests count = " + 
                 this.requests['open'].length);
     console.log("_refreshData called: opened requests count = " + 
                 this.requests['opened'].length);
     console.log("_refreshData called: closed requests count = " + 
-                this.requests['closed'].length);
+                this.requests['closed'].length);*/
     this.legend.update();
     this.map.update();
+    this.words.update();
+    this.media.update();
   },
 
   handleEvent: function (event) {

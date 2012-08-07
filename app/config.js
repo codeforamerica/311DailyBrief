@@ -10,6 +10,7 @@ require.config({
 
     // Libraries
     jquery: "../assets/js/libs/jquery",
+    inflection: "../assets/js/libs/inflection",
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone",
     configbaltimore: "../assets/js/libs/config.baltimore",
@@ -23,6 +24,8 @@ require.config({
     filterbarcontroller: "../assets/js/libs/filterbarcontroller",
     headerbarcontroller: "../assets/js/libs/headerbarcontroller",
     legendcontroller: "../assets/js/libs/legendcontroller",
+    wordscontroller: "../assets/js/libs/wordscontroller",
+    mediacontroller: "../assets/js/libs/mediacontroller",
     mapcontroller: "../assets/js/libs/mapcontroller",
     mapmarkerrenderer: "../assets/js/libs/mapcontroller.markerrenderer",
     mapcanvasrenderer: "../assets/js/libs/mapcontroller.canvasrenderer",
@@ -43,6 +46,7 @@ require.config({
     },
     dailybriefingcontroller: {
       deps: ["backbone", 
+             "inflection",
              "utils", 
              "eventmanager", 
              "datetools",
@@ -55,7 +59,9 @@ require.config({
              "threeoneoneapi",
              "headerbarcontroller",
              "multiselector",
-             "controlcenter"],
+             "controlcenter",
+             "wordscontroller",
+             "mediacontroller"],
       exports: "DailyBriefingController"
     },
     datetools: {
@@ -96,6 +102,12 @@ require.config({
     },
     multiselector: {
       exports: "MultiSelector"
+    },
+    wordscontroller: {
+      exports: "WordsController"
+    },
+    mediacontroller: {
+      exports: "MediaController"
     }
   }
 });
