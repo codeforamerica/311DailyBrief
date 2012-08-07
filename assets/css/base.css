@@ -1,0 +1,295 @@
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
+html, body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	min-width: 960px;
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+li.capitalize {text-transform:capitalize;}
+
+header {
+	height: 68px;
+	background: #e14747;
+	display: block;
+}
+
+header img {
+  padding: 15px 7px 0 2.5%;
+  float: left;
+}
+header img.beta { 
+  float:left;
+  position:relative;
+  top:-10px;
+  left:-55px;
+}
+
+header p {
+	color: #ffffff;
+	float: left;
+	font-size: 110%;
+	padding-top: 27px;
+	margin: 0px 0px 0px -80px;
+}
+
+header img.labslogo {
+  float: right;
+  padding: 0px 2.5%;
+  margin-top: 10px;
+
+}
+
+header a {
+  color: #000000;
+  text-decoration: none;
+}
+
+header a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.reset {
+  clear: both;
+}
+
+#map {
+	position: absolute;
+	left: 0;
+	top: 68px;
+	right: 0;
+	bottom: 0;
+}
+
+#legend {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 0px 10px #444;
+}
+
+#legend > section {
+  float: left;
+  width: 20%;
+  padding: 0 2.5%;
+}
+
+#legend section#legend-info h1 {
+  text-transform: uppercase;
+  font-size: 200%;
+  margin: 21px 0px 0px 0px;
+}
+
+#legend section#legend-info p {
+  font-size: 90%;
+  margin: 0px 0px 25px 0px;
+  line-height: 140%;
+}
+
+#legend section#legend-info a {
+  color: #000000;
+  text-decoration: none;
+}
+
+#legend section#legend-info a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+#legend section.legend-status {
+  color: #666;
+}
+
+#legend section.legend-status h1 {
+  text-transform: uppercase;
+  border-bottom:1px solid #888;
+  font-size: 110%;
+  padding-top: 10px;
+  margin-bottom: 5px;
+}
+
+#legend section.legend-status p {
+  padding-top: 0px;
+  margin-top:5px;
+}
+
+#legend section.legend-status p span.value {
+  font-size: 250%;
+  font-weight: bold;
+}
+
+#legend section#legend-open.active * {
+  color: #e14747;
+  border-color: #e14747;
+}
+
+#legend section#legend-open.active .display-max {
+  margin-top: -15px;
+  font-size: 75%
+}	
+
+#legend section#legend-newly-opened.active * {
+  color: orange;
+  border-color: orange;
+}
+
+#legend section#legend-newly-closed.active * {
+  color: #114ab1;
+  border-color: #114ab1;
+}
+
+@media only screen and (max-width: 960px) and (min-width: 551px) {
+
+  section#legend-open {
+    clear: left;
+  }
+  
+  section#legend-info {
+    width: 95%;
+    padding: 0 2.5%;
+  }
+  
+  section#legend-open,
+  section#legend-newly-opened,
+  section#legend-newly-closed {
+    width: 28.33333%;
+    padding: 0 2.5%;
+  }
+  
+
+  #legend section#legend-info p {
+    margin-bottom: 0;
+    display: inline;
+  }
+  
+}
+
+@media only screen and (max-width: 700px) and (min-width: 601px) {
+  header p {
+    font-size: 90%;
+    padding-top: 32px;
+  }
+}
+
+@media only screen and (max-width: 600px) and (min-width: 551px) {
+  header p {
+    font-size: 75%;
+    padding-top: 34px;
+    
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  header {
+    text-align: center;
+  }
+  
+  header img {
+    margin: 0 auto;
+    padding: 4px 0 0 0;
+    float: none;
+  }
+  
+  header p {
+    margin: -5px auto 0;
+    padding: 0px 0 0 0;
+    float: none;
+    font-size: 80%;
+  }
+  
+  #filters {
+    
+  }
+
+  section#legend-newly-opened {
+    clear: left;
+  }
+  
+  #legend > section {
+    float: left;
+    width: 45%;
+    padding: 0 2.5%;
+  }
+}
+
+#wordlist {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 130px;
+  right: 10px;
+  width: 200px;
+  height: 525px;
+  overflow-y: scroll;
+}
+
+#wordlist span{
+  font-size: 0.8em;
+  color: #c0c0c0;
+}
+
+#wordlist .title {
+  color: #fff;
+  margin: 0;
+  padding: 10px 8px 10px 40px;
+  background: rgba(77, 79, 80, 0.8);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#wordlist ol {
+  color: #fff;
+  margin-left: 10px;
+}
+
+#medialist {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  bottom: 135px;
+  left: 10px;
+  width: 185px;
+  height: 280px;
+}
+
+#medialist span{
+  font-size: 0.8em;
+  color: #c0c0c0;
+}
+
+#medialist .title {
+  color: #fff;
+  margin: 0;
+  padding: 10px 8px 10px 40px;
+  background: rgba(77, 79, 80, 0.8);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#medialist ol {
+  margin-left: 0px;
+}
+
+#medialist img {
+  width: 165px;
+  height: 220px;
+  margin: 10px;
+}
+
+#medialist div.scroller {
+    overflow-x: hidden;
+}
+
+#medialist div.imgcontainer {
+    width: 18500px;
+    position: relative;
+}

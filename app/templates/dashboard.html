@@ -1,0 +1,66 @@
+<header>
+  <a href=""><img src="/assets/img/daily_brief.png"></a>
+  <img src="/assets/img/beta.png" class="beta" />
+  <p>for the morning of <span id="todays_date">today</span></p>
+  <a href="http://311labs.org/" target="_blank"><img class="labslogo" src="assets/img/311_labs_logo.png" /></a></p>
+</header>
+
+<section id="filters">
+  <p class="title">
+    Filter
+    <span class="endcap"></span>
+  </p>
+  <ul>
+    <li><span id="boundaryTitle">Ward</span>: <span id="filters_area"></span></li>
+    <li>Service: <span id="filters_service"></span></li>
+    <li>Status: <span id="filters_status"></span></li>
+  </ul>
+  <button id="filters_clear">Clear</button>
+</section>
+
+<div id="map"></div>
+
+<div id="legend">
+
+  <section id="legend-info">
+    <h1>City</h1>
+    <!-- Changing the contents of the p tag will not change the tag file. 
+         Go instead to the config file to change the text. -->
+    <p></p>
+  </section>
+
+  <section id="legend-open" class="legend-status active">
+    <h1>Open</h1>
+    <p><span class="value">0</span> requests *</p>
+    <p class="display-max">* display max is 1000 requests</p>
+  </section>
+
+  <section id="legend-newly-opened" class="legend-status active">
+    <h1>Opened Yesterday</h1>
+    <p><span class="value">0</span> requests</p>
+  </section>
+
+  <section id="legend-newly-closed" class="legend-status active">
+    <h1>Closed Yesterday</h1>
+    <p><span class="value">0</span> requests</p>
+  </section>
+  
+</div>
+
+<section id="wordlist">
+  <p class="title">
+    Words Used
+  </p>
+  <ol>
+
+  </ol>
+</section>
+
+<section id="medialist">
+  <p class="title">
+   Media
+  </p>
+  <div class="scroller">
+    <div class="imgcontainer"></div>
+  </div>
+</section>

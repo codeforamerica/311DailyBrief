@@ -1,0 +1,77 @@
+/* MAP CUSTOMIZATIONS */
+
+/* Copyright (C) 2012, Code for America
+ * This is open source software, released under a standard 2-clause
+ * BSD-style license; see the file LICENSE for details.
+ */
+
+/* top-left and top-right control containers */
+.leaflet-top {
+	/* account for the filter bar */
+	top: 60px;
+	left: 20px;
+}
+
+.leaflet-popup-close-button {
+  top: 11px;
+  right: 11px;
+}
+
+.leaflet-popup-content h4 {
+  margin: 0px auto 9px;
+  font-size: 13px;
+  line-height: 8px;
+}
+
+.leaflet-popup-content p {
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 10px;
+  font-size: 13px;
+  margin: 5px 0 18px;
+  line-height: 16px;
+}
+
+.leaflet-popup-content h5 {
+  margin-bottom: 0px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.leaflet-popup-content span.ago {
+  font-style:italic;
+  color:#777777;
+}
+div.leaflet-control-center{
+  height:46px;
+  width:46px;
+}
+a.leaflet-control-center{
+  height:46px;
+  width:46px;
+  display:block;
+  position:relative;
+  left:-9px;
+  top:5px;
+  background-image: url(/assets/img/center.png);
+  background-position: 0px 0px;
+}
+a.leaflet-control-center:hover{
+  background-position: 0px 46px;
+
+}
+.leaflet-popup-content .photo, .leaflet-popup-content .content {
+  float: left;
+}
+
+.leaflet-popup-content .photo {
+  width: 250px;
+  margin-right: 25px;
+}
+
+.leaflet-popup-content .content {
+  width: 225px;
+}
+
+.leaflet-container .leaflet-control-attribution {
+  margin-bottom: 130px;
+}
