@@ -14,6 +14,12 @@ require([
 
 function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
 
+  var configMap = {
+    boston: ConfigBoston,
+    bloomington: ConfigBloomington,
+    baltimore: Config
+  };
+
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -36,17 +42,14 @@ function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
     },
 
     /*
-     * Set the configuration file for this view load based on city 
+     * Set the configuration file for this view load based on city
      */
     setCityConfig: function(city) {
-      if (city === 'boston') {
-        Config = ConfigBoston;
+      if (!configMap.hasOwnProperty(city)) {
+        // noop - Config is set to Baltimore by default
+        return;
       }
-      else if (city === 'bloomington') {
-        Config = ConfigBloomington;
-      } else {
-        // left for clarity - it's baltimore by default
-      }
+      Config = configMap[city];
     },
 
     showView: function(view) {
