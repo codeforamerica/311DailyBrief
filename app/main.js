@@ -8,14 +8,17 @@ require([
   "configbaltimore",
   "configbloomington",
   "configboston",
+  "configboston1",
   // modules
   "modules/dashboard"
 ],
 
-function(app, $, Backbone, Config, ConfigBloomington, ConfigBoston, Dashboard) {
+function(app, $, Backbone, Config, ConfigBloomington,
+         ConfigBoston, ConfigBoston1, Dashboard) {
 
   var configMap = {
     boston: ConfigBoston,
+    boston1: ConfigBoston1,
     bloomington: ConfigBloomington,
     baltimore: Config
   };

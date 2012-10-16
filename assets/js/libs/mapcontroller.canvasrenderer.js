@@ -9,7 +9,7 @@
 
 MapController.CanvasRenderer = {
   // ---------------------- RENDERER METHODS -------------------------
-  
+
   _initializeRenderer: function () {
     // adjust for an accuracy vs. drawing speed sweet spot (more accuracy makes drawing markers slower)
     // 1 == perfect accuracy, 2 == every other pixel, etc. Integers only, please!
@@ -21,34 +21,34 @@ MapController.CanvasRenderer = {
     this._currentPopup = null;
     this._mapped = {}; // points that have been displayed on the map
   },
-  
+
   _initializeMapRenderer: function () {
     var self = this;
     this.canvasTiles = new L.TileLayer.Canvas();
-   
+
     // capture open popup as state saving mechanism so we can have
     // custom behavior of closing the open popup (and not opening
-    // new popup) if user clicks on marker a second time 
+    // new popup) if user clicks on marker a second time
     this.map.on("popupopen", function(e){
       self._currentPopup = e.popup;
     });
 
     this.canvasTiles.drawTile = function() { self.drawTile.apply(self, arguments); };
-    
+
     this.map.addLayer(this.canvasTiles);
-    
+
     // events
     this.map.on("click", this.handleEvent, this);
     // map has no mousemove events; only drag-related events ("move" is dragging)
     this.map._container.addEventListener("mousemove", this, false);
   },
-  
+
   _updateRenderer: function () {
 
     // Join and sort latitudinally and honor max marker limit (aka _markerPoolSize)
     this._allRequests = this.dataSource.requests['open']
-                                       .slice(1, this._markerPoolSize) 
-                                       .concat(this.dataSource.requests['opened'], 
+                                       .slice(1, this._markerPoolSize)
+                                       .concat(this.dataSource.requests['opened'],
                                                this.dataSource.requests['closed'])
                                        .sort(function (a, b) {
       var latitudeDiff = b.lat - a.lat;
@@ -62,13 +62,13 @@ MapController.CanvasRenderer = {
         return -1;
       }
     });
-    
+
     // Wait for icons to be ready for rendering
     if (!this._iconsReady()) {
       this._waitingToUpdate = true;
       return;
     }
-    
+
     // var start = Date.now();
     this.canvasTiles.redraw();
     // var time = Date.now() - start;
@@ -78,7 +78,7 @@ MapController.CanvasRenderer = {
     // this.renderInfo.totalPer += time / this._allRequests.length;
     // console.log("AVERAGE RENDER TIME PER FEATURE: ", this.renderInfo.totalPer / this.renderInfo.renders);
   },
-  
+
   _handleEventRenderer: function (event) {
     if (event.target.nodeName === "IMG") {
       this._handleIconImageLoad(event);
@@ -94,18 +94,18 @@ MapController.CanvasRenderer = {
         var feature = this._getFeatureAtPoint(mapPoint);
         this.map._container.style.cursor = feature ? "pointer" : "default";
       }
-      
+
     }
     else if (event.type === "click") {
       // console.log(event.layerPoint.x, event.layerPoint.y);
       // console.log(this.map._initialTopLeftPoint.x, this.map._initialTopLeftPoint.y, " / ", this.map._initialTopLeftPoint.x / 256, this.map._initialTopLeftPoint.y / 256);
-      
+
       var mapPoint = this.map._initialTopLeftPoint.add(event.layerPoint);
       var tile = new L.Point(Math.floor(mapPoint.x / 256), Math.floor(mapPoint.y / 256));
       var position = new L.Point(mapPoint.x % 256, mapPoint.y % 256);
 
       var feature = this._getFeatureAtPoint(mapPoint);
-      
+
       if (feature) {
         // create a standard popup
         // TODO: make it nicer.
@@ -128,23 +128,26 @@ MapController.CanvasRenderer = {
       }
     }
   },
-  
-  
+
+
   // ---------------------- DRAWING -------------------------
-  
+
   drawTile: function (canvas, tilePoint, zoom) {
     if (!this.dataSource)
       return;
-    
+
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 256, 256);
-    
+
     var showTypes = {
       open: this.dataSource.filterConditions.states.indexOf("open") > -1,
       opened: this.dataSource.filterConditions.states.indexOf("opened") > -1,
       closed: this.dataSource.filterConditions.states.indexOf("closed") > -1
+      //open: Config.statusSelectorValues.open,
+      //opened: Config.statusSelectorValues.opened,
+      //closed: Config.statusSelectorValues.closed
     };
-    
+
     var tilePixelPoint = tilePoint.multiplyBy(256);
     var tileKey = tilePoint.toString();
     this._createEmptyFeatureTile(tileKey);
@@ -159,22 +162,22 @@ MapController.CanvasRenderer = {
       }
     }, this);
   },
-  
-  
+
+
   // ---------------------- FEATURE INTERACTION MANAGEMENT -------------------------
-  
+
   _createEmptyFeatureTile: function (tilePoint) {
     this._featureMap[tilePoint] = {};
   },
-  
+
   _setFeatureAtPoint: function (tilePoint, featurePoint, icon, feature, featureIndex) {
     // WARNING: This method is HOT. Measure performance thoroughly before making changes.
-    
+
     // No need to do any checks here; _createEmptyFeatureTile() must always be run first
     var featureMap = this._featureMap[tilePoint];
-    
+
     var resolution = this.interactionResolution || 1;
-    
+
     var offsetX = featurePoint.x + icon.offset.x;
     var offsetY = featurePoint.y + icon.offset.y;
     // rectify offsets to interaction resolution
@@ -193,18 +196,18 @@ MapController.CanvasRenderer = {
       featureMap[y * 256 + x] = feature;
     }
   },
-  
+
   _getFeatureAtPoint: function (tilePoint, featurePoint) {
     if (!featurePoint) {
       var point = tilePoint;
       tilePoint = new L.Point(Math.floor(point.x / 256), Math.floor(point.y / 256));
       featurePoint = new L.Point(point.x % 256, point.y % 256);
     }
-    
+
     if (!this._featureMap) {
       this._featureMap = {};
     }
-    
+
     var feature = null;
     var tile = this._featureMap[tilePoint];
     if (tile) {
@@ -215,10 +218,10 @@ MapController.CanvasRenderer = {
     }
     return feature;
   },
-  
-  
+
+
   // ---------------------- ICON MANAGEMENT -------------------------
-  
+
   _initializeIcons: function () {
     this.icons = {
       open:   this._createIconImage(MapController.ICON_PATHS.default),
@@ -226,18 +229,18 @@ MapController.CanvasRenderer = {
       closed: this._createIconImage(MapController.ICON_PATHS.closed),
     }
   },
-  
+
   _createIconImage: function (path) {
     var image = new Image();
     image.src = path;
-    
+
     var info = {
       image: image,
       offset: {x: 0, y: 0},
       mask: []
     }
     image.representedObject = info;
-    
+
     if (image.complete) {
       this._setupIcon(info, 2);
     }
@@ -245,10 +248,10 @@ MapController.CanvasRenderer = {
       image.addEventListener("load", this, false);
       image.addEventListener("error", this, false);
     }
-    
+
     return info;
   },
-  
+
   _handleIconImageLoad: function (event) {
     event.target.removeEventListener("load", this, false);
     event.target.removeEventListener("error", this, false);
@@ -256,16 +259,16 @@ MapController.CanvasRenderer = {
     if (event.type === "load") {
       this._setupIcon(event.target.representedObject);
     }
-    
+
     if (this._iconsReady() && this._waitingToUpdate) {
       this.update();
     }
   },
-  
+
   _setupIcon: function (icon) {
     icon.offset.x = -Math.floor(icon.image.width / 2);
     icon.offset.y = 1 - icon.image.height;
-    
+
     // make the interaction mask
     var workCanvas = document.createElement("canvas");
     workCanvas.width = icon.image.width;
@@ -274,7 +277,7 @@ MapController.CanvasRenderer = {
     workCtx.drawImage(icon.image, 0, 0);
     var iconData = workCtx.getImageData(0, 0, icon.image.width, icon.image.height).data;
     var rowLength = icon.image.width;
-    
+
     var resolution = this.interactionResolution || 1;
     for (var i = 3, len = iconData.length; i < len; i += 4) {
       if (iconData[i] > 128) {
@@ -289,7 +292,7 @@ MapController.CanvasRenderer = {
       }
     }
   },
-  
+
   _iconsReady: function () {
     return this.icons.open.image.complete && this.icons.opened.image.complete && this.icons.closed.image.complete;
   },

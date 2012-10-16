@@ -8,7 +8,7 @@ var DailyBriefingController = function () {
 
   eventManager.mix(FilterBarController);
   eventManager.mix(MultiSelector);
-  
+
   // default filters
   this.filterConditions = {
     area: null, // null means the whole city
@@ -20,16 +20,16 @@ var DailyBriefingController = function () {
       to: dateTools.today()
     }
   };
-  
+
   this.requests = {
     open: [],
     opened: [],
     closed: []
   };
-  
+
   this.areas = new Array();
   this.services = new Array();
-  
+
   // initialize sub-controllers
   this.legend = new LegendController();
   this.legend.dataSource = this;
@@ -42,28 +42,28 @@ var DailyBriefingController = function () {
   eventManager.subscribe("filtersChanged", this);
 
   // this gets the collections of areas and services from the API
-  // and passes them to the filterBar controller to use to populate the dropdowns 
-  this.api.findDistinct('{"boundaries": 1}', 
+  // and passes them to the filterBar controller to use to populate the dropdowns
+  this.api.findDistinct('{"boundaries": 1}',
                         '{"_id": ' + Config.endpoint + '}',
                         this.areas,
                         function(data, self) {
                           self.areas = data.boundaries;
                           self.services = data.services;
-                          console.log("boundaries filter count: " 
+                          console.log("boundaries filter count: "
                             + self.areas.length);
-                          console.log("services filter count: " 
+                          console.log("services filter count: "
                             + self.services.length);
                           console.log("updating filter selectors");
                           self.filterBar.updateFilters();
                         },
                         this);
-                        
+
   this.updateData();
 };
 
 DailyBriefingController.prototype = {
   constructor: DailyBriefingController,
-  
+
   updateData: function () {
     // clear current data
     this.allRequests = {
@@ -71,26 +71,26 @@ DailyBriefingController.prototype = {
       opened: [],
       closed: []
     };
-    
+
     // boundary filters have to be computed on the server...?
     var boundaryFilter = "";
     if (this.rebuildDataForBoundaries && this.filterConditions.area) {
       boundaryFilter = ', "boundary": {"$in": ' + JSON.stringify(this.filterConditions.area) + '}';
     }
-    
+
     // get all open requests from the API and refresh app controllers
     this.api.find('requests',
                   null,
                   '{"endpoint": ' + Config.endpoint + ', "status": "open"' + boundaryFilter + '}',
                   this.allRequests['open'],
-                  function(data, self) { 
+                  function(data, self) {
                     console.log('returned open request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
                   },
-                  function(controller) { 
+                  function(controller) {
                     // using the instantaneous approach just above
-                    // using this, finalize callback would only draw 
+                    // using this, finalize callback would only draw
                     // on the map once all data is available
                     //controller._refreshData()
                   },
@@ -99,12 +99,12 @@ DailyBriefingController.prototype = {
     // get all opened requests from the API and refresh app controllers
     this.api.find('requests',
                   null,
-                  '{"endpoint": ' + Config.endpoint + ',' + 
-                   '"requested_datetime": ' + 
+                  '{"endpoint": ' + Config.endpoint + ',' +
+                   '"requested_datetime": ' +
                    '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                    '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
                   this.allRequests['opened'],
-                  function(data, self) { 
+                  function(data, self) {
                     console.log('returned opened request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
@@ -115,13 +115,13 @@ DailyBriefingController.prototype = {
     // get all closed requests from the API and refresh app controllers
     this.api.find('requests',
                   null,
-                  '{"endpoint": ' + Config.endpoint + ',' + 
-                   '"updated_datetime": ' + 
+                  '{"endpoint": ' + Config.endpoint + ',' +
+                   '"updated_datetime": ' +
                    '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
                    '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
                    '"status": "closed"}',
                   this.allRequests['closed'],
-                  function(data, self) { 
+                  function(data, self) {
                     console.log('returned closed request count is: ' + data.length);
                     self._filterData();
                     self._refreshData();
@@ -133,21 +133,21 @@ DailyBriefingController.prototype = {
   post: function(doc, collection) {
     this.api.post(doc, collection);
   },
-  
+
   updateFilters: function (newFilters) {
     var oldFilters = this.filterConditions;
     this.filterConditions = newFilters;
-    
+
     if (this.rebuildDataForBoundaries && !(newFilters.area == null && oldFilters.area == null) && !this.arraysAreEquivalent(newFilters.area, oldFilters.area)) {
       // Because we might not be showing all markers, we're going to hit the server again. This should really be done client-side :\
       this.updateData();
       return;
     }
-    
+
     // populate this.requests based on new filters
     this._filterData(newFilters);
   },
-  
+
   currentFiltersEqual: function (filters) {
     return this.arraysAreEquivalent(filters.area, this.filterConditions.area) &&
            this.arraysAreEquivalent(filters.states, this.filterConditions.states) &&
@@ -155,7 +155,7 @@ DailyBriefingController.prototype = {
            filters.dateRange.from.getTime() === this.filterConditions.dateRange.from.getTime() &&
            filters.dateRange.to.getTime() === this.filterConditions.dateRange.to.getTime();
   },
-  
+
   _filterData: function (filters) {
     filters = filters || this.filterConditions;
     for (var state in this.allRequests) {
@@ -172,13 +172,13 @@ DailyBriefingController.prototype = {
       // }
     }
   },
-  
+
   _refreshData: function () {
-    console.log("_refreshData called: open requests count = " + 
+    console.log("_refreshData called: open requests count = " +
                 this.requests['open'].length);
-    console.log("_refreshData called: opened requests count = " + 
+    console.log("_refreshData called: opened requests count = " +
                 this.requests['opened'].length);
-    console.log("_refreshData called: closed requests count = " + 
+    console.log("_refreshData called: closed requests count = " +
                 this.requests['closed'].length);
     this.legend.update();
     this.map.update();
@@ -192,7 +192,7 @@ DailyBriefingController.prototype = {
       this._refreshData();
     }
   },
-  
+
   // FIXME: this really shouldn't be here
   // would be nice on Array.prototype...
   arraysAreEquivalent: function (a, b) {

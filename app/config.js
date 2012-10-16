@@ -15,6 +15,7 @@ require.config({
     configbaltimore: "../assets/js/libs/config.baltimore",
     configbloomington: "../assets/js/libs/config.bloomington",
     configboston: "../assets/js/libs/config.boston",
+    configboston1: "../assets/js/libs/config.boston1",
     utils: "../assets/js/libs/utils",
     datetools: "../assets/js/libs/datetools",
     eventmanager: "../assets/js/libs/eventmanager",
@@ -42,9 +43,9 @@ require.config({
       exports: "eventManager"
     },
     dailybriefingcontroller: {
-      deps: ["backbone", 
-             "utils", 
-             "eventmanager", 
+      deps: ["backbone",
+             "utils",
+             "eventmanager",
              "datetools",
              "legendcontroller",
              "configbaltimore",
@@ -73,6 +74,9 @@ require.config({
     },
     configboston: {
       exports: "ConfigBoston"
+    },
+    configboston1: {
+      exports: "ConfigBoston1"
     },
     mapcontroller: {
       exports: "MapController"

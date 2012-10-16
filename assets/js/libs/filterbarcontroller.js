@@ -5,10 +5,10 @@
 
 var FilterBarController = function (appController) {
   this.app = appController;
-  
+
   // update the Ward/Neighborhood/BoundaryTitle
   $('#boundaryTitle').html(Config.boundaryTitle);
-  
+
   this.element = document.getElementById("filters");
   this.statusSelector = new MultiSelector(document.getElementById("filters_status"));
   this.areaSelector = new MultiSelector(document.getElementById("filters_area"));
@@ -23,15 +23,24 @@ var FilterBarController = function (appController) {
 
 FilterBarController.prototype = {
   constructor: FilterBarController,
-  
+
   _initializeFilters: function () {
     this.statusSelector.setOptions([
-      {name: "Currently Open", value: "open"},
-      {name: "Opened Yesterday", value: "opened"},
-      {name: "Closed Yesterday", value: "closed"}
+      {name: "Currently Open", value: "open", checked: Config.statusSelectorValues.open},
+      {name: "Opened Yesterday", value: "opened", checked: Config.statusSelectorValues.opened},
+      {name: "Closed Yesterday", value: "closed", checked: Config.statusSelectorValues.closed}
     ]);
-    this.statusSelector.setValue(null);
-    
+    //this.statusSelector.setValue();
+    this.statusSelector.updateLabel();
+    var states = [];
+    var selectedService = this.serviceSelector.getValue();
+    var selectedArea = this.areaSelector.getValue();
+    if (Config.statusSelectorValues.open) { states.push("open"); }
+    if (Config.statusSelectorValues.opened) { states.push("opened"); }
+    if (Config.statusSelectorValues.closed) { states.push("closed"); }
+    var filters = this._setFilters(selectedArea, selectedService, states);
+    this.app.updateFilters(filters);
+
     this.updateFilters();
   },
 
@@ -50,7 +59,7 @@ FilterBarController.prototype = {
     }));
     this.serviceSelector.setValue(null);
   },
-  
+
   _setSelectOptions: function (selectElement, options) {
     for (var i = 0, len = options.length; i < len; i++) {
       var optionElement = document.createElement("option");
@@ -70,13 +79,13 @@ FilterBarController.prototype = {
           states: state ? state : ["open", "opened", "closed"],
        dateRange: this.app.filterConditions.dateRange };
   },
-  
+
   handleEvent: function (event) {
 
     var selectedService = this.serviceSelector.getValue();
     var selectedState = this.statusSelector.getValue();
     var selectedArea = this.areaSelector.getValue();
-   
+
     if (event.target === this.clearButton) {
       this.serviceSelector.setValue();
       this.statusSelector.setValue();
@@ -87,13 +96,13 @@ FilterBarController.prototype = {
       var filters = this._setFilters(selectedArea, selectedService, selectedState);
       this.dispatchEvent("filtersChanged", filters);
     }
-    
+
     var filters = this._setFilters(selectedArea, selectedService, selectedState);
 
     if (event.type === "change") {
       this.dispatchEvent("filtersChanged", filters);
     }
-    
+
     $(this.element)
       [selectedService || selectedState || selectedArea ? "addClass" : "removeClass"]("has-filters")
   }

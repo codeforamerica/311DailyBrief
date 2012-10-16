@@ -14,7 +14,7 @@ var MultiSelector = function MultiSelector (element, options, allAsNull) {
     this.setOptions(options);
   }
   this.updateLabel();
-  
+
   this.popup.appendChild(this.listElement);
   document.addEventListener("mousedown", this, false);
   this.element.addEventListener("click", this, false);
@@ -22,17 +22,17 @@ var MultiSelector = function MultiSelector (element, options, allAsNull) {
 
 MultiSelector.prototype = {
   constructor: MultiSelector,
-  
+
   _initializeElement: function () {
     this.label = document.createElement("span");
     this.label.className = "label";
     this.element.appendChild(this.label);
     // this.label.addEventListener("click", this, false);
-    
+
     this.popup = document.createElement("div");
     this.popup.className = "popup";
     this.element.appendChild(this.popup);
-    
+
     // Filter
     var filterContainer = document.createElement("div");
     filterContainer.className = "MultiSelector-filter";
@@ -48,7 +48,7 @@ MultiSelector.prototype = {
     filterContainer.appendChild(this.filterField);
     // filterContainer.appendChild(this.clearFilterButton);
     this.popup.appendChild(filterContainer);
-    
+
     // Buttons
     this.allButton = document.createElement("button");
     this.allButton.appendChild(document.createTextNode("All"));
@@ -62,23 +62,23 @@ MultiSelector.prototype = {
     buttonContainer.appendChild(this.noneButton);
     this.popup.appendChild(buttonContainer);
     // buttonContainer.addEventListener("click", this, false);
-    
+
     // Option list
     this.listElement = document.createElement("ol");
     this.listElement.addEventListener("click", this, false);
   },
-  
+
   show: function () {
     $(this.popup).fadeIn();
     this.showing = true;
     this.filterField.focus();
   },
-  
+
   hide: function () {
     $(this.popup).fadeOut();
     this.showing = false;
   },
-  
+
   getValue: function () {
     var value = [];
     var anyUnchecked = false;
@@ -91,10 +91,10 @@ MultiSelector.prototype = {
         anyUnchecked = true;
       }
     }
-    
+
     return (!anyUnchecked && this.allAsNull) ? null : value;
   },
-  
+
   setValue: function (value) {
     for (var i=0, len=this.options.length; i < len; i++) {
       var option = this.options[i];
@@ -102,17 +102,17 @@ MultiSelector.prototype = {
     }
     this.updateLabel();
   },
-  
+
   setOptions: function (options) {
     // sort by name value
-    var sorted = _.sortBy(options, function(obj) { return obj.name });
+    var sorted = _.sortBy(options, function(obj) { return obj.name; });
 
     for (var i=0, len=sorted.length; i < len; i++) {
       this.addOption(sorted[i]);
     }
     this.clearFilter();
   },
-  
+
   addOption: function (option) {
     var itemElement = document.createElement("li");
     // values are inserted as all lowercase below, CSS is used to capitalize them properly
@@ -121,17 +121,18 @@ MultiSelector.prototype = {
     var control = itemElement.appendChild(document.createElement("input"));
     control.type = "checkbox";
     control.value = option.value || option.name.toLowerCase();
+    control.checked = option.checked;
 
     itemElement.appendChild(document.createTextNode(option.name.toLowerCase()));
     this.listElement.appendChild(itemElement);
-    
+
     this.options.push({
       name: option.name,
       value: option.value || option.name,
       element: itemElement
     });
   },
-  
+
   filterOptions: function (filter) {
     filter = filter && filter.toUpperCase();
     var alwaysMatch = !filter;
@@ -140,12 +141,12 @@ MultiSelector.prototype = {
       this.options[i].element.style.display = matches ? "" : "none";
     }
   },
-  
+
   clearFilter: function () {
     this.filterField.value = "";
     this.filterOptions(null);
   },
-  
+
   updateLabel: function () {
     var names = [];
     // track whether all items were selected
@@ -159,7 +160,7 @@ MultiSelector.prototype = {
         all = false;
       }
     }
-    
+
     // "All", "None", or a list
     var quantity = names.length;
     var labelText = quantity + " Selected";
@@ -172,21 +173,21 @@ MultiSelector.prototype = {
     else if (all) {
       labelText = "All";
     }
-    
+
     // labelText = ({
     //   "0": "None",
     //   "1": names[0],
     //   "true": "All"
     // })[all || quantity] || quantity + " Selected";
-    
+
     this.label.textContent = labelText;
   },
-  
+
   handleEvent: function (event) {
     if (event.target === this.filterField) {
       this.filterOptions(this.filterField.value);
     }
-    
+
     if (event.type === "click" && event.target === this.clearFilterButton) {
       this.clearFilter();
     }
@@ -198,7 +199,7 @@ MultiSelector.prototype = {
         while (element.tagName != "LI") {
           element = element.parentNode;
         }
-        
+
         var checkbox = element.getElementsByTagName("input")[0];
         if (checkbox) {
           var checkValue = event.target === checkbox ? !checkbox.checked : checkbox.checked;
@@ -238,7 +239,7 @@ MultiSelector.prototype = {
       this.hide();
     }
   },
-  
+
   dispatchChange: function () {
     this.dispatchEvent("change", this.getValue());
   }
