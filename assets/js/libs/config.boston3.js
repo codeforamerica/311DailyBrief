@@ -3,7 +3,7 @@
  * BSD-style license; see the file LICENSE for details.
  */
 
-var ConfigBoston = {
+var ConfigBoston3 = {
   center: [42.36299, -71.057348], // [lat, lon]
   zoom: 13, // integer
   endpoint: 'boston', // string
@@ -12,5 +12,5 @@ var ConfigBoston = {
   title: 'Boston', // string
   boundaryTitle: 'Neighborhood',
   description: "Service requests available through the city's Open311 API.",
-  statusSelectorValues: {opened: true, closed: true, open: true}
+  statusSelectorValues: {opened: false, closed: false, open: false}
 };

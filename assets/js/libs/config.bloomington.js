@@ -11,5 +11,6 @@ var ConfigBloomington = {
   boundaryTitle: 'Neighborhood',
   useCanvasMap: true,
   maxMarkers: 1000,
-  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>."
+  description: "Service requests available through the city's <a href='http://open311.org/' target='_blank'>Open311 API</a>.",
+  statusSelectorValues: {opened: true, closed: true, open: true}
 };

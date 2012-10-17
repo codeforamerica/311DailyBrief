@@ -30,14 +30,18 @@ FilterBarController.prototype = {
       {name: "Opened Yesterday", value: "opened", checked: Config.statusSelectorValues.opened},
       {name: "Closed Yesterday", value: "closed", checked: Config.statusSelectorValues.closed}
     ]);
-    //this.statusSelector.setValue();
+
     this.statusSelector.updateLabel();
     var states = [];
     var selectedService = this.serviceSelector.getValue();
     var selectedArea = this.areaSelector.getValue();
+
     if (Config.statusSelectorValues.open) { states.push("open"); }
     if (Config.statusSelectorValues.opened) { states.push("opened"); }
     if (Config.statusSelectorValues.closed) { states.push("closed"); }
+
+    // set filters to initialize with values based on config file
+    // subsequent changes to filters will be sent via eventing system
     var filters = this._setFilters(selectedArea, selectedService, states);
     this.app.updateFilters(filters);
 
