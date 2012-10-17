@@ -16,6 +16,8 @@ require.config({
     configbloomington: "../assets/js/libs/config.bloomington",
     configboston: "../assets/js/libs/config.boston",
     configboston1: "../assets/js/libs/config.boston1",
+    configboston2: "../assets/js/libs/config.boston2",
+    configboston3: "../assets/js/libs/config.boston3",
     utils: "../assets/js/libs/utils",
     datetools: "../assets/js/libs/datetools",
     eventmanager: "../assets/js/libs/eventmanager",
@@ -77,6 +79,12 @@ require.config({
     },
     configboston1: {
       exports: "ConfigBoston1"
+    },
+    configboston2: {
+      exports: "ConfigBoston2"
+    },
+    configboston3: {
+      exports: "ConfigBoston3"
     },
     mapcontroller: {
       exports: "MapController"
