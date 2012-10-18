@@ -12,20 +12,24 @@ var dateTools = {
   today: function today () {
     return this.dayForDate(new Date());
   },
-  
+
+  yesterdayFromDate: function yesterdayFromDate(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDay()-0);
+  },
+
   yesterday: function yesterday () {
     return this.subtract(this.today(), this.ONE_DAY);
   },
-  
+
   subtract: function (date, ms) {
     // TODO: support more than just milliseconds?
     return new Date(date - ms);
   },
-  
+
   dayForDate: function dayForDate (date) {
     return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
   },
-  
+
   // TODO: really ought to have an ISO date string here, since in-browser stuff is too new to rely on
   simpleDateString: function (date) {
     var month = date.getUTCMonth() + 1;
@@ -70,8 +74,8 @@ var dateTools = {
   },
   timeSpanString: function(date){
     var elapsedTime = ((new Date()).getTime() - date.getTime())/1000;
-    var timeSpanString = "";        
-    elapsedTime = (elapsedTime < 1) ? 1: elapsedTime;        
+    var timeSpanString = "";
+    elapsedTime = (elapsedTime < 1) ? 1: elapsedTime;
     if (Math.floor(elapsedTime) === 1){
       timeSpanString = "1 sec";
     }else if (elapsedTime < 59){
