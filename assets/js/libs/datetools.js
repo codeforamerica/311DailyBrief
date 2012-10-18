@@ -14,7 +14,11 @@ var dateTools = {
   },
 
   yesterdayFromDate: function yesterdayFromDate(date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDay()-0);
+    var dateMinusOneDay = new Date();
+    dateMinusOneDay.setFullYear(date.getFullYear());
+    dateMinusOneDay.setMonth(date.getMonth());
+    dateMinusOneDay.setDate(date.getDate()-1);
+    return dateMinusOneDay;
   },
 
   yesterday: function yesterday () {

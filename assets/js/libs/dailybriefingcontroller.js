@@ -96,12 +96,23 @@ DailyBriefingController.prototype = {
                   },
                   this);
 
+    // XXX this should be improved
+    // the API expects to get date range calls with Date-1 Day to Date
+    // Connected Bits endpoints stamp SR dates with local time (not UTC)
+    // so dateTools.yesterdayFromDate() will return values based on local time
+    // which, in the US, reduces some oddities with "yesterday" SRs getting
+    // removed from display when it's midnight UTC time but still "today" in
+    // the US
+    var today = new Date();
+    var yesterday = dateTools.yesterdayFromDate(today);
+    console.log("pulling data with today=" + today + "and yesterday=", yesterday);
+
     // get all opened requests from the API and refresh app controllers
     this.api.find('requests',
                   null,
                   '{"endpoint": ' + Config.endpoint + ',' +
                    '"requested_datetime": ' +
-                   '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                   '{$gte: "' + dateTools.simpleDateString(yesterday) + '"", ' +
                    '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}}',
                   this.allRequests['opened'],
                   function(data, self) {
@@ -117,7 +128,7 @@ DailyBriefingController.prototype = {
                   null,
                   '{"endpoint": ' + Config.endpoint + ',' +
                    '"updated_datetime": ' +
-                   '{$gte: "' + dateTools.simpleDateString(dateTools.yesterday()) + '"", ' +
+                   '{$gte: "' + dateTools.simpleDateString(yesterday) + '"", ' +
                    '$lt: "' + dateTools.simpleDateString(dateTools.today()) + '"}, ' +
                    '"status": "closed"}',
                   this.allRequests['closed'],
