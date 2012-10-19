@@ -6,7 +6,8 @@
 
 var mongodb = require('mongodb'),
     argv = require('optimist').argv,
-    moment = require('moment');
+    moment = require('moment'),
+    fs = require('fs');
 
 // read input
 var testStart = argv.date;
@@ -16,6 +17,8 @@ var completedTests = 0;
 // set first date to analyize
 var day = moment(testStart, "YYYY-MM-DD");
 var prevDay = null;
+
+var log = fs.createWriteStream('data.csv', {'flags': 'a'});
 
 // connect to db and run through data gathering / file writing workflow
 mongodb.Db.connect(process.env.MONGO_NODE_DRIVER_HOST, function(error, client) {
@@ -30,12 +33,14 @@ mongodb.Db.connect(process.env.MONGO_NODE_DRIVER_HOST, function(error, client) {
     prevDay = moment(day).subtract('days', 1);
 
     console.log("Running for " + day.format('YYYY-MM-DD') + "/" + prevDay.format('YYYY-MM-DD'));
+    memo.day = day.format('YYYY-MM-DD');
     getOpenedYesterday(memo);
   }
 
   function restart(memo) {
 
     console.log(memo);
+    log.write(memo.day + "," + memo.openedYesterday + ","  + memo.closedYesterday + "," + memo.open + '\n');
 
     if (completedTests === testLengthDays) {
       client.close();
