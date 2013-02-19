@@ -9,17 +9,17 @@
 
 var eventManager = {
   dispatchEvent: function (source, eventName, data) {
-    var subscribers = this._subscriptionsFor(eventName);
-    var event = {
-      type: eventName,
-      target: source,
-      data: data
-    };
+    var subscribers = this._subscriptionsFor(eventName),
+      event = {
+        type: eventName,
+        target: source,
+        data: data
+      };
     
     for (var i = 0, len = subscribers.length; i < len; i++) {
-      var subscriber = subscribers[i].subscriber;
-      var context = subscriber;
-      var handler = subscriber.handleEvent;
+      var subscriber = subscribers[i].subscriber,
+        context = subscriber,
+        handler = subscriber.handleEvent;
       if (typeof(subscriber) === "function") {
         handler = subscriber;
         context = subscribers[i].context;
@@ -31,9 +31,10 @@ var eventManager = {
   },
   
   subscribe: function (eventName, subscriber, source) {
-    var subscribers = this._subscriptionsFor(eventName);
+    var subscribers = this._subscriptionsFor(eventName), 
+      i;
     // don't add if it would be a dupe
-    for (var i = 0, len = subscribers.length; i < len; i++) {
+    for (i = 0, len = subscribers.length; i < len; i++) {
       if (subscribers[i].source === source && subscribers[i] === subscriber) {
         return false;
       }
@@ -43,8 +44,9 @@ var eventManager = {
   },
   
   unsubscribe: function (eventName, subscriber, source) {
-    var subscribers = this._subscriptionsFor(eventName);
-    for (var i = 0, len = subscribers.length; i < len; i++) {
+    var subscribers = this._subscriptionsFor(eventName),
+      i;
+    for (i = 0, len = subscribers.length; i < len; i++) {
       if (subscribers[i].source === source && subscribers[i] === subscriber) {
         subscribers.splice(i, 1);
         return true;

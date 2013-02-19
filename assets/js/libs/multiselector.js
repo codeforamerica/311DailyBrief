@@ -80,10 +80,12 @@ MultiSelector.prototype = {
   },
 
   getValue: function () {
-    var value = [];
-    var anyUnchecked = false;
-    for (var i=0, len=this.options.length; i < len; i++) {
-      var checked = this.options[i].element.getElementsByTagName("input")[0].checked;
+    var value = [],
+      anyUnchecked = false,
+      i,
+      checked;
+    for (i=0, len=this.options.length; i < len; i++) {
+      checked = this.options[i].element.getElementsByTagName("input")[0].checked;
       if (checked) {
         value.push(this.options[i].value);
       }
@@ -96,8 +98,10 @@ MultiSelector.prototype = {
   },
 
   setValue: function (value) {
-    for (var i=0, len=this.options.length; i < len; i++) {
-      var option = this.options[i];
+    var i,
+      option;
+    for (i=0, len=this.options.length; i < len; i++) {
+      option = this.options[i];
       option.element.getElementsByTagName("input")[0].checked = !value || value.indexOf(option.value) > -1;
     }
     this.updateLabel();
@@ -105,20 +109,22 @@ MultiSelector.prototype = {
 
   setOptions: function (options) {
     // sort by name value
-    var sorted = _.sortBy(options, function(obj) { return obj.name; });
+    var i, 
+      sorted = _.sortBy(options, function(obj) { return obj.name; });
 
-    for (var i=0, len=sorted.length; i < len; i++) {
+    for (i=0, len=sorted.length; i < len; i++) {
       this.addOption(sorted[i]);
     }
     this.clearFilter();
   },
 
   addOption: function (option) {
-    var itemElement = document.createElement("li");
+    var itemElement = document.createElement("li"),
+      control;
     // values are inserted as all lowercase below, CSS is used to capitalize them properly
     itemElement.className = "capitalize";
 
-    var control = itemElement.appendChild(document.createElement("input"));
+    control = itemElement.appendChild(document.createElement("input"));
     control.type = "checkbox";
     control.value = option.value || option.name.toLowerCase();
     control.checked = option.checked;
@@ -135,9 +141,11 @@ MultiSelector.prototype = {
 
   filterOptions: function (filter) {
     filter = filter && filter.toUpperCase();
-    var alwaysMatch = !filter;
-    for (var i=0, len=this.options.length; i < len; i++) {
-      var matches = alwaysMatch || this.options[i].name.toUpperCase().indexOf(filter) > -1;
+    var alwaysMatch = !filter,
+      i,
+      matches;
+    for (i=0, len=this.options.length; i < len; i++) {
+      matches = alwaysMatch || this.options[i].name.toUpperCase().indexOf(filter) > -1;
       this.options[i].element.style.display = matches ? "" : "none";
     }
   },
@@ -148,29 +156,27 @@ MultiSelector.prototype = {
   },
 
   updateLabel: function () {
-    var names = [];
-    // track whether all items were selected
-    var all = true;
-    for (var i=0, len=this.options.length; i < len; i++) {
-      var checked = this.options[i].element.getElementsByTagName("input")[0].checked;
+    var names = [],
+      all = true, // track whether all items were selected
+      i,
+      checked;
+    for (i=0, len=this.options.length; i < len; i++) {
+      checked = this.options[i].element.getElementsByTagName("input")[0].checked;
       if (checked) {
         names.push(this.options[i].name);
-      }
-      else {
+      } else {
         all = false;
       }
     }
 
     // "All", "None", or a list
-    var quantity = names.length;
-    var labelText = quantity + " Selected";
+    var quantity = names.length,
+      labelText = quantity + " Selected";
     if (quantity === 0) {
       labelText = "None";
-    }
-    else if (quantity === 1) {
+    } else if (quantity === 1) {
       labelText = names[0];
-    }
-    else if (all) {
+    } else if (all) {
       labelText = "All";
     }
 
