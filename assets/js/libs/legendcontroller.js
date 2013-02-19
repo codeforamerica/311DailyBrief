@@ -25,48 +25,39 @@ LegendController.prototype = {
 
     console.log('LegendController update called');
 
-    var self = this;
-    
-    var rangeString = dateTools.rangeToString(self.dataSource.filterConditions.dateRange);
+    var self = this,
+      rangeString = dateTools.rangeToString(self.dataSource.filterConditions.dateRange);
     
     // Iterate over our Statuses / HTML ELements
-    $.each(this.htmlElements, function(status, elementId) {
+    $.each(self.htmlElements, function(status, elementId) {
       // update number of requests in Legend
-      var requestsCount = self.dataSource.requests[status].length;
-      $(elementId).find('span.value').html(requestsCount);
+      var requestsCount = self.dataSource.requests[status].length,
+        el = $(elementId),
+        elH1 = el.find('h1');
+
+      el.find('span.value').html(requestsCount);
       
       // update whether the status is "active"
       if (self._isInList(status, self.dataSource.filterConditions.states)) {
-        $(elementId).addClass('active');
-      }
-      else {
-        $(elementId).removeClass('active');
+        el.addClass('active');
+      } else {
+        el.removeClass('active');
       }
       
       // Update the displayed boundary title
-      // No need to change the "All Open" title since it's dateless
+      // No need to change the "All Open" ('open') title since it's dateless
       switch (status) {
         case 'opened':
-          $(elementId).find('h1').html('Opened ' + rangeString);
+          elH1.html('Opened ' + rangeString);
           break;
         case 'closed':
-          $(elementId).find('h1').html('Closed ' + rangeString);
-          break;
-        case 'open':
-        default:
-          // do nothing
+          elH1.html('Closed ' + rangeString);
           break;
       }
       
     });
   },
   _isInList: function(needle, list) {
-    // TODO: do something better?
-    for (var i=0; i < list.length; i++) {      
-      if (list[i] == needle) {
-        return true
-      }
-    }
-    return false;
+    return (list.indexOf(needle) !== -1);
   }
 };

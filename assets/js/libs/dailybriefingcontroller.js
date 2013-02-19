@@ -27,8 +27,8 @@ var DailyBriefingController = function () {
     closed: []
   };
 
-  this.areas = new Array();
-  this.services = new Array();
+  this.areas = [];
+  this.services = [];
 
   // initialize sub-controllers
   this.legend = new LegendController();
@@ -103,8 +103,8 @@ DailyBriefingController.prototype = {
     // which, in the US, reduces some oddities with "yesterday" SRs getting
     // removed from display when it's midnight UTC time but still "today" in
     // the US
-    var today = new Date();
-    var yesterday = dateTools.yesterdayFromDate(today);
+    var today = new Date(),
+      yesterday = dateTools.yesterdayFromDate(today);
     console.log("pulling data with today=" + today + "and yesterday=", yesterday);
 
     // get all opened requests from the API and refresh app controllers
