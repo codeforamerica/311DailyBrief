@@ -38,6 +38,8 @@ var DailyBriefingController = function () {
   this.filterBar = new FilterBarController(this);
   this.api = new ThreeOneOneApi();
   this.headerBar = new HeaderBarController();
+  this.words = new WordsController();
+  this.words.dataSource = this;
 
   eventManager.subscribe("filtersChanged", this);
 
@@ -193,6 +195,7 @@ DailyBriefingController.prototype = {
                 this.requests['closed'].length);
     this.legend.update();
     this.map.update();
+    this.words.update();
   },
 
   handleEvent: function (event) {
