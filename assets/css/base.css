@@ -61,6 +61,12 @@ header a:hover {
   clear: both;
 }
 
+.hidden {
+  position: absolute;
+  left: -3000px;
+  top: -3000px;
+}
+
 #map {
 	position: absolute;
 	left: 0;

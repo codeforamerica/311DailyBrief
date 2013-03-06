@@ -10,6 +10,7 @@ require.config({
 
     // Libraries
     jquery: "../assets/js/libs/jquery",
+    inflection: "../assets/js/libs/inflection",
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone",
     configbaltimore: "../assets/js/libs/config.baltimore",
@@ -30,13 +31,14 @@ require.config({
     mapcontroller: "../assets/js/libs/mapcontroller",
     mapmarkerrenderer: "../assets/js/libs/mapcontroller.markerrenderer",
     mapcanvasrenderer: "../assets/js/libs/mapcontroller.canvasrenderer",
+    wordscontroller: "../assets/js/libs/wordscontroller",
     dailybriefingcontroller: "../assets/js/libs/dailybriefingcontroller",
     controlcenter: "../assets/js/libs/Control.Center"
   },
 
   shim: {
     backbone: {
-      deps: ["lodash", "jquery"],
+      deps: ["lodash", "jquery", "inflection"],
       exports: "Backbone"
     },
     utils: {
@@ -58,6 +60,7 @@ require.config({
              "filterbarcontroller",
              "threeoneoneapi",
              "headerbarcontroller",
+             "wordscontroller",
              "multiselector",
              "controlcenter"],
       exports: "DailyBriefingController"
@@ -112,6 +115,9 @@ require.config({
     },
     multiselector: {
       exports: "MultiSelector"
+    },
+    wordscontroller: {
+      exports: "WordsController"
     }
   }
 });
