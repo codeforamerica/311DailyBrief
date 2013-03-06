@@ -36,11 +36,12 @@ var dateTools = {
 
   // TODO: really ought to have an ISO date string here, since in-browser stuff is too new to rely on
   simpleDateString: function (date) {
-    var month = date.getUTCMonth() + 1;
+    var dayOfMonth, 
+      month = date.getUTCMonth() + 1;
     if (month < 10) {
       month = "0" + month;
     }
-    var dayOfMonth = date.getUTCDate();
+    dayOfMonth = date.getUTCDate();
     if (dayOfMonth < 10) {
       dayOfMonth = "0" + dayOfMonth;
     }
@@ -62,23 +63,24 @@ var dateTools = {
   //TODO: more generalize dateformat if we need many different formats, or grab a lib that does it better.
   formatDate: function(date){
     //Jun 7 2012 − 10:45am
-    var meridiem = "am";
-    var hours = date.getHours();
+    var meridiem = "am",
+      hours = date.getHours(),
+      mins;
     if(hours >=12){
       meridiem = "pm";
       hours -= 12
     }
     if(hours == 0)
       hours =12;
-    var mins = date.getMinutes();
+    mins = date.getMinutes();
     if(mins < 10)
         mins = "0"+mins;
     return dateTools.MONTH_NAMES_SHORT[date.getMonth()] + " " + date.getDate() + " " + " "+ date.getFullYear() + " " +
         hours + ":" + mins + " " + meridiem;
   },
   timeSpanString: function(date){
-    var elapsedTime = ((new Date()).getTime() - date.getTime())/1000;
-    var timeSpanString = "";
+    var elapsedTime = ((new Date()).getTime() - date.getTime())/1000,
+      timeSpanString = "";
     elapsedTime = (elapsedTime < 1) ? 1: elapsedTime;
     if (Math.floor(elapsedTime) === 1){
       timeSpanString = "1 sec";

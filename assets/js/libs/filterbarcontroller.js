@@ -32,9 +32,10 @@ FilterBarController.prototype = {
     ]);
 
     this.statusSelector.updateLabel();
-    var states = [];
-    var selectedService = this.serviceSelector.getValue();
-    var selectedArea = this.areaSelector.getValue();
+    var states = [],
+      filters,
+      selectedService = this.serviceSelector.getValue(),
+      selectedArea = this.areaSelector.getValue();
 
     if (Config.statusSelectorValues.open) { states.push("open"); }
     if (Config.statusSelectorValues.opened) { states.push("opened"); }
@@ -42,7 +43,7 @@ FilterBarController.prototype = {
 
     // set filters to initialize with values based on config file
     // subsequent changes to filters will be sent via eventing system
-    var filters = this._setFilters(selectedArea, selectedService, states);
+    filters = this._setFilters(selectedArea, selectedService, states);
     this.app.updateFilters(filters);
 
     this.updateFilters();
@@ -86,9 +87,9 @@ FilterBarController.prototype = {
 
   handleEvent: function (event) {
 
-    var selectedService = this.serviceSelector.getValue();
-    var selectedState = this.statusSelector.getValue();
-    var selectedArea = this.areaSelector.getValue();
+    var selectedService = this.serviceSelector.getValue(),
+      selectedState = this.statusSelector.getValue(),
+      selectedArea = this.areaSelector.getValue();
 
     if (event.target === this.clearButton) {
       this.serviceSelector.setValue();

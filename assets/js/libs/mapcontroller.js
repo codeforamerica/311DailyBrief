@@ -49,45 +49,46 @@ MapController.prototype = {
   constructor: MapController,
   
   _initializeMap: function () {
-    this.map = new L.Map("map", {zoomControl:false});
-    var cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg", {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles By <a href="http://stamen.com">Stamen</a>',
-      maxZoom: 18
-    });
+    var map = new L.Map("map", {zoomControl:false}),
+      cloudmade = new L.TileLayer("http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg", {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Tiles By <a href="http://stamen.com">Stamen</a>',
+        maxZoom: 18
+      });
     
-    this.map.addLayer(cloudmade);
-    this.map.addControl(new L.Control.Center());
-    this.map.addControl(new L.Control.Zoom());
+    this.map = map;
+
+    map.addLayer(cloudmade);
+    map.addControl(new L.Control.Center());
+    map.addControl(new L.Control.Zoom());
     
     this._initializeMapRenderer();
   },
   
   update: function () {
-    this._openRequests = this.dataSource.requests.open.slice();
-    this._openRequests.forEach(function(request) {
+    var self = this;
+    self._openRequests = self.dataSource.requests.open.slice();
+    self._openRequests.forEach(function(request) {
       request.statusType = "open";
     });
-    this._openedRequests = this.dataSource.requests.opened.slice();
-    this._openedRequests.forEach(function(request) {
+    self._openedRequests = self.dataSource.requests.opened.slice();
+    self._openedRequests.forEach(function(request) {
       request.statusType = "opened";
     });
-    this._closedRequests = this.dataSource.requests.closed.slice();
-    this._closedRequests.forEach(function(request) {
+    self._closedRequests = self.dataSource.requests.closed.slice();
+    self._closedRequests.forEach(function(request) {
       request.statusType = "closed";
     });
     
-    this._updateRenderer();
+    self._updateRenderer();
     
-    this.updateMapCenterZoom();
+    self.updateMapCenterZoom();
   },
   
   popupForRequest: function (request) {
     // TODO: need some sort of templating support here
-    var boundaryText = request.boundary ? ("<br/>" + request.boundary) : "";
-
-    var parsedDate = new Date(request.requested_datetime);
-
-    var content = "<h2>" + request.service_name + "</h2>";
+    var boundaryText = request.boundary ? ("<br/>" + request.boundary) : "",
+      parsedDate = new Date(request.requested_datetime),
+      content = "<h2>" + request.service_name + "</h2>";
 
     if (request.media_url && request.media_url !== "") {
       content = content.concat('<div class="photo">' + '<a href="'+request.media_url+'" target="_blank">' +
@@ -107,26 +108,27 @@ MapController.prototype = {
   },
   
   updateMapCenterZoom: function() {
+    var self = this;
     // Only move/zoom the map if the ward changes
-    if (this.dataSource.filterConditions.area !== this.selectedArea) {
-      this.selectedArea = this.dataSource.filterConditions.area;
+    if (self.dataSource.filterConditions.area !== self.selectedArea) {
+      self.selectedArea = self.dataSource.filterConditions.area;
 
-      if (this.dataSource.filterConditions.area == null) {
+      if (self.dataSource.filterConditions.area == null) {
         // if ward == null, then entire city... so use out defaults
-        this.map.setView(new L.LatLng(this.defaultView.center[0], this.defaultView.center[1]), this.defaultView.zoom);
-      }
-      else {
+        self.map.setView(new L.LatLng(self.defaultView.center[0], self.defaultView.center[1]), self.defaultView.zoom);
+      } else {
         // build up an array of LatLngs and then generate our bounding box from it
-        var requestsInWard = [];
-        var allRequests = this.dataSource.requests['open']
-                                       .concat(this.dataSource.requests['opened'], 
-                                               this.dataSource.requests['closed'])
+        var requestsInWard = [],
+          wardBoundary,
+          allRequests = self.dataSource.requests['open']
+                                       .concat(self.dataSource.requests['opened'], 
+                                               self.dataSource.requests['closed'])
         $.each(allRequests, function(index, request) {
           requestsInWard.push(new L.LatLng(request.lat, request.long))
         });
         if (requestsInWard.length > 0) {
-          var wardBoundary = new L.LatLngBounds(requestsInWard);
-          this.map.fitBounds(wardBoundary);
+          wardBoundary = new L.LatLngBounds(requestsInWard);
+          self.map.fitBounds(wardBoundary);
         }
       }
     }
